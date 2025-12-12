@@ -1,0 +1,49 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    name: Deploy to AlwaysData Staging
+    runs-on: ubuntu-latest
+    environment: staging
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          touch ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.STAGING_SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to AlwaysData
+        run: |
+          ssh ${{ secrets.STAGING_SSH_USER }}@${{ secrets.STAGING_SSH_HOST }} "
+            cd ${{ secrets.STAGING_APP_PATH }} &&
+            echo 'Pulling latest changes...' &&
+            git pull origin develop &&
+            echo 'Installing dependencies...' &&
+            python3 -m pip install --upgrade pip &&
+            python3 -m pip install -r requirements.txt --user &&
+            echo 'Restarting ERP service...'
+          "
+
+      - name: Restart all services
+        run: |
+          SERVICE_IDS=$(curl --silent --basic --user "${{ secrets.STAGING_API_KEY }} account=${{ secrets.STAGING_SSH_USER }}:" \
+          https://api.alwaysdata.com/v1/service/ | jq -r '.[].id')
+          echo "Found services $SERVICE_IDS"
+          # Restart each service
+          for ID in $SERVICE_IDS; do
+            echo "Restarting service $ID"
+            curl --silent --basic --user "${{ secrets.STAGING_API_KEY }} account=${{ secrets.STAGING_SSH_USER }}:" \
+            https://api.alwaysdata.com/v1/service/$ID/restart
+            echo "Service $ID restarted"
+          done
