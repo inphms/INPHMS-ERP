@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="web.Setting">
+        <div t-att-class="classNames" t-att-id="props.id">
+            <div class="o_setting_left_pane" t-att-data-tooltip="props.title" data-tooltip-delay="800">
+                <!-- <t t-if="props.fieldName and fieldType==='boolean'">
+                    <t t-slot="fieldSlot"/>
+                </t> -->
+            </div>
+            <div class="o_setting_right_pane" t-att-data-tooltip="props.title" data-tooltip-delay="800">
+                <!-- inner left information -->
+                <div t-if="props.fieldName and props.addLabel" class="i_setting_info_container">
+                    <t t-if="displayCompanyDependentIcon">
+                        <span class="fa fa-lg fa-building-o me-2" title="Values set here are company-specific."/>
+                    </t>
+                    <FormLabel t-if="props.fieldName and props.addLabel" notMuttedLabel="notMuttedLabel" fieldName="props.fieldName" id="props.fieldId" string="labelString" record="props.record" fieldInfo="props.fieldInfo"/>
+                    <div t-if="labelString and props.help" class="text-muted smaller"><t t-esc="props.help"/></div>
+                    <t t-if="labelString and props.documentation">
+                        <DocumentationLink path="props.documentation" icon="'fa-question-circle'"/>
+                    </t>
+                </div>
+                <t t-if="labelString and !props.fieldName and props.addLabel">
+                    <div class="i_setting_info_container">
+                        <t t-if="displayCompanyDependentIcon">
+                            <span class="fa fa-lg fa-building-o me-2" title="Values set here are company-specific."/>
+                        </t>
+                        <span class="o_form_label"><t t-esc="labelString"/></span>
+                        <div class="text-muted smaller" t-if="props.help"><t t-esc="props.help"/></div>
+                        <t t-if="labelString and props.documentation">
+                            <DocumentationLink path="props.documentation" icon="'fa-question-circle'"/>
+                        </t>
+                    </div>
+                </t>
+                <t t-if="labelString and props.info">
+                    <span class="fa fa-info-circle" t-att-title="props.info"/>
+                </t>
+                
+                <!-- inner right information -->
+                <t t-slot="default" t-if="fieldType!=='boolean'"/>
+                <!-- <div class="i_content_add_margin" t-if="props.fieldName and fieldType!=='boolean'">
+                    <t t-slot="fieldSlot"/>
+                </div> -->
+                <div>
+                    <t t-slot="fieldSlot"/>
+                    <t t-slot="default" t-if="fieldType=='boolean'"/>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

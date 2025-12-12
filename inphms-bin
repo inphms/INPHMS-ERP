@@ -1,0 +1,3 @@
+from inphms.cli import main
+
+main()

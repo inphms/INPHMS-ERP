@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="web.ClockMenu">
+        <div class="i_clock_menu">
+            <DropdownGroup group="'web-navbar-group'">
+                <Dropdown disabled="true">
+                    <button class="py-1 py-lg-0" disabled="true">
+                        <t t-esc="state.time"/>
+                    </button>
+                    <!-- <t t-set-slot="content">
+                        <div class="i_clock_dropdown">
+                            <div class="i_clock_dropdown_time">
+                                <span class="i_clock_dropdown_hour">
+                                    <t t-esc="state.time"/>
+                                </span>
+                                <span class="i_clock_dropdown_date">
+                                    <t t-esc="state.date"/>
+                                </span>
+                            </div>
+
+                            <div class="i_clock_dropdown_calendar">
+                                <t t-call="web_enterprise.ClockMenu.Calendar"/>
+                            </div>
+                        </div>
+                    </t> -->
+                </Dropdown>
+            </DropdownGroup>
+        </div>
+    </t>
+
+    <!-- Mini Calendar Rendering -->
+    <t t-name="web.ClockMenu.Calendar">
+        <table class="i_calendar_table">
+            <thead>
+                <tr>
+                    <th>Su</th>
+                    <th>Mo</th>
+                    <th>Tu</th>
+                    <th>We</th>
+                    <th>Th</th>
+                    <th>Fr</th>
+                    <th>Sa</th>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-set="today" t-value="new Date()"/>
+            </tbody>
+        </table>
+    </t>
+
+</templates>

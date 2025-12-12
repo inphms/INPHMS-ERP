@@ -1,0 +1,106 @@
+.o_setting_box {
+   margin-bottom: 8px;
+   margin-top: 8px;
+   position: relative;
+}
+
+.o_setting_left_pane {
+   &:has(> *:nth-child(1)) {
+      width: 24px;
+   }
+   &:has(.form-switch) {
+      &:has(> *:nth-child(1)) {
+         width: 35px;
+      }
+   }
+
+   float: left;
+   
+   .form-check:not(.form-switch) input {
+      box-shadow: var(--box-shadow);
+   }
+}
+
+@mixin grid_Settings_pane {
+   display: grid;
+   grid-template-columns: 1fr 2fr;
+   gap: 0 1.5rem;
+   @include media-breakpoint-down(md) {
+      grid-template-columns: 1fr;
+      gap: 0;
+   }
+}
+ .o_setting_right_pane {
+   //  margin-left: 24px;
+   //  border-left: 1px solid $border-color;
+   //  padding-left: 12px;
+
+   // CASE 1: first child is a <div>, and NO .o_widget inside
+   &:has(> div:first-child:not(.o_widget)) {
+      @include grid_Settings_pane()
+   }
+   // CASE 2: first child is a <div>, and HAS a .o_widget inside
+   &:has(:first-child:is(div)):has(.o_widget) .o_widget div[xml\:space="preserve"] {
+      @include grid_Settings_pane()
+   }
+
+    &:has(.user-heading) {
+      display: block !important;
+    }
+
+   .i_setting_info_container {
+      &:has(.o_doc_link) {
+         position: relative;
+
+         .o_doc_link {
+            margin-right: 0 !important;
+            position: absolute;
+            top: 0;
+            right: -14px;
+            @include media-breakpoint-down(md) {
+               right: 0px;
+            }
+         }
+      }
+   }
+
+    &:has(.i_content_add_margin) {
+        margin-left: 35px;
+    }
+
+    .i_setting_right_pane_grouping {
+         &:has(> *:nth-child(2)) {
+            background: var(--anything, #{map-get($grays, '100')});
+            padding: 1.5rem 1rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            border: var(--border-width) var(--border-style) var(--border-color) !important;
+         }
+    }
+
+    .o_form_label + .fa, .o_form_label + .o_doc_link {
+        margin-left: map-get($spacers, 2);
+   }
+
+    .o_input_dropdown > .o_input {
+       width: 100%;
+    }
+
+    .o_field_widget {
+      &:not(.o_field_boolean) {
+         flex: 0 0 auto;
+
+         @include media-breakpoint-up(md) {
+            width: 50%;
+         }
+      }
+    }
+
+    button.btn-link:first-child {
+       padding: 0;
+    }
+
+    a.oe-link {
+       font-size: 12px;
+    }
+ }

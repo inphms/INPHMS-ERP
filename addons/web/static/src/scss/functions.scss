@@ -1,0 +1,97 @@
+///============================================================================
+/// Inphms SCSS Functions
+///
+/// Regroup functions that can be used at any stage of the compilation process.
+///============================================================================
+
+
+/// Remove the unit of a length
+/// ---------------------------------------------------------------------------
+/// @param {Number} $-value
+///     Number to remove unit from
+/// @return {$-value}
+///     Unitless number
+@function o-strip-unit($-value) {
+    @if type-of($-value) == 'number' and not unitless($-value) {
+        @return $-value / ($-value * 0 + 1);
+    }
+
+    @return $-value;
+}
+
+/// Converts px to rem.
+/// ---------------------------------------------------------------------------
+/// @param {number or px value} $-px-value
+///     The value to convert.
+/// @param {number or px value } $-base
+///     The base font-size
+/// @return {number}
+///    `$-px-value` converted in rem units
+@function o-to-rem($-px-value, $-base: 16) {
+    @return (o-strip-unit($-px-value) / o-strip-unit($-base)) * 1rem;
+}
+
+
+/// Mixins
+/// ===========================================================================
+
+/// Generate Bootstrap, BS-legacy and custom text/bg classes in a consistent
+/// way. It applies the desired color to a specified rule using CSS variables.
+/// ---------------------------------------------------------------------------
+/// @param {color} $-color
+///     Desidered color
+/// @param {string} $-rule
+///     CSS property to be affected
+/// @param {string} $-css-opacity-var
+///     CSS varible defining the opacity
+/// ---------------------------------------------------------------------------
+@mixin o-print-color($-color, $-rule, $-css-opacity-var) {
+    --#{$-rule}: RGBA(#{to-rgb($-color)}, var(--#{$-css-opacity-var}, 1));
+    #{$-rule}: var(--#{$-rule}) !important;
+}
+
+
+/// HSLA
+/// ===========================================================================
+
+/// Make it so that the hsla is being unquote
+@function hsla($h, $s: null, $l: null, $a: null) {
+    // CASE 1: Passing a list like (240, 24%, 100%) and alpha separately
+    // Example: hsla(#{$i-hsl}, .3)
+    @if type-of($h) == "list" and length($h) == 3 and $s != null and $l == null and $a == null {
+        $hue: nth($h, 1);
+        $sat: nth($h, 2);
+        $light: nth($h, 3);
+        $alpha: $s; // 2nd argument is alpha
+        @return unquote("hsla(#{$hue}, #{$sat}, #{$light}, #{$alpha})");
+    }
+    // CASE 2: Passing a string "240, 24%, 100%" and alpha
+    @if type-of($h) == "string" and $s != null and $l == null and $a == null {
+        @return unquote("hsla(#{$h}, #{$s})");
+    }
+    // CASE 3: Normal Sass usage hsla(240, 24%, 100%, .3)
+    @return call(get-function("hsla", $css: true), $h, $s, $l, $a);
+}
+
+// @function hsl($h, $s:null, $l:null) {
+//     // CASE 1: Passing a list like (240, 24%, 100%)
+//     // Example: hsl(#{$i-hsl})
+//     @if type-of($h) == "list" and length($h) == 3 and $s == null and $l == null{
+//         $hue: nth($h, 1);
+//         $sat: nth($h, 2);
+//         $light: nth($h, 3);
+//         @return call(get-function("hsl"), $hue, $sat, $light);
+//     }
+//     // CASE 2: Passing a string "240, 24%, 100%"
+//     @if type-of($h) == "string" and $s == null and $l == null {
+//         $parts: str-split($h, ",");
+//         @return call(
+//             get-function("hsl"),
+//             nth($parts,1),
+//             nth($parts,2),
+//             nth($parts,3)
+//         );
+//     }
+//     // CASE 3: Normal Sass usage hsl(240, 24%, 100%)
+//     @return call(get-function("hsl", $css: true), $h, $s, $l);
+// }

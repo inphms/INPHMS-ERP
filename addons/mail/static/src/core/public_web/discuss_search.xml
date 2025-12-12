@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="mail.DiscussSearch">
+    <div class="o-mail-DiscussSearch d-flex align-items-center" t-attf-class="{{ props.class }}" t-att-class="{ 'o-gap-1_5': store.discuss.isSidebarCompact }" t-ref="root">
+        <Dropdown t-if="store.discuss.isSidebarCompact and !ui.isSmall" state="searchFloating" position="'right-start'" menuClass="'o-mail-DiscussSidebar-floatingMenu mx-2 my-0 min-w-0 ' + store.discussDropdownMenuClass(this)" manual="true">
+            <t t-call="mail.DiscussSearch.inputContainer"/>
+            <t t-set-slot="content">
+                <div class="px-2" t-ref="search-floating">
+                    <span class="text-muted user-select-none">Search conversations</span>
+                </div>
+            </t>
+        </Dropdown>
+        <t t-else="" t-call="mail.DiscussSearch.inputContainer"/>
+        <t t-if="store.self.main_user_id">
+            <Dropdown t-if="store.discuss.isSidebarCompact and !ui.isSmall" state="meetingFloating" position="'right-start'" menuClass="'o-mail-DiscussSidebar-floatingMenu px-2 mx-2 my-0 min-w-0 ' + store.discussDropdownMenuClass(this)" manual="true">
+                <t t-call="mail.DiscussSearch.newMeeting"/>
+                <t t-set-slot="content">
+                    <div t-ref="meeting-floating">
+                        <span class="text-muted user-select-none" t-esc="newMeetingText"/>
+                    </div>
+                </t>
+            </Dropdown>
+            <t t-else="" t-call="mail.DiscussSearch.newMeeting"/>
+        </t>
+    </div>
+</t>
+
+<t t-name="mail.DiscussSearch.inputContainer">
+    <div class="o-mail-DiscussSearch-inputContainer border border-secondary position-relative d-flex align-items-center justify-content-center gap-1 flex-grow-1" t-att-class="{ 'rounded-2': store.discuss.isSidebarCompact, 'rounded-start-pill rounded-end-0 border-end-0': !store.discuss.isSidebarCompact }" t-on-click="onClickSearchConversations">
+        <div class="d-flex w-100 align-items-center gap-2" t-att-class="{ 'p-2': store.discuss.isSidebarCompact and !ui.isSmall, 'ps-2 gap-2': !store.discuss.isSidebarCompact or ui.isSmall }">
+            <i class="oi oi-search smaller"/>
+            <input t-if="ui.isSmall or !store.discuss.isSidebarCompact" class="form-control rounded-2 border-0 bg-inherit ps-0" t-att-class="{ '': !ui.isSmall }" disabled="true" placeholder="Search conversations" tabindex="0"/>
+        </div>
+        <div class="o-mail-DiscussSearch-inputClickable position-absolute z-1 opacity-0 cursor-pointer w-100 h-100"/>
+    </div>
+</t>
+
+<t t-name="mail.DiscussSearch.newMeeting">
+    <button class="btn btn-primary d-flex align-items-center gap-1" t-attf-class="{{ ui.isSmall ? 'p-2' : 'o-px-1_5 py-2' }}" t-att-title="newMeetingText" t-on-click="onClickNewMeeting" data-hotkey="m" t-ref="meeting-btn" t-att-class="{
+        'rounded-2': store.discuss.isSidebarCompact,
+        'rounded-start-0 rounded-end-pill h-100': !store.discuss.isSidebarCompact,
+        'p-2': ui.isSmall,
+        'o-px-1_5 py-2': !ui.isSmall and store.discuss.isSidebarCompact,
+        'o-p-1_5': !ui.isSmall and !store.discuss.isSidebarCompact,
+    }">
+        <!-- <i class="oi fa-fw oi-user-plus"/> -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="13" fill="none"><g clip-path="url(#a)"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M12 5a1 1 0 011 1v2h2a1 1 0 110 2h-2v2a1 1 0 11-2 0v-2H9a1 1 0 010-2h2V6a1 1 0 011-1m-1.43-4A2.47 2.47 0 0113 3.5v.01l1.94-1.29.17-.1q.26-.11.55-.12l.2.01q.18.03.36.11l.16.1.15.1q.14.12.23.27l.09.15.06.15q.09.24.09.5v6.23a1.4 1.4 0 01-.65 1.19 1.3 1.3 0 01-.98.15A2 2 0 0015 7h-1V6a2 2 0 10-4 0v1H9a2 2 0 100 4H2.43A2.47 2.47 0 010 8.5v-5V1z"></path></g><defs><clipPath id="a"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M0 0h17v13H0z"></path></clipPath></defs></svg>
+    </button>
+</t>
+
+</templates>

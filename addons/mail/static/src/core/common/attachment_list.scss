@@ -1,0 +1,46 @@
+.o-mail-AttachmentContainer {
+    // width: 13em;
+    min-width: 13em;
+    max-width: 330px;
+    // height: 10em;
+    // background-color: $gray-200;
+    background-color: rgba(194, 189, 184, .15) !important;
+
+    @include media-breakpoint-down(sm) {
+        // width: 12em;
+    }
+}
+
+.o-mail-AttachmentCard-image, .o-mail-Attachment-hover-image {
+    width: 2em;
+    height: 2em;
+}
+
+.o-mail-AttachmentButtons, .o-mail-AttachmentActionsButton {
+    button {
+        background-color: rgba(124, 127, 137, 0.25) !important;
+
+        &:hover {
+            filter: brightness(.95);
+        }
+    }
+}
+
+.o-mail-Attachment-hover {
+    background: $gray-100;
+
+    &.o-image {
+        background: rgba(0, 0, 0, 0.4);
+    }
+}
+
+.o-mail-Attachment-hoverImageText {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-height: 1.25;
+}
+
+.o-viewable {
+    cursor: zoom-in;
+}

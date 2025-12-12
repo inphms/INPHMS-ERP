@@ -1,0 +1,126 @@
+@mixin i-dialog-button-wrapper($bg-svg, $bg-color) {
+    &:hover {
+        &::before {
+            scale: 1.25;
+        }
+        &::after {
+            background: transparent #{escape-svg($bg-svg)} center / $btn-close-width auto no-repeat;
+            content: "";
+            @include o-position-absolute(0,0,0,0);
+        }
+    }
+    &::before {
+        background-color: $bg-color;
+        border-radius: 50%;
+        content: "";
+        @include o-position-absolute(0,0,0,0);
+    }
+}
+
+.modal.o_technical_modal {
+    .modal-content {
+        .modal-header {
+            .modal-title {
+                // overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: unset;
+                font-size: 14px;
+            }
+            .i_btn_close_wrapper .btn-close {
+                padding: map-get($spacers, 1);
+                margin-right: 0;
+                transition: $i-action-transition;
+                position: relative;
+                background: unset;
+                @include i-dialog-button-wrapper($btn-close-bg, $danger)
+            }
+            .i_btn_expand_wrapper {
+                margin-right: map-get($spacers, 1);
+                button {
+                    padding: map-get($spacers, 1);
+                    transition: $i-action-transition;
+                    position: relative;
+                    box-sizing: content-box;
+                    width: $btn-close-width;
+                    height: $btn-close-height;
+                    @include i-dialog-button-wrapper($i-btn-expand-bg, $warning);
+                }
+            }
+        }
+    }
+
+    .modal-footer {
+        text-align: left;
+        padding: map-get($spacers, 2);
+
+        button {
+            margin: 0; // Reset boostrap.
+        }
+
+        button.o-default-button:not(:only-child) {
+            display: none;
+        }
+        
+        @include media-breakpoint-down(md) {
+            .btn {
+                width: 45%;
+                text-overflow: ellipsis;
+                white-space: inherit;
+            }
+        }
+
+    }
+
+    @include media-breakpoint-down(sm) {
+        &.o_modal_full {
+            .modal-dialog {
+                margin: 0px;
+                height: 100%;
+
+                .modal-content {
+                    height: 100%;
+                    border: none;
+
+                    .modal-body {
+                        height: 100%;
+                        overflow-y: auto;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.modal.o_inactive_modal {
+    z-index: $zindex-modal-backdrop - 1;
+}
+
+.o_dialog > .modal {
+    display: block;
+}
+
+@include media-breakpoint-up(sm) {
+    .modal-fs {
+        width: calc(100% - #{2 * $modal-dialog-margin-y-sm-up});
+        max-width: none;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .modal {
+        &.o_modal_full .modal-content {
+            .modal-header {
+                align-items: center;
+                height: $o-navbar-height;
+                padding: 0 1rem;
+            }
+
+            .modal-footer {
+                @include o-webclient-padding($top: 1rem, $bottom: 0.5rem);
+                box-shadow: 0 1rem 2rem black;
+                z-index: 0;
+            }
+        }
+    }
+}

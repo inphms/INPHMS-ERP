@@ -1,0 +1,19 @@
+
+{
+    'name': 'Resource Mail',
+    'version': '1.0',
+    'category': 'Hidden',
+    'description': """Integrate features developped in Mail in use case involving resources instead of users""",
+    'depends': ['resource', 'mail'],
+    'auto_install': True,
+    'assets': {
+        'web.assets_backend': [
+            'resource_mail/static/src/**/*',
+        ],
+        'web.assets_unit_tests': [
+            'resource_mail/static/tests/**/*',
+        ],
+    },
+    'author': 'Inphms Team.',
+    'license': 'LGPL-3',
+}

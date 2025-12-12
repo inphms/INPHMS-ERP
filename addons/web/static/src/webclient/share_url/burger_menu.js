@@ -1,0 +1,11 @@
+import {isDisplayStandalone} from "@web/core/browser/feature_detection";
+import {patch} from "@web/core/utils/patch";
+import {BurgerMenu} from "@web/webclient/burger_menu/burger_menu";
+import {shareUrl} from "@web/webclient/share_url/share_url";
+
+
+if (navigator.share && isDisplayStandalone()) {
+    patch(BurgerMenu.prototype, {
+        shareUrl,
+    });
+}

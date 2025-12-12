@@ -1,0 +1,9 @@
+.o-we-table-menu {
+    border: $border-width solid rgba($color: $o-brand-inphms, $alpha: 1.0);
+    color: #fff;
+    background-color: rgba($color: $o-brand-inphms, $alpha: 0.7);
+
+    &.oi-ellipsis-v {
+        width: 17px;
+    }
+}

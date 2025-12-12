@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="mail.DiscussSidebar">
+        <div class="o-mail-DiscussSidebar-resizablePanelContainer h-100 d-flex">
+            <ResizablePanel handleSide="'end'" initialWidth="store.discuss.isSidebarCompact ? store.discuss.COMPACT_SIDEBAR_WIDTH : store.discuss.INSPECTOR_WIDTH" minWidth="60" onResize.bind="onResize">
+                <div class="o-mail-DiscussSidebar d-flex d-print-none flex-column overflow-auto o-scrollbar-thin flex-shrink-0 h-100 border-end border-secondary z-1 o-mail-discussSidebarBgColor o-gap-0_5" t-att-class="{ 'o-compact': store.discuss.isSidebarCompact }">
+                    <div class="d-flex justify-content-between align-items-center py-2 mt-1 o-px-2_5"
+                         t-att-class="{
+                         'justify-content-center': store.discuss.isSidebarCompact,
+                         'justify-content-between': !store.discuss.isSidebarCompact,
+                    }">
+                        <h1 class="text-truncate fw-bolder h2-fs mb-0">
+                            <i class="fa fa-fw fa-comments-o"/>
+                            <span t-if="!store.discuss.isSidebarCompact" class="ms-1">Chats</span>
+                        </h1>
+                        <div class="" t-if="!store.discuss.isSidebarCompact">
+                            <button
+                                class="btn i-mail-DiscussSidebar-headerButton"
+                                t-att-class="{
+                                    'active': mailboxHeader.eq(store.discuss.thread),
+                                }"
+                                t-att-data-mailbox-id="mailboxHeader.id"
+                                t-att-data-tooltip="mailboxHeader.display_name"
+                                t-on-click="(ev) => this.openThreadHeader(ev)"
+                            >
+                                <i class="fa fa-fw fa-lg fa-star-o"/>
+                                    <t t-if="mailboxHeader.counter > 0" t-call="mail.discuss_badge">
+                                    <t t-set="counter" t-value="mailboxHeader.counter"/>
+                                    <t t-set="badgeClass" t-value="'o-mail-DiscussSidebar-badge position-absolute o-compact'"/>
+                                    <t t-set="counterClass" t-value="(mailboxHeader.id === 'starred' ? 'o-muted' : '')"/>
+                                    <t t-set="floating" t-value="1"/>
+                                </t>
+                            </button>
+                        </div>
+                    </div>
+                    <DiscussSearch class="{
+                        'position-sticky top-0 z-2': true,
+                        'pt-2 pb-1': !store.inPublicPage and store.discuss.isSidebarCompact,
+                        'py-2': !store.inPublicPage and !store.discuss.isSidebarCompact,
+                        'pt-2 o-px-2_5': store.inPublicPage,
+                        'flex-column': store.discuss.isSidebarCompact and !ui.isSmall,
+                        'o-px-2_5 mt-1': !store.discuss.isSidebarCompact or ui.isSmall,
+                    }"/>
+                    <t t-foreach="discussSidebarItems" t-as="item" t-key="item_index" t-component="item"/>
+                </div>
+            </ResizablePanel>
+        </div>
+    </t>
+</templates>

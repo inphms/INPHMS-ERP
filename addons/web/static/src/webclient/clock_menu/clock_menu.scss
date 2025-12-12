@@ -1,0 +1,65 @@
+.i_clock_menu {
+
+    
+}
+
+.i_clock_dropdown {
+    background: var(--o-dropdown-bg, #fff);
+    color: var(--o-dropdown-color, #222);
+
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.1);
+    padding: 12px;
+    box-shadow:
+        0 0 2px rgba(0,0,0,0.2),
+        0 6px 18px rgba(0,0,0,0.15);
+
+    z-index: 9999;
+    animation: fadeIn 0.15s ease-out;
+
+    .i_clock_dropdown_time {
+        margin-bottom: 8px;
+
+        .i_clock_dropdown_hour {
+            font-size: 24px;
+            font-weight: 700;
+            display: block;
+            line-height: 1.2;
+        }
+        .i_clock_dropdown_date {
+            font-size: 13px;
+            opacity: .8;
+        }
+    }
+
+    .i_calendar_table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+        font-size: 12px;
+
+        th {
+            font-weight: 600;
+            opacity: .6;
+            padding-bottom: 4px;
+        }
+
+        td {
+            padding: 2px 0;
+            height: 20px;
+            border-radius: 4px;
+            cursor: default;
+
+            &.i_today {
+                background: var(--o-primary, #4c6ef5);
+                color: white;
+                font-weight: 700;
+            }
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}

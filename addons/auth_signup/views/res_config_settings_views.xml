@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inphms>
+
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.auth.signup</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//setting[@id='access_rights']" position="before">
+                    <setting string="Portal Access Method" id="login_documents" title="Choose how people can join your portal—either by invitation or open self-registration."
+                             help="Control how contractors, partners, and staff gain access to your ERP portal. Use invitations for tighter access, or allow open self-registration for quick onboarding.">
+                        <div class="content-group list-group">
+                            <div class="list-group-item">
+                                <field name="auth_signup_uninvited" class="w-100 mb-0 o_light_label" widget="radio" required="True"/>
+                            </div>
+                            <div class="list-group-item" invisible="auth_signup_uninvited == 'b2b'">
+                                <button type="object" name="action_open_template_user" string="Manage Default Access" icon="fa-hand-o-right" class="btn-link d-flex justify-content-between align-items-center w-100"/>
+                            </div>
+                        </div>
+                    </setting>
+                    <setting string="Forgot Password Option" help="Let users reset their password directly from the login page" id="enable_password_reset">
+                        <field name="auth_signup_reset_password"/>
+                    </setting>
+                </xpath>
+            </field>
+        </record>
+
+</inphms>

@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inphms>
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.base.setup</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="0"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <field name="is_root_company" invisible="1"/>
+                    <app data-string="System Setup" string="System Setup" name="general_settings" logo="/base/static/description/settings.png">
+
+                        <div id="invite_users">
+                            <block title="User &amp; Team Permissions"
+                                   help="Add new staff, assign roles, and manage access across your plantation operations."
+                                   name="users_setting_container"
+                                   icon="fa-fw fa-users">
+                                <setting id="invite_users_setting">
+                                    <widget name='res_config_invite_users'/>
+                                </setting>
+                                <!-- <setting id="active_user_setting">
+                                    <div style="white-space:nowrap;">
+                                        <span class="fa fa-lg fa-users" aria-label="Number of active users"/>
+                                        <field name='active_user_count' class="w-auto ps-2 mb-0 fw-bold"/>
+                                        <span class='o_form_label' invisible="active_user_count &gt; 1">
+                                            Active User
+                                        </span>
+                                        <span class='o_form_label' invisible="active_user_count &lt;= 1">
+                                            Active Users
+                                        </span>
+                                        <widget name="documentation_link" path="/applications/general/users.html" icon="fa-question-circle"/>
+                                    </div>
+                                    <div class="w-100 ms-auto">
+                                        <button name="%(base.action_res_users)d" icon="fa-hand-o-right" type="action" string="Manage Access &amp; Roles" class="btn-link o_web_settings_access_rights"/>
+                                    </div>
+                                </setting> -->
+                            </block>
+                        </div>
+
+                        <div id="companies">
+                            <block title="Companies"
+                                   help="Manage company details, branding, and document layouts that define your organization’s identity."
+                                   name="companies_setting_container"
+                                   icon="fa-fw fa-building">
+                                <field name="company_id" invisible="1"/>
+                                <setting id="company_details_settings">
+                                    <div>
+                                        <field name="company_name" nolabel="1" class="fw-bold mb-0"/>
+                                        <br/>
+                                        <field name="company_informations" class="text-muted smaller" style="width: 100%;"/>
+                                    </div>
+                                    <div class="w-100 ms-auto list-group">
+                                        <div class="list-group-item">
+                                            <button name="open_company" icon="fa-hand-o-right" type="object" string="Update Company Information" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                    </div>
+                                </setting>
+                                <setting id="companies_setting">
+                                    <div>
+                                        <field name='company_count' nolabel="1" class="w-auto mb-0 fw-bold"/>
+                                        <span class='o_form_label' invisible="company_count &gt; 1">
+                                            Active Company
+                                        </span>
+                                        <span class='o_form_label' invisible="company_count &lt;= 1">
+                                            Active Companies
+                                        </span>
+                                    </div>
+                                    <div class="w-100 ms-auto list-group">
+                                        <div class="list-group-item">
+                                            <button name="%(base.action_res_company_form)d" icon="fa-hand-o-right" type="action" string="Manage Companies" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                    </div>
+                                </setting>
+                                <setting id="document_layout_setting" string="Document Layout" help="Customize how your invoices, quotes, and reports look." company_dependent="1">
+                                    <div class="w-100 ms-auto content-group i_setting_right_pane_grouping mt-3 mt-md-0">
+                                        <div class="list-group">
+                                            <div class="list-group-item d-flex flex-column" groups="base.group_no_one">
+                                                <label for="external_report_layout_id" string="Layout" class="col-3 col-lg-3 o_light_label"/>
+                                                <field name="external_report_layout_id" domain="[('type','=', 'qweb')]" class="oe_inline mb-0"/>
+                                            </div>
+                                            <div class="list-group-item">
+                                                <button name="%(web.action_base_document_layout_configurator)d" string="Configure Layout" type="action" class="oe_link d-flex w-100 align-items-center justify-content-between" icon="fa-hand-o-right"/>
+                                            </div>
+                                            <div class="list-group-item" groups="base.group_no_one" >
+                                                <button name="edit_external_header" string="Design Layout" type="object" class="oe_link d-flex w-100 align-items-center justify-content-between" icon="fa-hand-o-right"/>
+                                            </div>
+                                            <div class="list-group-item" groups="base.group_no_one" >
+                                                <button name="%(web.action_report_externalpreview)d" string="Preview Document" type="action" class="oe_link d-flex w-100 align-items-center justify-content-between" icon="fa-hand-o-right"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </setting>
+                                <field name="company_id" invisible="1"/>
+                                <setting invisible="1" id="inter_company" string="Inter-Company Transactions" company_dependent="1" help="Create corresponding in/out orders and bills when you sell/buy between your companies" groups="base.group_multi_company" title="Configure company rules to automatically create SO/PO when one of your company sells/buys to another of your company.">
+                                    <div>
+                                        <field name="module_account_inter_company_rules" widget="upgrade_boolean"/>
+                                        <div class="content-group" invisible="not module_account_inter_company_rules" id="inter_companies_rules">
+                                            <div class="mt16 text-warning"><strong>Save</strong> this page and come back here to set up the feature.</div>
+                                        </div>
+                                    </div>
+                                </setting>
+                            </block>
+                        </div>
+                        <div id="emails"/>
+
+                        <div invisible="1" id="contacts_settings">
+                            <block title="Contacts"
+                                    name="contacts_setting_container"
+                                    help="Build your network faster — Inphms helps you fill in company details automatically."
+                                    icon="fa-fw fa-address-card">
+                                <!-- <setting id="sms" string="Send SMS" documentation="/applications/marketing/sms_marketing/pricing/pricing_and_faq.html" help="Send texts to your contacts">
+                                    Invisible to avoid breaking any custom inheriting templates
+                                    <field name="module_sms" invisible="1"/>
+                                </setting> -->
+                                <setting help="Automatically enrich your contact base with company data" title="When populating your address book, Inphms provides a list of matching companies. When selecting one item, the company data and logo are auto-filled." id="partner_autocomplete">
+                                    <field name="module_partner_autocomplete"/>
+                                </setting>
+                            </block>
+                        </div>
+
+                        <div id="permissions">
+                            <block title="Permissions"
+                                   name="permissions_setting_container"
+                                   id="user_default_rights"
+                                   help="Control who can see, change, or lead — all from one panel."
+                                   icon="fa-fw fa-unlock-alt">
+                                <setting string="User Default Rights"
+                                         help="Set custom access rights for new users"
+                                         title="By default, new users get highest access rights for all installed apps. If unchecked, new users will only have basic employee access." id="access_rights"
+                                >
+                                    <div class="content-group ms-auto w-100 list-group">
+                                        <div class="list-group-item">
+                                            <button type="object" name="open_new_user_default_groups" string="Manage Default Access" icon="fa-hand-o-right" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                    </div>
+                                </setting>
+                                <setting string="API Keys"
+                                         help="API Keys allow your users to access Inphms with external tools when multi-factor authentication is enabled." groups="base.group_system">
+                                    <div class="list-group w-100">
+                                        <div class="list-group-item">
+                                            <button type="action" name="%(base.action_apikeys_admin)d" string="Manage API Keys" icon="fa-code" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                    </div>
+                                </setting>
+                                <setting invisible="1" string="Import &amp; Export"
+                                         help="Allow users to import data from CSV/XLS/XLSX/ODS files"
+                                         documentation="/applications/general/export_import_data.html" 
+                                         groups="base.group_no_one" 
+                                         id="allow_import">
+                                    <field name="module_base_import" />
+                                </setting>
+                                <setting id="feedback_motivate_setting" help="Add fun feedback and motivate your employees" groups="base.group_no_one">
+                                    <field name="show_effect"/>
+                                </setting>
+                            </block>
+                        </div>
+
+                        <div id='about'>
+                            <block title="About" name="about_setting_container" icon="fa-fw fa-info">
+                                <widget name='res_config_edition'/>
+                            </block>
+                        </div>
+                    </app>
+                    <!-- <app data-string="Language &amp; Region" string="Language &amp; Region" name="language_setting" logo="/base/static/description/translate.svg">
+                        <div id="languages">
+                            <block title="Languages"
+                                   help="Choose how your workspace communicates — add new languages and manage translations."
+                                   name="languages_setting_container">
+                                <setting id="languages_setting">
+                                    TODO This is not an ideal solution but it looks ok on the interface
+                                    <div class="">
+                                        <field name="language_count" class="w-auto ps-1 mb-0 fw-bold"/>
+                                        <span class='o_form_label' invisible="language_count &gt; 1">
+                                            Active Language
+                                        </span>
+                                        <span class='o_form_label' invisible="language_count &lt;= 1">
+                                            Active Languages
+                                        </span>
+                                    </div>
+                                    <div class="w-100 ms-auto list-group">
+                                        <div class="list-group-item">
+                                            <button name="%(base.action_view_base_language_install)d" icon="fa-hand-o-right" type="action" string="Add New Language" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item" groups="base.group_no_one">
+                                            <button name="%(base.res_lang_act_window)d" icon="fa-hand-o-right" type="action" string="Manage Language Settings" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                    </div>
+                                    
+                                </setting>
+                            </block>
+                        </div>
+                    </app> -->
+                    <app data-string="System Integrations" string="System Integrations" name="integration_setting" logo="/base/static/description/integration.svg">
+                        
+                        <div id="pwa">
+                            <block title="Progressive Web App (PWA)" id="pwa_settings" groups="base.group_no_one" icon="fa-fw fa-mobile">
+                                <setting help="This name will be used for the application when Inphms is installed through the browser.">
+                                    <field name="web_app_name" placeholder="Inphms" class="w-100"/>
+                                </setting>
+                            </block>
+                        </div>
+
+                        <block title="Third Party" name="third_party_settings" icon="fa-fw fa-link">
+                            
+                            <!-- <setting string="Mail Plugin" documentation="/applications/productivity/mail_plugins.html" help="Integrate with mail client plugins" id="mail_pluggin_setting">
+                                <field name="module_mail_plugin" />
+                            </setting> -->
+                            <!-- <setting class="text-danger" string="OAuth Auth" help="Use external accounts to log in (Google, Facebook, etc.)" id="module_auth_oauth">
+                                <field name="module_auth_oauth" />
+                                <div class="content-group mt16" invisible="not module_auth_oauth" id="msg_module_auth_oauth">
+                                    <div class="mt16 text-warning"><strong>Save</strong> this page and come back here to set up the feature.</div>
+                                </div>
+                            </setting> -->
+                            <!-- <setting string="LDAP Auth" help="Use LDAP credentials to log in" documentation="/applications/general/auth/ldap.html" id="module_auth_ldap">
+                                <field name="module_auth_ldap"/>
+                                <div class="content-group" invisible="not module_auth_ldap" id="auth_ldap_warning">
+                                    <div class="mt16 text-warning"><strong>Save</strong> this page and come back here to set up the feature.</div>
+                                </div>
+                            </setting> -->
+                            <!-- <setting documentation="/applications/websites/website/optimize/unsplash.html" help="Find free high-resolution images from Unsplash" id="unsplash">
+                                <field name="module_web_unsplash"/>
+                                <div class="content-group" invisible="not module_web_unsplash" id="web_unsplash_warning">
+                                    <div class="mt16 text-warning"><strong>Save</strong> this page and come back here to set up the feature.</div>
+                                </div>
+                            </setting> -->
+                            <setting string="Partner Geolocation"
+                                     help="Geolocate your partners"
+                                     id="base_geolocalize"
+                                     documentation="/applications/general/integrations/geolocation.html">
+                                <field name="module_base_geolocalize"/>
+                                <div class="content-group" invisible="not module_base_geolocalize" name="base_geolocalize_warning">
+                                    <div class="mt16 text-warning"><strong>Save</strong> this page and come back here to choose your Geo Provider.</div>
+                                </div>
+                            </setting>
+                            <!-- <setting class="text-danger" help="Add Google’s verification system to prevent spam and bot activity on your forms." id="recaptcha">
+                                <field name="module_google_recaptcha"/>
+                                <div class="content-group" invisible="not module_google_recaptcha" id="recaptcha_warning">
+                                    <div class="mt16 text-warning"><strong>Save</strong> this page and come back here to set up reCaptcha.</div>
+                                </div>
+                            </setting>
+                            <setting class="text-danger" help="Add Cloudflare’s frictionless security layer to protect forms without CAPTCHAs." id="cf-turnstile">
+                                <field name="module_website_cf_turnstile"/>
+                                <div class="content-group" invisible="not module_website_cf_turnstile" id="turnstile_warning">
+                                    <div class="mt16 text-warning"><strong>Save</strong> this page and come back here to set up Cloudflare turnstile.</div>
+                                </div>
+                            </setting>
+                            <setting class="text-danger" help="Let Google Places automatically complete address fields for faster data entry." id="google_address_autocomplete">
+                                <field name="module_google_address_autocomplete" />
+                                <div class="content-group" invisible="not module_google_address_autocomplete" id="google_address_autocomplete_warning">
+                                    <div class="mt16 text-warning"><strong>Save</strong> this page and come back here to set up Google Places API key</div>
+                                </div>
+                            </setting> -->
+
+                        </block>
+                    </app>
+                    <app data-string="Developer Utilities" string="Developer Utilities" name="dev_tools_setting" logo="/base/static/description/technical.svg">
+                        <!-- <widget name='res_config_dev_tool'/> -->
+                        <div id="profiling">
+                            <block title="Performance" groups="base.group_no_one" name="performance" icon="fa-fw fa-rocket">
+                                <setting id="profiling_enabled_until" help="Enable the profiling tool. Profiling may impact performance while being active.">
+                                    <field name="profiling_enabled_until" class="w-100"/>
+                                </setting>
+                            </block>
+                        </div>
+                    </app>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_general_configuration" model="ir.actions.act_window">
+            <field name="name">Settings</field>
+            <field name="path">settings</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'module' : 'general_settings', 'bin_size': False}</field>
+        </record>
+
+        <menuitem
+            id="menu_config"
+            name="System Setup"
+            parent="base.menu_administration"
+            sequence="0"
+            action="action_general_configuration"
+            groups="base.group_system"/>
+
+        <!-- Sidebar -->
+        <!-- <record id="base.sidebar_administration" model="ir.ui.menu">
+            <field name="action">base_setup.action_general_configuration</field>
+        </record> -->
+        <menuitem
+            id="sidebar_administration" 
+            name="System"
+            sequence="550"
+            groups="base.group_erp_manager"
+            submenu_icon="base,static/description/menu_icons/system.svg"
+            action="action_general_configuration"
+            parent="base.sidebar_root"/>
+
+        <record model="ir.ui.menu" id="sidebar_administration">
+            <field name="group_ids" eval="[Command.set([ref('base.group_system'), ref('base.group_erp_manager')])]"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_custom">
+            <field name="parent_id" ref="sidebar_administration"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_users">
+            <field name="parent_id" ref="base.sidebar_root"/>
+        </record>
+</inphms>

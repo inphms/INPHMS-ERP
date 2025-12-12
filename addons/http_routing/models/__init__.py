@@ -1,0 +1,4 @@
+# ruff: noqa
+from . import ir_http
+from . import ir_qweb
+from . import res_lang
