@@ -26,6 +26,13 @@ share/python-wheels/
 *.egg
 MANIFEST
 
+# windows installation config file
+/inphms.conf
+
+# Inphms Sessions & Filestore
+/filestore
+/sessions
+
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.

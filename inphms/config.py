@@ -113,6 +113,17 @@ class _FileOnlyOption(_InphmsOption):
 
     def _set_opt_strings(self, opts: Iterable[str]) -> None:
         return
+    
+
+class _PosixOnlyOption(_InphmsOption):
+    def __init__(self, *opts, **attrs):
+        if os.name != 'posix':
+            attrs['help'] = optparse.SUPPRESS_HELP
+            attrs['cli_loadable'] = False
+            attrs['env_name'] = ''
+            attrs['file_loadable'] = False
+            attrs['file_exportable'] = False
+        super().__init__(*opts, **attrs)
 
 
 ALL_DEV_MODE = ['access', 'qweb', 'reload', 'xml']
@@ -147,6 +158,7 @@ class configmanager:
     def _build_config(self) -> optparse.OptionParser:
         InphmsOption = type("InphmsOption", (_InphmsOption,), {"config": self})
         FileOnlyOption = type("FileOnlyOption", (_FileOnlyOption, InphmsOption), {})
+        PosixOnlyOption = type("PosixOnlyOption", (_PosixOnlyOption, InphmsOption), {})
     
         version = f"{release.DESCRIPTION} {release.VERSION}"
         parser = optparse.OptionParser(version=version, option_class=InphmsOption)
@@ -507,6 +519,18 @@ class configmanager:
                          my_default='/usr/share/GeoIP/GeoLite2-Country.mmdb',
                          help="Absolute path to the GeoIP Country database file.")
         parser.add_option_group(group)
+
+        # Multi processing
+        group = optparse.OptionGroup(parser, "Multiprocessing Options")
+        group.add_option(PosixOnlyOption(
+            "--workers", dest="workers", my_default=0,
+            help="Specify the number of workers, 0 disable prefork mode.",
+            type="int"
+        ))
+        group.add_option(PosixOnlyOption(
+            "--limit-memory-hard", dest="limit_memory_hard", my_default=2560 * 1024 * 1024,
+            help="Maximum allowed virtual memory per workers (in bytes), when reached, any memory allocation will fail (default 2560MiB)"
+        ))
         
 
         return parser
