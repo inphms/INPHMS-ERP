@@ -37,13 +37,20 @@ jobs:
 
       - name: Restart all services
         run: |
-          SERVICE_IDS=$(curl --silent --basic --user "${{ secrets.STAGING_API_KEY }} account=${{ secrets.STAGING_SSH_USER }}:" \
-          https://api.alwaysdata.com/v1/service/ | jq -r '.[].id')
+          ENCODED_TOKEN=$(echo "${{ secrets.STAGING_API_KEY }} account=${{ secrets.STAGING_SSH_USER }}:" | base64 -w 0)
+          HEADER="Authorization: Basic $ENCODED_TOKEN"
+          BASEURL="https://api.alwaysdata.com/v1/service"
+          SERVICE_IDS=$(curl --location --request GET "$BASEURL" --header "$HEADER" | jq -r '.[].id')
           echo "Found services $SERVICE_IDS"
           # Restart each service
           for ID in $SERVICE_IDS; do
             echo "Restarting service $ID"
-            curl --silent --basic --user "${{ secrets.STAGING_API_KEY }} account=${{ secrets.STAGING_SSH_USER }}:" \
-            https://api.alwaysdata.com/v1/service/$ID/restart
-            echo "Service $ID restarted"
+            STATUS=$(curl --location --request POST "$BASEURL/$ID/restart" \
+            --header "$HEADER" --write-out '%{http_code}' --silent)
+            if [ "$STATUS" = 204 ]; then
+              echo "✅ Service $ID successfully restarted!"
+            else
+              echo "❌ An error occured when restarting service $ID, try to restart it manually"
+              exit 1
+            fi
           done
