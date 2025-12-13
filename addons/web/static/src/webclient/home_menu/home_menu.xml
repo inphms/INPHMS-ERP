@@ -3,9 +3,26 @@
 
 <t t-name="web.HomeMenu">
     <div t-ref="root" class="o_home_menu h-100 overflow-auto" t-att-class="{ o_ios_app: state.isIosApp }">
-        <div class="container">
+        <div class="container mt48">
             <input t-ref="input" type="text" class="o_search_hidden visually-hidden w-auto" data-allow-hotkeys="true" t-on-input="_onInputSearch" t-on-blur="_onInputBlur" t-on-compositionstart="_onCompositionStart" role="combobox" t-att-aria-activedescendant="'result_app_' + state.focusedIndex" t-att-aria-expanded="displayedApps.length ? 'true' : 'false'" aria-autocomplete="list" aria-haspopup="listbox" autocomplete="off"/>
 
+            <div class="i_home_menu_header d-flex flex-column gap-2 mb40">
+                <h2 class="mb-0 fw-semibold">Welcome back</h2>
+                <span class="text-muted">Select an application to continue your work</span>
+            </div>
+            <div t-if="displayedApps.length" role="listbox" class="i_apps_grid">
+                <div t-foreach="displayedApps" t-as="app" t-key="app.id" role="option" class="i_app border d-flex gap-2 p-3">
+                    <div class="d-flex flex-column gap-2">
+                        <strong class="i_app_title d-flex align-items-center gap-1">
+                            <img t-if="app.webIconData" class="fa fa-fw" t-attf-src="{{app.webIconData}}"/>
+                            <t  t-esc="app.label or app.name"></t>
+                        </strong>
+                        <span class="text-muted" t-esc="app.description or 'desc...'"></span>
+                        <a class="mt-auto fw-bold"
+                            t-att-href="app.href">Open app →</a>
+                    </div>
+                </div>
+            </div>
             <ExpirationPanel t-if="subscription.warningType and !subscription.isWarningHidden and subscription.daysLeft &lt;= 30 and subscription.daysLeft &gt; 0"/>
             <div t-if="displayedApps.length" role="listbox" class="o_apps row user-select-none mt-5 mx-0">
                 <div t-foreach="displayedApps" t-as="app" t-key="app.id" class="col-3 col-md-2 o_draggable mb-3 px-0">

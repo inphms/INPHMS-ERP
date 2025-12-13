@@ -113,6 +113,7 @@ export class HomeMenu extends Component {
         );
     }
     get displayedApps() {
+        console.log("HOMEMENU, DisplayedApps", this.props.apps);
         return this.props.apps;
     }
     get maxIconNumber() {

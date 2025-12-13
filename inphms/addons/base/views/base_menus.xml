@@ -60,5 +60,12 @@
     <record id="menu_users" model="ir.ui.menu">
         <field name="submenu_icon">base,static/description/menu_icons/folder.svg</field>
     </record>
+
+
+    <!-- Workspace Implementation -->
+    <record id="action_people_workspace" model="ir.actions.workspace">
+    <field name="name">People</field>
+    </record>
+    <menuitem id="menu_people_root" name="People" sequence="10" action="action_people_workspace"/>
     
 </inphms>

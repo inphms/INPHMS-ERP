@@ -45,11 +45,26 @@
         border-radius: $border-radius-pill;
     }
 
-    .container {
-        @include media-breakpoint-up(md) {
-            max-width: $o-home-menu-container-size !important;
+    .i_apps_grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 22px;
+        
+        .i_app {
+            background: $o-white;
+            border-radius: $border-radius;
+
+            .i_app_title {
+                font-size: 16px;
+            }
         }
     }
+
+    // .container {
+    //     @include media-breakpoint-up(md) {
+    //         max-width: $o-home-menu-container-size !important;
+    //     }
+    // }
 
     .o_app {
         .o_app_icon {
@@ -146,6 +161,8 @@
             font-weight: $font-weight-bold;
         }
     }
+
+    
 }
 
 .o_home_menu_background_custom {
