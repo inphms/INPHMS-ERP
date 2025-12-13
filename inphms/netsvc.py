@@ -193,7 +193,7 @@ logging.addLevelName(logging.RUNBOT, "RUNBOT") # type: ignore # could be display
 
 IGNORE = {"Comparison between bytes and int",} # we don't care
 def _showwarning(message, category, filename, lineno, file=None, line=None):
-    if category in BytesWarning and message.args[0] in IGNORE:
+    if category is BytesWarning and message.args[0] in IGNORE:
         return
     filtered = []
     for frame in traceback.extract_stack():
