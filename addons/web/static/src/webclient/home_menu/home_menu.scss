@@ -45,17 +45,37 @@
         border-radius: $border-radius-pill;
     }
 
-    .i_apps_grid {
+    .i_menu_sections_wrapper {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 22px;
-        
-        .i_app {
-            background: $o-white;
-            border-radius: $border-radius;
+        grid-template-columns: 2fr 1fr;
+        gap: 32px;
 
-            .i_app_title {
-                font-size: 16px;
+        .i_group_title {
+            letter-spacing: 0.14em;
+            margin-bottom: 14px;
+        }
+        
+        .i_apps_grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 22px;
+            
+            .i_app {
+                background: var(--AppSwitcherIcon-background, #{$o-home-menu-app-icon-background-color});
+                border-radius: $border-radius;
+
+                &.i_focused {
+                    background: $component-active-bg;
+                    outline: 1px solid $o-action;
+                }
+
+                .i_app_title {
+                    font-size: 16px;
+                }
+
+                .i_app_description * {
+                    margin-bottom: 0 !important;
+                }
             }
         }
     }

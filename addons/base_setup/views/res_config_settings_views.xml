@@ -287,7 +287,7 @@
         <!-- <record id="base.sidebar_administration" model="ir.ui.menu">
             <field name="action">base_setup.action_general_configuration</field>
         </record> -->
-        <menuitem
+        <!-- <menuitem
             id="sidebar_administration" 
             name="System"
             sequence="550"
@@ -304,5 +304,5 @@
         </record>
         <record model="ir.ui.menu" id="base.menu_users">
             <field name="parent_id" ref="base.sidebar_root"/>
-        </record>
+        </record> -->
 </inphms>

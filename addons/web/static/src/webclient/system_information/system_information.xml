@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="web.SystemInformation">
+        <div class="i_system_information p-3 d-flex flex-column gap-3">
+
+            <t t-foreach="resolvedItems" t-as="item" t-key="item_index">
+            <div class="d-flex justify-content-between align-items-start">
+                <span class="fw-semibold" t-esc="item.label"/>
+                <span t-att-class="'text-' + (item.level || 'muted')"
+                    t-esc="item.value"/>
+            </div>
+
+            <t t-if="item.actions">
+                <div class="d-flex gap-3 small">
+                <t t-foreach="item.actions" t-as="action" t-key="action_index">
+                    <a href="#" t-on-click.prevent="action.callback"
+                    class="fw-semibold">
+                    <t t-esc="action.label"/>
+                    </a>
+                </t>
+                </div>
+            </t>
+            </t>
+
+        </div>
+    </t>
+
+
+</templates>

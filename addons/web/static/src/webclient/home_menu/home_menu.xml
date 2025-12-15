@@ -6,27 +6,60 @@
         <div class="container mt48">
             <input t-ref="input" type="text" class="o_search_hidden visually-hidden w-auto" data-allow-hotkeys="true" t-on-input="_onInputSearch" t-on-blur="_onInputBlur" t-on-compositionstart="_onCompositionStart" role="combobox" t-att-aria-activedescendant="'result_app_' + state.focusedIndex" t-att-aria-expanded="displayedApps.length ? 'true' : 'false'" aria-autocomplete="list" aria-haspopup="listbox" autocomplete="off"/>
 
+            <ExpirationPanel t-if="subscription.warningType and !subscription.isWarningHidden and subscription.daysLeft &lt;= 30 and subscription.daysLeft &gt; 0"/>
             <div class="i_home_menu_header d-flex flex-column gap-2 mb40">
                 <h2 class="mb-0 fw-semibold">Welcome back</h2>
                 <span class="text-muted">Select an application to continue your work</span>
             </div>
-            <div t-if="displayedApps.length" role="listbox" class="i_apps_grid">
-                <div t-foreach="displayedApps" t-as="app" t-key="app.id" role="option" class="i_app border d-flex gap-2 p-3">
-                    <div class="d-flex flex-column gap-2">
-                        <strong class="i_app_title d-flex align-items-center gap-1">
-                            <img t-if="app.webIconData" class="fa fa-fw" t-attf-src="{{app.webIconData}}"/>
-                            <t  t-esc="app.label or app.name"></t>
-                        </strong>
-                        <span class="text-muted" t-esc="app.description or 'desc...'"></span>
-                        <a class="mt-auto fw-bold"
-                            t-att-href="app.href">Open app →</a>
+            <div class="i_menu_sections_wrapper">
+                <div t-if="displayedApps.length" class="d-flex flex-column gap-4">
+                    <div t-foreach="groupedApps" t-as="group" t-key="group.name">
+                        <div class="i_group_title text-muted text-uppercase small" t-esc="group.name"></div>
+                        <div t-if="group.apps.length" role="listbox" class="i_apps_grid user-select-none">
+                            <t t-foreach="group.apps" t-as="app" t-key="app.id">
+                                <div role="option"
+                                    class="i_app border d-flex gap-2 p-3"
+                                    t-att-class="{i_focused: state.focusedIndex === app_index + group_index}"
+                                    t-att-aria-selected="state.focusedIndex === app_index + group_index ? 'true' : 'false'"
+                                    t-att-id="'result_app_' + app_index + group_index"
+                                    t-att-data-menu-xmlid="app.xmlid"
+                                >
+                                    <div class="d-flex flex-column gap-2">
+                                        <strong class="i_app_title d-flex align-items-center gap-1">
+                                            <img t-if="app.webIconData" class="fa fa-fw" t-attf-src="{{app.webIconData}}"/>
+                                            <t t-esc="app.label or app.name"></t>
+                                        </strong>
+                                        <span class="text-muted i_app_description" t-out="this.labelHelpOrDescription(app)"></span>
+                                        <a class="mt-auto fw-bold"
+                                        t-att-href="app.href"
+                                        t-on-click.prevent="() => this._onAppClick(app)">Open app →</a>
+                                    </div>
+                                </div>
+                                
+                            </t>
+                        </div>
                     </div>
                 </div>
+                
+                <div t-elif="!displayedApps.length" id="result_menu_0" role="option" aria-selected="true" class="o_no_result">
+                    No result
+                </div>
+                <div class="">
+                    <div class="i_group_title text-muted text-uppercase small">System Information</div>
+                    <SystemInformation/>
+                </div>
             </div>
-            <ExpirationPanel t-if="subscription.warningType and !subscription.isWarningHidden and subscription.daysLeft &lt;= 30 and subscription.daysLeft &gt; 0"/>
-            <div t-if="displayedApps.length" role="listbox" class="o_apps row user-select-none mt-5 mx-0">
+            
+            
+            <!-- <div t-if="displayedApps.length" role="listbox" class="o_apps row user-select-none mt-5 mx-0">
                 <div t-foreach="displayedApps" t-as="app" t-key="app.id" class="col-3 col-md-2 o_draggable mb-3 px-0">
-                    <a t-att-id="'result_app_' + app_index" role="option" t-att-aria-selected="state.focusedIndex === app_index ? 'true' : 'false'" class="o_app o_menuitem d-flex flex-column rounded-3 justify-content-start align-items-center w-100 p-1 p-md-2" t-att-class="{o_focused: state.focusedIndex === app_index}" t-att-data-menu-xmlid="app.xmlid" t-att-href="app.href" t-on-click.prevent="() =&gt; this._onAppClick(app)">
+                    <a t-att-id="'oresult_app_' + app_index" role="option"
+                       t-att-aria-selected="state.focusedIndex === app_index ? 'true' : 'false'"
+                       class="o_app o_menuitem d-flex flex-column rounded-3 justify-content-start align-items-center w-100 p-1 p-md-2"
+                       t-att-class="{o_focused: state.focusedIndex === app_index}"
+                       t-att-data-menu-xmlid="app.xmlid"
+                       t-att-href="app.href"
+                       t-on-click.prevent="() =&gt; this._onAppClick(app)">
                         <img t-if="app.webIconDataWhite or app.webIconData" class="o_app_icon rounded-3" t-attf-src="{{app.webIconDataWhite or app.webIconData}}"/>
                         <div t-else="" class="o_app_icon position-relative d-flex justify-content-center align-items-center p-2 rounded-3 ratio ratio-1x1" t-attf-style="background-color: {{app.webIcon.backgroundColor}};">
                             <i t-attf-class="{{app.webIcon.iconClass}} position-relative w-auto h-auto" t-attf-style="color: {{app.webIcon.color}};"/>
@@ -37,7 +70,7 @@
             </div>
             <div t-elif="!displayedApps.length" id="result_menu_0" role="option" aria-selected="true" class="o_no_result">
                 No result
-            </div>
+            </div> -->
         </div>
     </div>
 </t>

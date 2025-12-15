@@ -356,6 +356,11 @@
         <menuitem action="action_res_users" id="menu_action_res_users"
                   parent="base.menu_users" sequence="0"
                   submenu_icon="base,static/description/menu_icons/users.svg"/>
+        <!-- add to menu people -->
+        <menuitem action="action_res_users" id="menu_people_action_res_users"
+                parent="base.menu_people_people_views" sequence="10"
+                submenu_icon="base,static/description/menu_icons/users.svg"/>
+
 
         <record id="action_res_users_keys_description" model="ir.actions.act_window">
             <field name="name">API Key: description input wizard</field>

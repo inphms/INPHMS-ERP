@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INPHMS – People</title>
+  <style>
+    :root {
+      --bg: #f4f5f7;
+      --panel: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --accent: #2563eb;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* APP TOP BAR */
+    .app-topbar {
+      height: 56px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 24px;
+    }
+    .app-title {
+      font-weight: 600;
+      font-size: 15px;
+    }
+    .app-nav {
+      display: flex;
+      gap: 18px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .app-nav span {
+      cursor: default;
+    }
+    .app-actions {
+      margin-left: auto;
+      display: flex;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* LAYOUT */
+    .layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: calc(100vh - 56px);
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      background: var(--panel);
+      border-right: 1px solid var(--border);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .sidebar h4 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin: 0 0 8px;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .sidebar li {
+      font-size: 14px;
+      cursor: default;
+    }
+
+    /* MAIN */
+    .main {
+      padding: 28px 32px 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* HERO */
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+    }
+    .hero h1 {
+      font-size: 24px;
+      margin: 0;
+    }
+    .hero p {
+      color: var(--muted);
+      margin: 6px 0 0;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .btn {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #f9fafb;
+      font-size: 14px;
+    }
+
+    /* OVERVIEW */
+    .overview {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--panel);
+      border-radius: var(--radius);
+      padding: 18px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .card strong {
+      display: block;
+      font-size: 18px;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    /* DIRECTORY PREVIEW */
+    .section {
+      background: var(--panel);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .section h3 {
+      font-size: 16px;
+      margin: 0 0 12px;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .row:last-child { border-bottom: none; }
+    .row span { color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <!-- APP TOP BAR -->
+  <div class="app-topbar">
+    <div class="app-title">People</div>
+    <div class="app-nav">
+      <span>Overview</span>
+      <span>Directory</span>
+      <span>Employees</span>
+      <span>Users</span>
+      <span>Contacts</span>
+    </div>
+    <div class="app-actions">
+      <span>Search</span>
+      <span>Create</span>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div>
+        <h4>People Views</h4>
+        <ul>
+          <li>All People</li>
+          <li>Employees</li>
+          <li>Customers</li>
+          <li>Vendors</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Administration</h4>
+        <ul>
+          <li>Roles & Access</li>
+          <li>Departments</li>
+          <li>Tags</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <!-- HERO -->
+      <div class="hero">
+        <div>
+          <h1>People Overview</h1>
+          <p>Understand who exists in your system and how they are connected.</p>
+        </div>
+        <div class="hero-actions">
+          <button class="btn">Add Person</button>
+          <button class="btn">Invite User</button>
+        </div>
+      </div>
+
+      <!-- OVERVIEW -->
+      <div class="overview">
+        <div class="card">
+          <strong>42</strong>
+          Active Employees
+        </div>
+        <div class="card">
+          <strong>6</strong>
+          Pending Invitations
+        </div>
+        <div class="card">
+          <strong>18</strong>
+          External Contacts
+        </div>
+        <div class="card">
+          <strong>4</strong>
+          Access Issues
+        </div>
+      </div>
+
+      <!-- DIRECTORY -->
+      <div class="section">
+        <h3>Recently Active</h3>
+        <div class="row">
+          <strong>Jane Smith</strong>
+          <span>Employee · Finance</span>
+        </div>
+        <div class="row">
+          <strong>John Doe</strong>
+          <span>User · Administrator</span>
+        </div>
+        <div class="row">
+          <strong>PT Alpha Supplier</strong>
+          <span>Vendor · External</span>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>
+```

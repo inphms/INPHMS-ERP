@@ -27,7 +27,7 @@
             action="hr_employee_public_action"
             groups="group_hr_manager,group_hr_user,base.group_user"
             submenu_icon="hr,static/description/menu_icons/hr.svg"
-            parent="base.sidebar_root"
+
             sequence="0"/>
 
             <menuitem

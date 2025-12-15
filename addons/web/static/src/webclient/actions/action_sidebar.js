@@ -79,8 +79,7 @@ export class ActionSidebar extends Component {
             updateIconSections(section);
         }
         const sidebar = sections.filter(item => item.xmlid === 'base.sidebar_root');
-        console.log(sidebar)
-        return sidebar[0].childrenTree || [];
+        return sidebar[0]?.childrenTree || [];
     }
 
     get isInHomeMenu() {

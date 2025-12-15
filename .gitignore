@@ -24,6 +24,15 @@ status
 # Inphms Sessions & Filestore
 /filestore
 /sessions
+pid
+
+# JS Tooling
+node_modules
+jsconfig.json
+tsconfig.json
+package-lock.json
+package.json
+.husky
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

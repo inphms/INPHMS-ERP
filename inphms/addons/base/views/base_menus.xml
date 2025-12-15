@@ -51,10 +51,7 @@
         <field name="url">/web</field>
     </record>
 
-    <menuitem id="sidebar_root" name="Home" sequence="10" web_icon="base,static/description/settings.png">
-        <!-- <menuitem id="data_master" name="Data Master"/> -->
-        
-    </menuitem>
+    <!-- <menuitem id="sidebar_root" name="Home" sequence="10" web_icon="base,static/description/settings.png"/> -->
 
     <!-- Need to be define manually, cannot be combined in nested menuitems -->
     <record id="menu_users" model="ir.ui.menu">
@@ -62,10 +59,19 @@
     </record>
 
 
-    <!-- Workspace Implementation -->
-    <record id="action_people_workspace" model="ir.actions.workspace">
-    <field name="name">People</field>
+    <!-- People -->
+    <record id="ir_action_people_views" model="ir.actions.client">
+        <field name="name">People</field>
+        <field name="path">people</field>
+        <field name="tag">action_people_dashboard</field>
+        <field name="help">Employees, users, access</field>
     </record>
-    <menuitem id="menu_people_root" name="People" sequence="10" action="action_people_workspace"/>
+    <!-- TODO: add group -->
+    <menuitem id="menu_people_root" name="People" sequence="10" action="ir_action_people_views">
+        <menuitem id="menu_people_people_views" name="People Views" sequence="0">
+            <menuitem id="menu_people_people_views_dashboard" name="Dashboard" sequence="0" action='ir_action_people_views'></menuitem>
+        </menuitem>
+        <menuitem id="menu_people_administrator" name="Administrations" sequence="100"/>
+    </menuitem>
     
 </inphms>

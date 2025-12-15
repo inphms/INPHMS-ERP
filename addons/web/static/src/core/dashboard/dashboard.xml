@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="web.Dashboard">
+        <div class="d-flex">
+            <DashboardSidebar/>
+            <div class="flex-grow-1 container py-4">
+                <t t-slot="default"/>
+            </div>
+        </div>
+    </t>
+
+</templates>

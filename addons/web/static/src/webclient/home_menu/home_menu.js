@@ -4,7 +4,9 @@ import {user} from "@web/core/user";
 import {useService} from "@web/core/utils/hooks";
 import {ExpirationPanel} from "@web/webclient/home_menu/expiration_panel";
 import {useSortable} from "@web/core/utils/sortable_owl";
-import {Component, useExternalListener, onMounted, onPatched, onWillUpdateProps, useState, useRef, } from "@inphms/owl";
+import {Component, markup, useExternalListener, onMounted, onPatched, onWillUpdateProps, useState, useRef, } from "@inphms/owl";
+
+import { SystemInformation } from "../system_information/system_information";
 
 class FooterComponent extends Component {
     static template = "web.HomeMenu.CommandPalette.Footer";
@@ -22,7 +24,8 @@ class FooterComponent extends Component {
 export class HomeMenu extends Component {
     static template = "web.HomeMenu";
     static components = {
-        ExpirationPanel
+        ExpirationPanel,
+        SystemInformation,
     };
     static props = {
         apps: {
@@ -35,6 +38,10 @@ export class HomeMenu extends Component {
                     appID: Number,
                     id: Number,
                     label: String,
+                    help: {
+                        type: [Boolean, String],
+                        optional: 1
+                    },
                     parents: String,
                     webIcon: {
                         type: [Boolean, String, {
@@ -113,9 +120,47 @@ export class HomeMenu extends Component {
         );
     }
     get displayedApps() {
-        console.log("HOMEMENU, DisplayedApps", this.props.apps);
         return this.props.apps;
     }
+
+    _isAdminApp(app) {
+        // xmlid is the most stable identifier
+        if (!app.xmlid) {
+            return false;
+        }
+        return (
+            app.xmlid === "base.menu_management" ||
+            app.xmlid.startsWith("base.menu_administration")
+        );
+    }
+    get groupedApps() {
+        const groups = [
+            { name: "Your Application", apps: [] },
+            { name: "Administration", apps: [] },
+        ];
+
+        for (const app of this.displayedApps) {
+            if (this._isAdminApp(app)) {
+                groups[1].apps.push(app);
+            } else {
+                groups[0].apps.push(app);
+            }
+        }
+
+        return groups.filter(group => group.apps.length);
+
+    }
+    labelHelpOrDescription(app) {
+        return app.help ? markup(app.help) : 'No Description';
+    }
+    get hasAppCategory() {
+        return this.groupedApps.apps.length > 0;
+    }
+
+    get hasAdminCategory() {
+        return this.groupedApps.admin.length > 0;
+    }
+
     get maxIconNumber() {
         const w = window.innerWidth;
         if (w < 576) {
