@@ -20,13 +20,6 @@
     // Same as search panel
     --treeEntry-padding-h: #{map-get($spacers, 3)};
 
-    width: var(--SearchPanel-width, #{$o-search-panel-width});
-    font-size: var(--SearchPanel-fontSize, #{$o-search-panel-font-size});
-    // scrollbar-width: thin;
-    
-    @extend %i-scrollbar-style;
-    @extend %i-inphms-blur-background;
-    border-radius: #{$border-radius-sm};
 
     // @include border-end-radius();
 
@@ -44,11 +37,6 @@
         max-height: 100px;
     }
 
-    .list-group {
-        --list-group-bg: transparent;
-        --list-group-active-bg: hsla(#{$i-system-color-dark-hsl}, .2);
-        --list-group-action-active-bg: #{$list-group-hover-bg};
-    }
 }
 
 .i_sidebar_resize {

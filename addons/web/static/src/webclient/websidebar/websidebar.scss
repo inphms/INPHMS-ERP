@@ -1,0 +1,35 @@
+.o_web_client {
+    > .o_action_manager {
+        &:has(> .i_web_sidebar) {
+            display: flex;
+            // background: #{$o-white};
+            margin-left: map-get($spacers, 2);
+            margin-right: map-get($spacers, 2);
+            
+            & > {
+            overflow: auto;
+            flex: 1 0 auto;
+            }
+            & > *:last-child {
+                flex: 1 1 100%;
+                @extend %i-inphms-blur-background;
+                margin-left: map-get($spacers, 2);
+                border-radius: #{$border-radius-sm};
+            }
+        }
+    }
+}
+
+.i_web_sidebar {
+    width: var(--SearchPanel-width, #{$o-search-panel-width});
+    font-size: var(--SearchPanel-fontSize, #{$o-search-panel-font-size});
+    @extend %i-scrollbar-style;
+    @extend %i-inphms-blur-background;
+    border-radius: #{$border-radius-sm};
+
+    .list-group {
+        --list-group-bg: transparent;
+        --list-group-active-bg: hsla(#{$i-system-color-dark-hsl}, .2);
+        --list-group-action-active-bg: #{$list-group-hover-bg};
+    }
+}

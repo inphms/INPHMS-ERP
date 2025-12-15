@@ -1,4 +1,5 @@
 .i_system_information {
     background: var(--AppSwitcherIcon-background, #{$o-home-menu-app-icon-background-color});
     border-radius: $border-radius;
+    box-shadow: $box-shadow-sm;
 }

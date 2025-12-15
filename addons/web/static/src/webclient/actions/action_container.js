@@ -1,19 +1,20 @@
 import { Component, xml, onWillDestroy } from "@inphms/owl";
-import { ActionSidebar } from "@web/webclient/actions/action_sidebar";
+import { WebSidebar } from "../websidebar/websidebar";
+import { useService } from "@web/core/utils/hooks";
 
 // -----------------------------------------------------------------------------
 // ActionContainer (Component)
 // -----------------------------------------------------------------------------
 export class ActionContainer extends Component {
     static components = {
-        ActionSidebar
+        WebSidebar,
     };
     static props = {};
     static template = xml`
         <t t-name="web.ActionContainer">
           <div class="o_action_manager">
-            <t t-if="!env.isSmall">
-                <ActionSidebar/>
+            <t t-if="!env.isSmall and !hm.hasHomeMenu">
+                <WebSidebar/>
             </t>
             <t t-if="info.Component" t-component="info.Component" className="'o_action'" t-props="info.componentProps" t-key="info.id"/>
           </div>
@@ -21,6 +22,7 @@ export class ActionContainer extends Component {
 
     setup() {
         this.info = {};
+        this.hm = useService("home_menu");
         this.onActionManagerUpdate = ({ detail: info }) => {
             this.info = info;
             this.render();
