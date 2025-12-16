@@ -1,4 +1,4 @@
-import { Component, useState } from "@inphms/owl";
+import { Component, useState, onWillStart } from "@inphms/owl";
 import { registry } from "@web/core/registry"
 import { Dashboard } from "@web/core/dashboard/dashboard";
 import { standardActionServiceProps } from "@web/webclient/actions/action_service";
@@ -11,38 +11,97 @@ export class PeopleDashboard extends Component {
 
     setup() {
         this.orm = useService('orm');
+        this.invite = useService('user_invite');
+        this.peopleKpiService = useService("people_kpi");
         this.peopleKpis = [];
         this._populateData();
     }
 
     get peopleKpisRaw() {
+        const orm = this.orm;
+        const invite = this.invite
         return [
             {
-                model_name: 'res.partner',
+                id: 'total_people',
                 label: 'Total People',
-                domain: [
-                    ['is_company', '=', false],
-                    ['active', '=', true],
-                ],
+                defaultValue: 0,
                 get value() {
-                    console.log(this.domain, this.orm),
-                }
+                    return orm.searchCount(
+                            'res.partner',
+                            [['is_company', '=', false],
+                            ['active', '=', true],]);
+                },
+                help: "Total Contacts data available on your database.",
+                sequence: 0,
+            },
+            {
+                id: 'active_users',
+                label: 'Active Users',
+                defaultValue: '...',
+                get value() {
+                    return orm.searchCount('res.users', [['active', '=', true],]);
+                },
+                sequence: 10,
+            },
+            {
+                id: 'pending_invite',
+                label: 'Pending Invitations',
+                defaultValue: '...',
+                get value() {
+                    return invite.fetchData().then((res) => res.pending_count);
+                },
+                sequence: 5,
+            },
+            {
+                id: 'external_contacts',
+                label: 'External Contacts',
+                defaultValue: '...', // defaultValue cannot be a 0
+                get value() {
+                    return orm.searchCount(
+                            'res.partner',
+                            [['is_company', '=', false],
+                            ['active', '=', true],
+                            ['user_ids', '=', false]]);
+                },
+                sequence: 20,
             }
         ]
     }
 
-    _populateData() {
-        for (const kpi of this.peopleKpisRaw) {
-            const kpiItem = useState({
+    _populateData(reload = false) {
+        const sortedKpis = Object.values(this.peopleKpisRaw)
+            .sort((a, b) => a.sequence - b.sequence);
+        for (const kpi of sortedKpis) {
+                const kpiItem = useState({
+                id: kpi.id,
                 name: kpi.label,
-                value: 0,
+                value: kpi.defaultValue,
+                help: kpi.help,
             });
-            this.peopleKpis.push(kpiItem)
-            this.orm.searchCount(kpi.model_name, kpi.domain)
-                .then((res) => kpiItem.value = res)
-                .catch((err) => kpiItem.value = err);
+            this.peopleKpis.push(kpiItem);
+            this.peopleKpiService.fetchData(kpi).
+                then((res) => kpiItem.value = res)
         }
     }
 }
 
-registry.category("actions").add('action_people_dashboard', PeopleDashboard)
+registry.category("actions").add('action_people_dashboard', PeopleDashboard);
+
+export const peopleKpisService = {
+    async start() {
+        const kpis = {};
+        return {
+            fetchData(kpi, reload) {
+                if (!kpis[kpi.id] || reload) {
+                    kpis[kpi.id] = Promise.resolve(kpi.value)
+                        .catch((err) => {
+                            console.error(`Error fetching KPI for ${kpi.id}:`, err);
+                            return "N/A"
+                        });
+                }
+                return kpis[kpi.id]
+            }
+        }
+    }
+}
+registry.category("services").add("people_kpi", peopleKpisService);

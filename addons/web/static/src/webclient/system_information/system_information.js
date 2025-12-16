@@ -9,6 +9,8 @@ const systemInfoDebugRegistry = registry.category("system_info_debug")
 
 export class SystemInformation extends Component {
     static template = "web.SystemInformation";
+    static components = {};
+    static props = [];
 
     setup() {
         this.items = systemInfoRegistry.getAll();

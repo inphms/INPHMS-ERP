@@ -139,5 +139,9 @@
         </record>
         <menuitem action="action_res_company_form" id="menu_action_res_company_form" parent="base.menu_users"
                   submenu_icon="base,static/description/menu_icons/companies.svg"/>
+        <!-- add to menu people -->
+        <menuitem action="action_res_company_form" id="menu_people_action_res_company_form"
+                parent="base.menu_people_people_views" sequence="20"
+                submenu_icon="base,static/description/menu_icons/companies.svg"/>
     </data>
 </inphms>

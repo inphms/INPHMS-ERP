@@ -8,6 +8,7 @@
                 <ul class="list-group d-block px-2 px-md-0">
                     <t t-call="web.WebSidebar.Item">
                         <t t-set="section" t-value="section"/>
+                        <t t-set="isFirstMenu" t-value="section_first"></t>
                     </t>
                 </ul>
             </t>
@@ -37,7 +38,8 @@
                     </div>
                 </div>
             </header>
-            <ul class="list-group d-block">
+            <ul class="list-group d-block" t-if="section.childrenTree.length">
+                <t t-if="isFirstMenu" t-call="web.WebSidebar.DashboardNav"/>
                 <t t-foreach="section.childrenTree" t-as="sectionChild" t-key="sectionChild_index">
                     <t t-call="web.WebSidebar.Item">
                         <t t-set="section" t-value="sectionChild"/>
@@ -76,6 +78,22 @@
                 </t>
             </ul>
         </li> -->
+    </t>
+
+    <t t-name="web.WebSidebar.DashboardNav">
+        <li class="list-group-item border-0 p-0">
+            <header
+                class="list-group-item py-1 border-0 list-group-item-action cursor-pointer ps-0"
+                t-on-click="() => this._onDashboardClick()"
+            >
+                <div class="" data-tooltip="Dashboard">
+                    <div class="d-flex align-items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="13" fill="none"><path fill="currentColor" d="M3 7.11V2.22c0-.33.12-.62.36-.86S3.89 1 4.22 1H7.9v6.11H3ZM9.11 1h3.67c.33 0 .62.12.86.36s.36.53.36.86v2.45H9.11V1Zm0 11V5.89H14v4.89c0 .33-.12.62-.36.86s-.53.36-.86.36H9.1ZM3 8.33h4.89V12H4.22c-.33 0-.62-.12-.86-.36a1.18 1.18 0 0 1-.36-.86V8.33ZM4.22 5.9h2.45V2.22H4.22V5.9Zm6.11-2.45h2.45V2.22h-2.45v1.22Zm0 3.67v3.67h2.45V7.1h-2.45Zm-6.1 2.45v1.22h2.44V9.56H4.22Z"/></svg>
+                        <span class="text-truncate">Dashboard</span>
+                    </div>
+                </div>
+            </header>
+        </li>
     </t>
 
 </templates>

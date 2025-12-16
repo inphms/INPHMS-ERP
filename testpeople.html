@@ -262,6 +262,136 @@
     </main>
 
   </div>
+  
+  <!-- ========================================================= -->
+  <!-- GLOBAL APP BAR (belongs to WebClient, not People module) -->
+  <!-- ========================================================= -->
+  <header class="app-bar">
+    <div class="app-bar__title">People</div>
+
+    <nav class="app-bar__nav">
+      <span>Overview</span>
+      <span>Directory</span>
+      <span>Employees</span>
+      <span>Users</span>
+      <span>Contacts</span>
+    </nav>
+
+    <div class="app-bar__actions">
+      <span>Search</span>
+      <span>Create</span>
+    </div>
+  </header>
+
+  <!-- ========================================================= -->
+  <!-- APP LAYOUT -->
+  <!-- ========================================================= -->
+  <div class="app-layout">
+
+    <!-- ======================= -->
+    <!-- SIDEBAR (People-scoped) -->
+    <!-- ======================= -->
+    <aside class="people-sidebar">
+
+      <section>
+        <h4>Views</h4>
+        <ul>
+          <li>All People</li>
+          <li>Employees</li>
+          <li>Customers</li>
+          <li>Vendors</li>
+        </ul>
+      </section>
+
+      <section>
+        <h4>Administration</h4>
+        <ul>
+          <li>Roles & Access</li>
+          <li>Departments</li>
+          <li>Tags</li>
+        </ul>
+      </section>
+
+    </aside>
+
+    <!-- ======================= -->
+    <!-- MAIN CONTENT -->
+    <!-- ======================= -->
+    <main class="people-main">
+
+      <!-- ================================= -->
+      <!-- PAGE HEADER (title + actions) -->
+      <!-- ================================= -->
+      <header class="page-header">
+        <div>
+          <h1>People Overview</h1>
+          <p>Understand who exists in your system and how they are connected.</p>
+        </div>
+
+        <div class="page-header__actions">
+          <button>Add Person</button>
+          <button>Invite User</button>
+        </div>
+      </header>
+
+      <!-- ======================= -->
+      <!-- KPI ROW (Key Indicators) -->
+      <!-- ======================= -->
+      <section class="kpi-row">
+
+        <div class="kpi-card">
+          <strong>42</strong>
+          <span>Total People</span>
+        </div>
+
+        <div class="kpi-card">
+          <strong>36</strong>
+          <span>Active Users</span>
+        </div>
+
+        <div class="kpi-card">
+          <strong>6</strong>
+          <span>Pending Invitations</span>
+        </div>
+
+        <div class="kpi-card">
+          <strong>18</strong>
+          <span>External Contacts</span>
+        </div>
+
+      </section>
+
+      <!-- ================================= -->
+      <!-- INSIGHT / ATTENTION SECTION -->
+      <!-- ================================= -->
+      <section class="insight-block">
+        <h3>Needs Attention</h3>
+
+        <div class="insight-row">
+          <span>4 users without access</span>
+        </div>
+
+        <div class="insight-row">
+          <span>5 contacts missing email</span>
+        </div>
+
+        <div class="insight-row">
+          <span>2 pending invitations older than 7 days</span>
+        </div>
+      </section>
+
+      <!-- ================================= -->
+      <!-- OPTIONAL: ENTRY POINTS -->
+      <!-- ================================= -->
+      <section class="quick-actions">
+        <button>View Directory</button>
+        <button>Manage Access</button>
+        <button>Archived People</button>
+      </section>
+
+    </main>
+
+  </div>
 
 </body>
 </html>

@@ -4,6 +4,8 @@ import { useService } from "@web/core/utils/hooks";
 
 export class WebSidebar extends Component {
     static template = "web.WebSidebar";
+    static components = {};
+    static props = [];
 
     setup() {
         this.menuService = useService("menu");
@@ -25,6 +27,9 @@ export class WebSidebar extends Component {
         return sections;
     }
 
+    async _onDashboardClick() {
+        await this.menuService.selectMenu(this.currentApp);
+    }
     async _onSectionClick(section) {
         await this.menuService.selectMenu(section);
     }

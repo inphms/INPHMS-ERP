@@ -10,17 +10,19 @@
                         <p class="text-muted mb-0" style="font-size:16px;">Dash desc.</p>
                     </t>
                 </div>
-                <div class="dashboard-panel-actions">
+                <div t-if="props.slots and props.slots.panelActions" class="dashboard-panel-actions">
                     <t t-slot="panelActions">
                         <button class="btn">Add Person</button>
                         <button class="btn">Invite User</button>
                     </t>
                 </div>
             </div>
-            <div class="dashboard-kpis">
-                <t t-foreach="kpiInsight" t-as="kpi" t-key="kpi_index">
-                    <t t-esc="kpi.name"></t>
-                    <div t-esc="kpi.value"></div>
+            <div class="dashboard-kpis pt-4">
+                <t t-foreach="kpiInsight" t-as="kpi" t-key="kpi.id">
+                    <div class="kpi-card text-muted" t-att-data-tooltip="kpi.help">
+                        <div class="fw-semibold h2" t-esc="kpi.value"></div>
+                        <t t-esc="kpi.name"></t>
+                    </div>
                 </t>
             </div>
             <t t-slot="default"></t>

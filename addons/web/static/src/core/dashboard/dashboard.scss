@@ -1,0 +1,12 @@
+.dashboard-kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: map-get($spacers, 3);
+
+    .kpi-card {
+        background-color: $o-white;
+        border-radius: $border-radius;
+        box-shadow: $box-shadow-sm;
+        padding: map-get($spacers, 3);
+    }
+}
