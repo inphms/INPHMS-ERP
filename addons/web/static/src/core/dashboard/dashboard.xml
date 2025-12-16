@@ -3,7 +3,27 @@
 
     <t t-name="web.Dashboard">
         <div class="container py-4">
-            <t t-slot="default"/>
+            <div class="dashboard-panel d-flex gap-3 justify-content-between align-items-start">
+                <div>
+                    <t t-slot="panelTitle">
+                        <h1 class="fw-bolder">Dash Overview</h1>
+                        <p class="text-muted mb-0" style="font-size:16px;">Dash desc.</p>
+                    </t>
+                </div>
+                <div class="dashboard-panel-actions">
+                    <t t-slot="panelActions">
+                        <button class="btn">Add Person</button>
+                        <button class="btn">Invite User</button>
+                    </t>
+                </div>
+            </div>
+            <div class="dashboard-kpis">
+                <t t-foreach="kpiInsight" t-as="kpi" t-key="kpi_index">
+                    <t t-esc="kpi.name"></t>
+                    <div t-esc="kpi.value"></div>
+                </t>
+            </div>
+            <t t-slot="default"></t>
         </div>
     </t>
 

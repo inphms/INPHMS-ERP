@@ -1,4 +1,4 @@
-import {Component} from "@inphms/owl";
+import { Component, useState } from "@inphms/owl";
 import { DashboardSidebar } from "./dashboard_sidebar";
 
 export class Dashboard extends Component {
@@ -10,12 +10,19 @@ export class Dashboard extends Component {
         slots: {
             type: Object,
             shape: {
-                default: Object, // content
+                default: {type: Object, optional:1}, // content
+                panelTitle: {type: Object},
+                panelActions: {type: Object}
             }
-        }
+        },
+        kpis: {
+            type: Array,
+        },
     }
 
     setup() {
         
+        this.kpiInsight = this.props.kpis;
+        console.log(this.kpiInsight);
     }
 }

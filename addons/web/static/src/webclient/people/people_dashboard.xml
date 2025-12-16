@@ -2,17 +2,15 @@
 <templates>
 
     <t t-name="web.PeopleDashboard">
-        <Dashboard>
-            <div class="dashboard-panel d-flex gap-3 justify-content-between align-items-start">
-                <div>
-                    <h1 class="fw-bolder">People Overview</h1>
-                    <p class="text-muted" style="font-size:16px;">Understand who exists in your system and how they are connected.</p>
-                </div>
-                <div class="dashboard-panel-actions">
-                    <button class="btn">Add Person</button>
-                    <button class="btn">Invite User</button>
-                </div>
-            </div>
+        <Dashboard kpis="peopleKpis">
+            <t t-set-slot="panelTitle">
+                <h1 class="fw-bolder">People Overview</h1>
+                <p class="text-muted mb-0" style="font-size:16px;">Understand who exists in your system and how they are connected.</p>
+            </t>
+            <t t-set-slot="panelActions">
+                <button class="btn">Add Person</button>
+                <button class="btn">Invite User</button>
+            </t>
             
         </Dashboard>
     </t>
