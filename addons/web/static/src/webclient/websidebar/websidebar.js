@@ -1,4 +1,4 @@
-import { Component, useRef } from "@inphms/owl";
+import { Component, useRef, onWillUnmount } from "@inphms/owl";
 import { updateIconSections } from "@web/webclient/navbar/navbar";
 import { useService } from "@web/core/utils/hooks";
 
@@ -12,15 +12,25 @@ export class WebSidebar extends Component {
 
         this.root = useRef("root");
         this.width = "10px";
+
+        const renderAndAdapt = () => {
+            this.render();
+        }
+
+        this.env.bus.addEventListener("MENUS:APP-CHANGED", renderAndAdapt);
+        onWillUnmount(() => {
+            this.env.bus.removeEventListener("MENUS:APP-CHANGED", renderAndAdapt);
+        });
     }
 
     get currentApp() {
         return this.menuService.getCurrentApp();
     }
     get currentAppSections() {
-        const sections =
+        const sections = (
             (this.currentApp && this.menuService.getMenuAsTree(this.currentApp.id).childrenTree) ||
-            [];
+            []
+        );
         for (const section of sections) {
             updateIconSections(section);
         }

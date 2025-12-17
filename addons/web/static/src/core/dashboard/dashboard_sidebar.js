@@ -3,8 +3,9 @@ import { updateIconSections } from "@web/webclient/navbar/navbar";
 import { useService } from "@web/core/utils/hooks";
 
 export class DashboardSidebar extends Component {
-    static template = "web.DashboardSidebar"
-
+    static template = "web.DashboardSidebar";
+    static components = {};
+    static props = {};
 
     setup() {
         this.menuService = useService('menu');

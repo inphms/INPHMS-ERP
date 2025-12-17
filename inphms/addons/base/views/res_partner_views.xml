@@ -412,6 +412,31 @@
               </p>
             </field>
         </record>
+        <!-- add to menu people -->
+        <record id="action_partner_people_form" model="ir.actions.act_window">
+            <field name="name">People</field>
+            <field name="path">people-all</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="context">{'default_is_company': True}</field>
+            <field name="search_view_id" ref="view_res_partner_filter"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a Contact in your address book
+              </p><p>
+                Inphms helps you track all activities related to your contacts.
+              </p>
+            </field>
+        </record>
+        <menuitem action="action_partner_people_form" id="menu_people_action_res_partner_form"
+                parent="base.menu_people_people_views" sequence="0"
+                submenu_icon="base,static/description/menu_icons/groups.svg"
+                name="All People"/>
+        <!-- <menuitem action="action_partner_form" id="menu_people_action_res_partner_form"
+                parent="base.menu_people_people_views" sequence="0"
+                submenu_icon="base,static/description/menu_icons/groups.svg"
+                name="Customer"/> -->
+        
         <record id="action_partner_form_view1" model="ir.actions.act_window.view">
             <field eval="1" name="sequence"/>
             <field name="view_mode">kanban</field>
