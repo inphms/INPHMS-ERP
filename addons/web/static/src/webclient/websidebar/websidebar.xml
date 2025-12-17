@@ -6,9 +6,9 @@
             <t t-set="sections" t-value="currentAppSections"/>
             <t t-foreach="sections" t-as="section" t-key="section.id">
                 <ul class="list-group d-block px-2 px-md-0">
+                    <t t-call="web.WebSidebar.Dashboard"/>
                     <t t-call="web.WebSidebar.Item">
                         <t t-set="section" t-value="section"/>
-                        <t t-set="isFirstMenu" t-value="section_first"></t>
                     </t>
                 </ul>
             </t>
@@ -24,7 +24,8 @@
                 class="list-group-item py-1 border-0"
                 t-att-class="{
                     'list-group-item-action cursor-pointer ps-0': !section.childrenTree.length,
-                    'pt-4 pb-2 px-0': section.childrenTree.length
+                    'pt-4 pb-2 px-0': section.childrenTree.length,
+                    'active text-black fw-bold': state.activeMenu === section.actionID,
                 }"
                 t-on-click="() => this._onSectionClick(section)"
             >
@@ -39,7 +40,6 @@
                 </div>
             </header>
             <ul class="list-group d-block" t-if="section.childrenTree.length">
-                <t t-if="isFirstMenu" t-call="web.WebSidebar.DashboardNav"/>
                 <t t-foreach="section.childrenTree" t-as="sectionChild" t-key="sectionChild_index">
                     <t t-call="web.WebSidebar.Item">
                         <t t-set="section" t-value="sectionChild"/>
@@ -80,10 +80,28 @@
         </li> -->
     </t>
 
+    <t t-name="web.WebSidebar.Dashboard">
+        <li class="list-group-item border-0 p-0">
+            <header class="list-group-item py-1 border-0 pt-4 pb-2 px-0">
+                <div class="" data-tooltip="Overview">
+                    <div class="d-flex align-items-center gap-2 smaller fw-semibold text-uppercase text-muted">
+                        <span class="text-truncate">Overview</span>
+                    </div>
+                </div>
+            </header>
+            <ul class="list-group d-block">
+                <t t-call="web.WebSidebar.DashboardNav"></t>
+            </ul>
+        </li>
+    </t>
+
     <t t-name="web.WebSidebar.DashboardNav">
         <li class="list-group-item border-0 p-0">
             <header
                 class="list-group-item py-1 border-0 list-group-item-action cursor-pointer ps-0"
+                t-att-class="{
+                    'active text-black fw-bold': state.activeMenu === currentApp.actionID,
+                }"
                 t-on-click="() => this._onDashboardClick()"
             >
                 <div class="" data-tooltip="Dashboard">

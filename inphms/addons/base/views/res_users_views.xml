@@ -125,16 +125,125 @@
                             <field name="partner_id" required="0" readonly="1"/>
                           </div>
                         </div>
-                        <div class="oe_title" invisible="not name">
-                            <h1>
-                                <field name="name" readonly="1"></field>
-                            </h1>
-                        </div>
-                        <notebook colspan="4">
+                        <group invisible="not name" class="border rounded mb-4 i__group">
+                            <div>
+                                <field name="image_1920" widget="contact_image" options="{'preview_image': 'avatar_128', 'img_class': 'rounded-pill'}"/>
+                                <field name="avatar_128" invisible="1"/> <!-- Needed in contact_image widget -->
+                            </div>
+                            <div>
+                                <h2 class="mb-0">
+                                    <field name="name" readonly="1"></field>
+                                </h2>
+                                <div class="smaller">
+                                    <field name="partner_id" groups="base.group_no_one"
+                                        readonly="1"
+                                        required="0"
+                                        invisible="not id"/>
+                                    <field name="role" readonly="1" widget="badge"
+                                        decoration-info="role == 'group_user'"
+                                        decoration-warning="role == 'group_system'"></field>
+                                </div>
+                            </div>
+                        </group>
+                        <group string="User Information" class="border rounded mx-0 mb-4 i__group">
+                            <group>
+                                <field name="name" placeholder="e.g. John Doe" required="1"/>
+                                <field name="login" placeholder="Login" class=""/>
+                            </group>
+                            <group>
+                                <field name="email" placeholder="Email" class="" invisible="login == email"/>
+                                <field name="phone" placeholder="Phone" class=""/>
+                            </group>
+                        </group>
+                        <group string="Preferences" class="border rounded mx-0 mb-4 i__group">
+                            <group>
+                                <label for="lang" />
+                                <div class="o_row">
+                                    <field name="lang" required="1"/>
+                                    <button
+                                        type="action"
+                                        name="%(base.action_view_base_language_install)d"
+                                        class="oe_edit_only btn-sm btn-link mb4 fa fa-globe"
+                                        groups="base.group_system"
+                                        aria-label="Add a language"
+                                        title="Add a language"/>
+                                </div>
+                                <field name="signature" options="{'codeview': true, 'height': 112, 'resizable': true}" class="border border-secondary"/>
+                            </group>
+                            <!-- This group is meant to be used in overrides -->
+                            <group name="other_preferences">
+                                
+                            </group>
+                            <group string="Calendar" class="col-lg-12">
+                                <group name="calendar_preferences">
+                                    <field name="tz" widget="timezone_mismatch" options="{'tz_offset_field': 'tz_offset'}" readonly="0" invisible="share"/>
+                                    <field name="tz_offset" invisible="1"/> <!-- needed for the timezone_mismatch widget -->
+                                </group>
+                                <group name="other_calendar_preferences"/>
+                            </group>
+                        </group>
+                        <group string="Security &amp; Auth" class="border rounded mx-0 mb-4 i__group">
+                            <group class="col-lg-12">
+                                <div name="auth" class="d-flex">
+                                    <div class="col-7 col-sm-6 col-lg-3 d-flex flex-column">
+                                        <span class="o_form_label mb-0 text-dark">
+                                            Change Password
+                                        </span>
+                                        <span class="smaller text-muted">
+                                            Update if compromised.
+                                        </span>
+                                    </div>
+                                    <button invisible="id != uid" name="preference_change_password" type="object"
+                                        string="Change password" class="btn btn-secondary h-100 my-auto"/>
+                                    <button invisible="id == uid" name="action_change_password_wizard" type="object"
+                                        string="Change password" class="btn btn-secondary h-100 my-auto"/>
+                                </div>
+                                <div name="api_keys" invisible="id != uid" class="d-md-flex mt-3">
+                                    <div class="col-md-6 col-lg-3 d-flex flex-column">
+                                        <label for="api_key_wizard" string="API Keys" class="o_form_label mb-0 text-dark"/>
+                                        <span class="smaller text-muted">
+                                            Connect external services.
+                                        </span>
+                                    </div>
+                                    <div class="w-md-50 w-lg-75 d-flex flex-column my-auto">
+                                        <field name="api_key_ids" mode="kanban" invisible="not api_key_ids" class="w-sm-75 w-md-100 w-lg-75 w-xl-50 o_base_api_keys_kanban_view"/>
+                                        <div>
+                                            <button name="api_key_wizard" string="Add API Key" type="object" class="btn btn-secondary h-100"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div invisible="id != uid" class="d-md-flex">
+                                    <div class="w-md-50 w-lg-25  d-flex flex-column">
+                                        <label for="action_revoke_all_devices" string="Devices" class="o_form_label mb-0 text-dark"/>
+                                        <span class="smaller text-muted">
+                                            Check if they are yours.
+                                        </span>
+                                    </div>
+                                    <div class="w-md-50 w-lg-75 d-flex flex-column my-auto">
+                                        <field name="device_ids" mode="kanban" class="w-sm-75 w-md-100 w-lg-75 w-xl-50 o_base_devices_kanban_view"/>
+                                        <div style="margin-top:5px;">
+                                            <button name="action_revoke_all_devices" type="object" string="Log out from all devices" class="btn btn-secondary h-100"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </group>
+                        </group>
+                        <group string="Access &amp; Privilege" class="border rounded mx-0 i__group">
+                            <group invisible="share and companies_count &lt;= 1">
+                                <field name="role" invisible="share"/>
+                                <field string="Default Company" name="company_id" invisible="companies_count &lt;= 1" context="{'user_preference': 0}"/>
+                            </group>
+                            <group>
+                                <field string="Companies" name="company_ids" invisible="companies_count &lt;= 1" widget="many2many_tags" options="{'no_create': True, 'color_field': 'color'}"/>
+                            </group>
+                            <field name="group_ids" widget="res_user_group_ids" nolabel="1" colspan="2" groups="base.group_no_one"/>
+                            <field name="group_ids" widget="res_user_group_ids" nolabel="1" colspan="2" groups="!base.group_no_one" invisible="share"/>
+                        </group>
+                        <!-- <notebook colspan="4">
                             <page name="general_information" string="General Information">
                                 <div class="d-flex flex-wrap gap-3">
                                     <field name="image_1920" widget="contact_image" options="{'preview_image': 'avatar_128', 'img_class': 'rounded-4'}"/>
-                                    <field name="avatar_128" invisible="1"/> <!-- Needed in contact_image widget -->
+                                    <field name="avatar_128" invisible="1"/> Needed in contact_image widget
                                     <div class="oe_title d-flex flex-column gap-2 flex-grow-1">
                                         <div class="i_form_group w-md-50">
                                             <div class="small"><span class="fw-bold">Display Name</span></div>
@@ -196,7 +305,7 @@
                                         </div>
                                         <field name="signature" options="{'codeview': true, 'height': 112, 'resizable': true}" class="border border-secondary"/>
                                     </group>
-                                    <!-- This group is meant to be used in overrides -->
+                                    This group is meant to be used in overrides
                                     <group name="other_preferences">
                                         
                                     </group>
@@ -206,9 +315,9 @@
                                 <group>
                                     <group name="calendar_preferences">
                                         <field name="tz" widget="timezone_mismatch" options="{'tz_offset_field': 'tz_offset'}" readonly="0" invisible="share"/>
-                                        <field name="tz_offset" invisible="1"/> <!-- needed for the timezone_mismatch widget -->
+                                        <field name="tz_offset" invisible="1"/> needed for the timezone_mismatch widget
                                     </group>
-                                    <!-- This group is meant to be used in overrides -->
+                                    This group is meant to be used in overrides
                                     <group name="other_calendar_preferences"/>
                                 </group>
                             </page>
@@ -256,7 +365,7 @@
                                     </div>
                                 </div>
                             </page>
-                        </notebook>
+                        </notebook> -->
                     </sheet>
                 </form>
             </field>

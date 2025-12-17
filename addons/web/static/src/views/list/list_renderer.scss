@@ -15,18 +15,10 @@
     @include media-only(screen) {
         @include media-breakpoint-up(md) {
             height: 100%;
-            padding: #{$o-horizontal-padding};
 
             .o_list_table thead {
                 @include o-position-sticky(0);
                 z-index: var(--sticky-header-zindex);
-                &::after {
-                    @include o-position-absolute(0, 0, 0, 0);
-                    content: "";
-                    background: rgba(255, 255, 255, 0.4);
-                    backdrop-filter: blur(12px);
-                    transform: translateY(-100%);
-                }
             }
         }
     }
@@ -93,6 +85,10 @@
                 padding: .25rem .25rem;
                 background-color: transparent;
                 color: $headings-color;
+
+                letter-spacing: 0.04em;
+                text-transform: uppercase;
+                font-size: $o-font-size-base-smaller;
 
                 @include media-only(print) {
                     font-weight: $font-weight-bold;

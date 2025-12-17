@@ -1,4 +1,4 @@
-import { Component, useRef, onWillUnmount } from "@inphms/owl";
+import { Component, useRef, onWillUnmount, useState } from "@inphms/owl";
 import { updateIconSections } from "@web/webclient/navbar/navbar";
 import { useService } from "@web/core/utils/hooks";
 
@@ -9,16 +9,29 @@ export class WebSidebar extends Component {
 
     setup() {
         this.menuService = useService("menu");
+        this.actionService = useService("action");
+
+        this.state = useState({
+            activeMenu: null,
+        });
 
         this.root = useRef("root");
         this.width = "10px";
 
         const renderAndAdapt = () => {
+            console.log("when rendered", this.currentAppSections);
             this.render();
-        }
+        };
+        const updateActiveSelection = async ({ detail: info }) => {
+            const currentAction = await this.actionService.currentAction;
+            this.state.activeMenu = currentAction.id;
+            console.log(currentAction);
+        };
 
+        this.env.bus.addEventListener("ACTION_MANAGER:UI-UPDATED", updateActiveSelection);
         this.env.bus.addEventListener("MENUS:APP-CHANGED", renderAndAdapt);
         onWillUnmount(() => {
+            this.env.bus.removeEventListener("ACTION_MANAGER:UI-UPDATED", updateActiveSelection);
             this.env.bus.removeEventListener("MENUS:APP-CHANGED", renderAndAdapt);
         });
     }
@@ -27,10 +40,9 @@ export class WebSidebar extends Component {
         return this.menuService.getCurrentApp();
     }
     get currentAppSections() {
-        const sections = (
+        const sections =
             (this.currentApp && this.menuService.getMenuAsTree(this.currentApp.id).childrenTree) ||
-            []
-        );
+            [];
         for (const section of sections) {
             updateIconSections(section);
         }

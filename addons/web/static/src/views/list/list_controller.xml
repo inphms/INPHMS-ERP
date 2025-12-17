@@ -6,7 +6,7 @@
             <Layout className="model.useSampleModel ? 'o_view_sample_data' : ''" display="display">
                 <t t-set-slot="control-panel-create-button">
                     <button t-if="!editedRecord and activeActions.create and props.showButtons" type="button" class="btn btn-primary o_list_button_add" data-hotkey="c" t-on-click="onClickCreate" data-bounce-button="">
-                        New
+                        Create
                     </button>
                     <t t-if="props.showButtons and !env.inDialog" t-call="web.ListView.EditableButtons"/>
                 </t>

@@ -68,7 +68,7 @@
     </record>
     <!-- TODO: add group -->
     <menuitem id="menu_people_root" name="People" sequence="10" action="ir_action_people_views">
-        <menuitem id="menu_people_people_views" name="People Views" sequence="0"/>
+        <menuitem id="menu_people_people_views" name="Directory" sequence="0"/>
         <menuitem id="menu_people_administrator" name="Administrations" sequence="100"/>
     </menuitem>
     

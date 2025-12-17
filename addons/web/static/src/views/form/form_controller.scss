@@ -276,11 +276,19 @@
             --formView-sheet-margin-x: var(--formView-sheet-margin-x-md, 0);
             --formView-sheet-border-width: var(--formView-sheet-border-width-md, #{$border-width});
             --formView-sheet-border-radius: var(--formView-sheet-border-radius-md, #{$border-radius});
+            &:has(.i__group) {
+                --formView-sheet-padding-y: var(--formView-sheet-padding-y-lg, 0);
+                --formView-sheet-padding-x: var(--formView-sheet-padding-x-lg, 0);
+            }
         }
 
         @include media-breakpoint-up(lg) {
             --formView-sheet-padding-y: var(--formView-sheet-padding-y-lg, #{map-get($spacers, 4)});
             --formView-sheet-padding-x: var(--formView-sheet-padding-x-lg, #{map-get($spacers, 4)});
+            &:has(.i__group) {
+                --formView-sheet-padding-y: var(--formView-sheet-padding-y-lg, 0);
+                --formView-sheet-padding-x: var(--formView-sheet-padding-x-lg, 0);
+            }
         }
 
         @include media-breakpoint-up(xxl) {
@@ -1123,6 +1131,62 @@
         display: flex;
         flex-direction: column;
         flex: 2 1 $o-form-sheet-min-width; // Side chatter is disabled if this has to shrink but this was added for safety
+    }
+}
+
+// Inphms group New
+.o_form_view:has(.i__group) {
+    // Sheet
+    .o_form_sheet {
+        background-color: transparent;
+        border: none;
+        @include media-breakpoint-up(md) {
+                --formView-sheet-padding-y: var(--formView-sheet-padding-y-lg, 0);
+                --formView-sheet-padding-x: var(--formView-sheet-padding-x-lg, 0);
+        }
+
+        @include media-breakpoint-up(lg) {
+            --formView-sheet-padding-y: var(--formView-sheet-padding-y-lg, 0);
+            --formView-sheet-padding-x: var(--formView-sheet-padding-x-lg, 0);
+        }
+    }
+}
+.i__group {
+    background-color: $o-white;
+    box-shadow: $box-shadow-inset;
+    &.o_group {
+        padding: 24px 8px;
+    }
+    &.o_inner_group {
+        padding: 24px;
+    }
+}
+.o_group.i__group {
+    .o_inner_group {
+        @include form-break-table;
+        margin-bottom: 0;
+        --inner-group-row-gap: 0;
+
+        > :nth-child(2n):not(:last-child) {
+            margin-bottom: 16px !important;
+        }
+    }
+    .o_form_label {
+        font-size: $o-label-font-size-factor * $o-font-size-base-touch;
+        font-weight: $font-weight-normal;
+        color: $o-brand-secondary;
+    }
+
+    .o_horizontal_separator {
+        text-transform: none !important;
+        margin: 0 0 16px !important;
+        font-size: $o-font-size-base-touch;
+        box-shadow: none;
+    }
+    .o_group {
+        .o_horizontal_separator {
+            margin: 24px 0 16px !important;
+        }
     }
 }
 

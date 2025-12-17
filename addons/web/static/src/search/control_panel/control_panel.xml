@@ -21,21 +21,6 @@
             </Transition>
             <div class="o_control_panel_main d-flex flex-wrap flex-lg-nowrap justify-content-between align-items-lg-start gap-2 gap-lg-3 flex-grow-1">
                 <div class="o_control_panel_breadcrumbs d-flex align-items-center gap-1 order-0 h-lg-100">
-                    <div class="o_control_panel_main_buttons d-flex gap-1 d-empty-none d-print-none" t-on-keydown="onMainButtonsKeydown">
-                        <t t-slot="control-panel-create-button"/>
-                        <t t-slot="layout-buttons"/>
-                        <t t-slot="control-panel-always-buttons"/>
-                        <Dropdown t-if="env.isSmall" menuClass="'o-control-panel-adaptive-dropdown'" onOpened.bind="dropdownifyButtons">
-                            <button class="btn btn-secondary o-control-panel-adaptive-dropdown" title="More">
-                                <i class="oi oi-fw oi-ellipsis-v" />
-                            </button>
-                            <t t-set-slot="content">
-                                <t t-slot="control-panel-create-button"/>
-                                <t t-slot="layout-buttons"/>
-                                <t t-slot="control-panel-always-buttons"/>
-                            </t>
-                        </Dropdown>
-                    </div>
                     <t t-if="env.config.noBreadcrumbs">
                         <section class="o_control_panel_breadcrumbs_actions d-contents d-print-none">
                             <t t-slot="control-panel-additional-actions"/>
@@ -69,6 +54,21 @@
                             </t>
                         </Breadcrumbs>
                     </t>
+                    <div class="o_control_panel_main_buttons d-flex gap-1 d-empty-none d-print-none" t-on-keydown="onMainButtonsKeydown">
+                        <t t-slot="control-panel-create-button"/>
+                        <t t-slot="layout-buttons"/>
+                        <t t-slot="control-panel-always-buttons"/>
+                        <Dropdown t-if="env.isSmall" menuClass="'o-control-panel-adaptive-dropdown'" onOpened.bind="dropdownifyButtons">
+                            <button class="btn btn-secondary o-control-panel-adaptive-dropdown" title="More">
+                                <i class="oi oi-fw oi-ellipsis-v" />
+                            </button>
+                            <t t-set-slot="content">
+                                <t t-slot="control-panel-create-button"/>
+                                <t t-slot="layout-buttons"/>
+                                <t t-slot="control-panel-always-buttons"/>
+                            </t>
+                        </Dropdown>
+                    </div>
                     <div t-if="!env.isSmall" class="me-auto"/> <!-- Spacer -->
                 </div>
 
@@ -109,13 +109,14 @@
                         </div>
                         <nav t-else="" class="o_cp_switch_buttons d-print-none d-inline-flex btn-group">
                             <t t-foreach="env.config.viewSwitcherEntries" t-as="view" t-key="view.type">
-                                <button class="btn btn-secondary o_switch_view "
+                                <button class="btn btn-light border o_switch_view "
                                     t-attf-class="o_{{view.type}} {{view.active ? 'active' : ''}}"
                                     t-att-data-tooltip="view.name"
                                     t-custom-click="(ev, isMiddleClick) => this.switchView(view.type, isMiddleClick)"
                                     t-att-aria-label="view.name + ' View'"
                                 >
-                                    <i class="oi-fw" t-att-class="view.icon" />
+                                    <!-- <i class="oi-fw" t-att-class="view.icon" /> -->
+                                    <span class="text-muted" t-esc="view.name"></span>
                                 </button>
                             </t>
                         </nav>

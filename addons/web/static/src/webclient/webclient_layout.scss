@@ -9,7 +9,6 @@
     height: 100%;
     display: flex;
     flex-flow: column nowrap;
-    gap: map-get($spacers, 2);
 
     @media (display-mode: browser) {
       overflow: hidden;
