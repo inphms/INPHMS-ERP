@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="web.SidePanelActions">
+        <div class="i-sidepanel-actions">
+            <t t-slot="panel-actions"></t>
+        </div>
+    </t>
+
+</templates>

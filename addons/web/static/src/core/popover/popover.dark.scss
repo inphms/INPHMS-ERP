@@ -14,7 +14,6 @@
     }
 
     .form-range {
-        @debug 'poopover' $popover-bg;
         &::-moz-range-track {
             background: darken($popover-bg, 10%);
         }

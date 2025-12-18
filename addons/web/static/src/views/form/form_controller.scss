@@ -1139,11 +1139,29 @@
         @include media-breakpoint-up(lg) {
             --formView-sheet-padding-x: var(--formView-sheet-padding-x-lg, 0);
         }
+
+        &:has(.i_form_sheet_sidepanel) {
+            display: grid;
+            @include media-breakpoint-up(xl) {
+                grid-template-columns: 1fr 320px;
+                .i_form_sheet_sidepanel {
+                    margin-top: 0 !important;
+                    margin-left: 16px;
+                }
+            }
+            .i_form_sheet_sidepanel {
+                margin-top: 24px;
+            }
+
+            .o_form_header {
+                grid-column: 1 / 3;
+            }
+        }
     }
 }
 .i__group {
     background-color: $o-white;
-    box-shadow: $box-shadow-inset;
+    box-shadow: $box-shadow-sm;
     &.o_group {
         padding: 24px 8px;
     }
@@ -1151,33 +1169,36 @@
         padding: 24px;
     }
 }
-.o_group.i__group {
-    .o_inner_group {
-        @include form-break-table;
-        margin-bottom: 0;
-        --inner-group-row-gap: 0;
+.o_group, .o_inner_group {
+    &.i__group, &.i_group {
+        .o_inner_group {
+            @include form-break-table;
+            margin-bottom: 0;
+            --inner-group-row-gap: 0;
 
-        > :nth-child(2n):not(:last-child) {
-            margin-bottom: 16px !important;
+            > :nth-child(2n):not(:last-child) {
+                margin-bottom: 16px !important;
+            }
         }
-    }
-    .o_form_label:not(.form-check-label) {
-        font-size: $o-label-font-size-factor * $o-font-size-base-touch;
-        font-weight: $font-weight-normal;
-        color: $o-brand-secondary;
-    }
+        .o_form_label:not(.form-check-label) {
+            font-size: $o-label-font-size-factor * $o-font-size-base-touch;
+            font-weight: $font-weight-normal;
+            color: $o-brand-secondary;
+        }
 
-    .o_horizontal_separator {
-        text-transform: none !important;
-        margin: 0 0 16px !important;
-        font-size: $o-font-size-base-touch;
-        box-shadow: none;
-    }
-    .o_group {
         .o_horizontal_separator {
-            margin: 24px 0 16px !important;
+            text-transform: none !important;
+            margin: 0 0 16px !important;
+            font-size: $o-font-size-base-touch;
+            box-shadow: none;
+        }
+        .o_group {
+            .o_horizontal_separator {
+                margin: 24px 0 16px !important;
+            }
         }
     }
+    
 }
 
 .o_form_view.o_xxs_form_view {

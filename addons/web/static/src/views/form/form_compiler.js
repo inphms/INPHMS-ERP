@@ -686,12 +686,21 @@ export class FormCompiler extends ViewCompiler {
      */
     compileSidePanel(el, params) {
         const sidePanel = createElement("div", {
-
+            class: "i_form_sheet_sidepanel"
         });
-        sidePanel.className = "i_form_sheet_sidepanel";
+        let compiledElement;
         for (const child of el.childNodes) {
-            const compiled = this.compileNode(child, params);
-            append(sidePanel, compiled);
+            if (child.attributes?.name?.value === 'quick_actions') {
+                compiledElement = createElement("SidePanelActions");
+                const slotNode = createElement('t', {
+                    't-set-slot': 'panel-actions'
+                });
+                append(slotNode, this.compileNode(child, params));
+                append(compiledElement, slotNode);
+            } else {
+                compiledElement = this.compileNode(child, params);
+            }
+            append(sidePanel, compiledElement);
         }
         return sidePanel;
     }

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>People – Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --panel: #ffffff;
+    --border: #e5e7eb;
+    --text: #111827;
+    --muted: #6b7280;
+    --accent: #7c3aed;
+    --green: #16a34a;
+    --blue: #2563eb;
+    --orange: #ea580c;
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    font-family: Inter, system-ui, sans-serif;
+    color: var(--text);
+  }
+
+  .page {
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 0 16px;
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .title {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .actions button {
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: white;
+    cursor: pointer;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--panel);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+    padding: 24px;
+  }
+
+  /* IDENTITY */
+  .identity {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 24px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+  }
+
+  .avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+  }
+
+  .identity-main {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .type-switch {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+  }
+
+  .type-switch label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .name-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  input {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    font-size: 14px;
+  }
+
+  /* ROLES */
+  .roles {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .role {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .role.user { background: #eef2ff; color: #3730a3; }
+  .role.employee { background: #ecfeff; color: #155e75; }
+  .role.customer { background: #f0fdf4; color: #166534; }
+  .role.vendor { background: #fff7ed; color: #9a3412; }
+
+  /* SECTIONS */
+  .section {
+    margin-bottom: 32px;
+  }
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+
+  .tab {
+    padding: 8px 14px;
+    font-size: 13px;
+    border-radius: 999px;
+    background: #f3f4f6;
+  }
+
+  .tab.active {
+    background: var(--accent);
+    color: white;
+  }
+
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="title">People / 123</div>
+    <div class="actions">
+      <button>Save</button>
+    </div>
+  </div>
+
+  <!-- MAIN CARD -->
+  <div class="card">
+
+    <!-- IDENTITY -->
+    <div class="identity">
+      <div class="avatar">12</div>
+
+      <div class="identity-main">
+        <div class="type-switch">
+          <label><input type="radio" checked> Person</label>
+          <label><input type="radio"> Company</label>
+        </div>
+
+        <div class="name-row">
+          <input placeholder="Display Name" value="123">
+          <input placeholder="Email">
+        </div>
+
+        <div class="roles">
+          <span class="role user">User</span>
+          <span class="role customer">Customer</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- BASIC INFO -->
+    <div class="section">
+      <div class="section-title">Basic Information</div>
+      <div class="grid-2">
+        <input placeholder="Phone">
+        <input placeholder="Job Position">
+        <input placeholder="Company">
+        <input placeholder="Website">
+      </div>
+    </div>
+
+    <!-- ADDRESS -->
+    <div class="section">
+      <div class="section-title">Address</div>
+      <div class="grid-3">
+        <input placeholder="Street">
+        <input placeholder="City">
+        <input placeholder="ZIP">
+        <input placeholder="State">
+        <input placeholder="Country">
+        <input placeholder="Tax ID">
+      </div>
+    </div>
+
+    <!-- ROLE-SPECIFIC -->
+    <div class="section">
+      <div class="section-title">Role Details</div>
+
+      <div class="tabs">
+        <div class="tab active">Contacts</div>
+        <div class="tab">Sales</div>
+        <div class="tab">Purchase</div>
+        <div class="tab">Notes</div>
+      </div>
+
+      <div class="grid-2">
+        <input placeholder="Customer Code">
+        <input placeholder="Vendor Code">
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

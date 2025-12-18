@@ -14,6 +14,7 @@ import { Widget } from "@web/views/widgets/widget";
 import { FormCompiler } from "./form_compiler";
 import { FormLabel } from "./form_label";
 import { StatusBarButtons } from "./status_bar_buttons/status_bar_buttons";
+import { SidePanelActions } from "./sidepanel/sidepanel_actions";
 
 import {
     Component,
@@ -39,6 +40,7 @@ export class FormRenderer extends Component {
         OuterGroup,
         InnerGroup,
         StatusBarButtons,
+        SidePanelActions,
     };
     static props = {
         archInfo: Object,
