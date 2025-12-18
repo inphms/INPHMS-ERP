@@ -415,7 +415,7 @@
         <!-- add to menu people -->
         <record id="action_partner_people_form" model="ir.actions.act_window">
             <field name="name">People</field>
-            <field name="path">people-all</field>
+            <field name="path">allpeople</field>
             <field name="res_model">res.partner</field>
             <field name="view_mode">list,kanban,form</field>
             <field name="context">{'default_is_company': True}</field>
@@ -423,7 +423,8 @@
             <field name="help" type="html">
               <p class="o_view_nocontent_smiling_face">
                 Create a Contact in your address book
-              </p><p>
+              </p>
+              <p>
                 Inphms helps you track all activities related to your contacts.
               </p>
             </field>

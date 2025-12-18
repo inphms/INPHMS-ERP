@@ -59,7 +59,8 @@ export class FormCompiler extends ViewCompiler {
             { selector: "notebook", fn: this.compileNotebook },
             { selector: "setting", fn: this.compileSetting },
             { selector: "separator", fn: this.compileSeparator },
-            { selector: "sheet", fn: this.compileSheet }
+            { selector: "sheet", fn: this.compileSheet },
+            { selector: "sidepanel", fn: this.compileSidePanel },
         );
     }
 
@@ -676,5 +677,22 @@ export class FormCompiler extends ViewCompiler {
             append(sheetFG, compiled);
         }
         return sheetBG;
+    }
+
+    /**
+     * @param {Element} el
+     * @param {Record<string, any>} params
+     * @returns {Element}
+     */
+    compileSidePanel(el, params) {
+        const sidePanel = createElement("div", {
+
+        });
+        sidePanel.className = "i_form_sheet_sidepanel";
+        for (const child of el.childNodes) {
+            const compiled = this.compileNode(child, params);
+            append(sidePanel, compiled);
+        }
+        return sidePanel;
     }
 }

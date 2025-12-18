@@ -276,19 +276,11 @@
             --formView-sheet-margin-x: var(--formView-sheet-margin-x-md, 0);
             --formView-sheet-border-width: var(--formView-sheet-border-width-md, #{$border-width});
             --formView-sheet-border-radius: var(--formView-sheet-border-radius-md, #{$border-radius});
-            &:has(.i__group) {
-                --formView-sheet-padding-y: var(--formView-sheet-padding-y-lg, 0);
-                --formView-sheet-padding-x: var(--formView-sheet-padding-x-lg, 0);
-            }
         }
 
         @include media-breakpoint-up(lg) {
             --formView-sheet-padding-y: var(--formView-sheet-padding-y-lg, #{map-get($spacers, 4)});
             --formView-sheet-padding-x: var(--formView-sheet-padding-x-lg, #{map-get($spacers, 4)});
-            &:has(.i__group) {
-                --formView-sheet-padding-y: var(--formView-sheet-padding-y-lg, 0);
-                --formView-sheet-padding-x: var(--formView-sheet-padding-x-lg, 0);
-            }
         }
 
         @include media-breakpoint-up(xxl) {
@@ -1141,12 +1133,10 @@
         background-color: transparent;
         border: none;
         @include media-breakpoint-up(md) {
-                --formView-sheet-padding-y: var(--formView-sheet-padding-y-lg, 0);
-                --formView-sheet-padding-x: var(--formView-sheet-padding-x-lg, 0);
+            --formView-sheet-padding-x: var(--formView-sheet-padding-x-lg, 0);
         }
 
         @include media-breakpoint-up(lg) {
-            --formView-sheet-padding-y: var(--formView-sheet-padding-y-lg, 0);
             --formView-sheet-padding-x: var(--formView-sheet-padding-x-lg, 0);
         }
     }
@@ -1171,7 +1161,7 @@
             margin-bottom: 16px !important;
         }
     }
-    .o_form_label {
+    .o_form_label:not(.form-check-label) {
         font-size: $o-label-font-size-factor * $o-font-size-base-touch;
         font-weight: $font-weight-normal;
         color: $o-brand-secondary;

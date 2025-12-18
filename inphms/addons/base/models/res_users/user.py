@@ -26,7 +26,7 @@ _logger = logging.getLogger(__name__)
 
 
 class ResUsers(models.Model):
-    """ User class. A res.users record models an OpenERP user and is different
+    """ User class. A res.users record models an Inphms user and is different
         from an employee.
 
         res.users class now inherits from res.partner. The partner model is
