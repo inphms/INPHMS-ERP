@@ -21,9 +21,58 @@
             <field name="arch" type="xml">
                 <form create="0" delete="0">
                     <sheet>
+                        <div>
+                            <group class="border rounded mb-4 i__group">
+                                <div>
+                                    <field name="image_url" widget="image_url" class="oe_avatar" options="{'size': [128,128]}"/>
+                                </div>
+                                <div>
+                                    <h2 class="mb-0">
+                                        <field name="name" readonly="1"/>
+                                    </h2>
+                                    <div class="smaller">
+                                        <field name="currency_id" readonly="1"/>
+                                    </div>
+                                </div>
+                            </group>
+                            <group string="Country Details" class="border rounded mx-0 mb-4 i__group">
+                                <group name="country_details">
+                                    <field name="name"/>
+                                    <field name="currency_id"/>
+                                    <field name="code"/>
+                                </group>
+                                <group name="phone_vat_settings">
+                                    <field name="phone_code" options="{'format': false}"/>
+                                    <field name="vat_label"/>
+                                    <field name="zip_required"/>
+                                    <field name="state_required"/>
+                                </group>
+                            </group>
+                            <group name="advanced_address_formatting" class="border rounded mx-0 mb-4 i__group" string="Advanced Address Formatting" groups="base.group_no_one">
+                                <label for="address_view_id"/>
+                                <div class="o_row align-items-center">
+                                    <field name="address_view_id"/>
+                                    <div class="text-muted ms-2">Choose a subview of partners that includes only address fields, to change the way users can input addresses.</div>
+                                </div>
+                                <label for="address_format"/>
+                                <div class="o_row align-items-center">
+                                    <field name="address_format" placeholder="Address format..."/>
+                                    <div name="div_address_format ms-2" class="text-muted">Change the way addresses are displayed in reports</div>
+                                </div>
+                                <field name="name_position" class="oe_inline"/>
+                            </group>
+                            <group class="border rounded mx-0 mb-4 i__group" string="States">
+                                <field name="state_ids">
+                                    <list editable="bottom">
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                    </list>
+                                </field>
+                            </group>
+                        </div>
                         <div class="oe_button_box" name="button_box">
                         </div>
-                        <field name="image_url" widget="image_url" class="oe_avatar" options="{'size': [128,128]}"/>
+                        <!-- <field name="image_url" widget="image_url" class="oe_avatar" options="{'size': [128,128]}"/>
                         <group name="main_group">
                             <group name="country_details">
                                 <field name="name"/>
@@ -56,7 +105,7 @@
                                 <field name="name"/>
                                 <field name="code"/>
                             </list>
-                        </field>
+                        </field> -->
                     </sheet>
                 </form>
             </field>
@@ -102,14 +151,21 @@
             <field name="arch" type="xml">
                 <form string="Country Group">
                     <sheet>
-                        <div class="oe_title">
+                        <div class="">
+                            <group string="Definition" class="border rounded mb-4 i__group">
+                                <field name="name" placeholder="e.g. Europe"/>
+                                <field name="code"/>
+                                <field name="country_ids" widget="many2many_tags" options="{'no_open': True, 'no_create': True}"/>
+                            </group>
+                        </div>
+                        <!-- <div class="oe_title">
                             <label for="name" string="Group Name"/>
                             <h1><field name="name" placeholder="e.g. Europe"/></h1>
                         </div>
                         <group name="country_group">
                             <field name="code" />
                             <field name="country_ids" widget="many2many_tags" options="{'no_open': True, 'no_create': True}"/>
-                        </group>
+                        </group> -->
                     </sheet>
                 </form>
             </field>

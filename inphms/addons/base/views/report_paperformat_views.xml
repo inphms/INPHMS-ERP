@@ -17,7 +17,7 @@
             <field name="arch" type="xml">
                 <form string="Paper format configuration">
                 <sheet>
-                    <group>
+                    <group string="Definition" class="rounded border mb-4 i__group">
                         <field name="name" />
                         <field name="format" />
                         <field name="page_height" invisible="format != 'custom'" />

@@ -1,4 +1,5 @@
 from __future__ import annotations
+import inphms
 import werkzeug
 import werkzeug.exceptions
 import logging
@@ -11,6 +12,8 @@ import json
 import contextlib
 import psycopg2
 import babel.core
+
+from datetime import datetime
 
 from werkzeug.exceptions import NotFound, HTTPException, UnsupportedMediaType
 from werkzeug.urls import URL, url_parse, url_encode
@@ -30,7 +33,7 @@ from .utils import \
     is_cors_preflight, STATIC_CACHE, NOT_FOUND_NODB, db_filter, db_list, \
     DEFAULT_LANG
 from inphms.modules import Registry, Environment
-from inphms.tools import json_default
+from inphms.tools import json_default, profiler
 from inphms.exceptions import RegistryError, AccessDenied
 from inphms.config import config
 from inphms.service import model as service_model
@@ -200,6 +203,30 @@ class Request:
             URL is profile-safe. Otherwise, get a context-manager that does
             nothing.
         """
+        if self.session.get('profile_session') and self.db:
+            if self.session['profile_expiration'] < str(datetime.now()):
+                # avoid having session profiling for too long if user forgets to disable profiling
+                self.session['profile_session'] = None
+                _logger.warning("Profiling expiration reached, disabling profiling")
+            elif 'set_profiling' in self.httprequest.path:
+                _logger.debug("Profiling disabled on set_profiling route")
+            elif self.httprequest.path.startswith('/websocket'):
+                _logger.debug("Profiling disabled for websocket")
+            elif inphms.evented:
+                # only longpolling should be in a evented server, but this is an additional safety
+                _logger.debug("Profiling disabled for evented server")
+            else:
+                try:
+                    return profiler.Profiler(
+                        db=self.db,
+                        description=self.httprequest.full_path,
+                        profile_session=self.session['profile_session'],
+                        collectors=self.session['profile_collectors'],
+                        params=self.session['profile_params'],
+                    )._get_cm_proxy()
+                except Exception:
+                    _logger.exception("Failure during Profiler creation")
+                    self.session['profile_session'] = None
         
         return contextlib.nullcontext()
 

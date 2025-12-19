@@ -18,7 +18,37 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <group>
+                        <div>
+                            <group class="border rounded mb-4 i__group" string="Definition">
+                                <field name="name" placeholder="Privilege Name"/>
+                                <field name="sequence" groups="base.group_no_one"/>
+                                <field name="category_id" invisible="'default_category_id' in context"/>
+                                <field name="placeholder"/>
+                            </group>
+                            <group string="Groups" class="border rounded mb-4 i__group">
+                                <field name="group_ids" widget="many2many" domain="[('privilege_id', '=', False)]" context="{'default_privilege_id': id}">
+                                    <list string="Groups">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="name"/>
+                                    </list>
+                                </field>
+                            </group>
+                        </div>
+                        <sidepanel>
+                            <group string="Status" class="border rounded mb-4 i__group">
+                                <div class="alert alert-warning" role="alert" colspan="2">
+                                    <strong>Warning! </strong>editing this, may result in unnecessary security and behaviour leaks,
+                                    please really make sure you know what you're doing.
+                                </div>
+                                <field name="category_id" readonly="1"></field>
+                                <field name="create_date" widget="date" options="{'show_time': false}" readonly="1" class="fw-bold"/>
+                                <field name="write_date" readonly="1" class="fw-bold"/>
+                            </group>
+                            <group string="Notes" class="border rounded mb-4 i__group">
+                                <field name="description" options="{'height': 100}" nolabel="1" colspan="2" placeholder="Internal Notes"/>
+                            </group>
+                        </sidepanel>
+                        <!-- <group>
                             <group>
                                 <field name="name" placeholder="Privilege Name"/>
                                 <field name="sequence" groups="base.group_no_one"/>
@@ -38,7 +68,7 @@
                             <page string="Notes" name="notes">
                                 <field name="description"/>
                             </page>
-                        </notebook>
+                        </notebook> -->
                     </sheet>
                 </form>
             </field>
@@ -84,7 +114,77 @@
             <field name="arch" type="xml">
                 <form string="Groups">
                   <sheet>
-                    <div class="oe_button_box" name="button_box">
+                    <div>
+                        <group string="Definition" class="border rounded mb-4 i__group">
+                            <field name="name" placeholder="Group Name" required="1"/>
+                            <field name="privilege_id" invisible="'default_privilege_id' in context" readonly="context.get('is_action_res_users')"/>
+                            <field name="share" invisible="'default_privilege_id' in context" readonly="context.get('is_action_res_users')"/>
+                            <field name="api_key_duration" groups="base.group_no_one"/>
+                        </group>
+                        <group string="Users" class="border rounded mb-4 i__group">
+                            <field name="user_ids" context="{'search_default_filter_no_share':1}"/>
+                        </group>
+                        <group string="Inherited" class="border rounded mb-4 i__group">
+                            <field name="implied_ids"/>
+                            <field name="implied_by_ids"/>
+                            <field name="disjoint_ids" widget="many2many_tags"/>
+                        </group>
+                        <group string="Access Rights" class="border rounded mb-4 i__group">
+                            <field name="model_access">
+                                <list string="Access Rights" editable="top">
+                                    <field name="name"/>
+                                    <field name="model_id"/>
+                                    <field name="perm_read"/>
+                                    <field name="perm_write"/>
+                                    <field name="perm_create"/>
+                                    <field name="perm_unlink"/>
+                                </list>
+                            </field>
+                        </group>
+                        <group string="Record Rules" class="border rounded mb-4 i__group">
+                            <field name="rule_groups">
+                                <list string="Record Rules" editable="top">
+                                    <field name="name"/>
+                                    <field name="model_id"/>
+                                    <field name="domain_force"/>
+                                    <field name="perm_read"/>
+                                    <field name="perm_write"/>
+                                    <field name="perm_create"/>
+                                    <field name="perm_unlink"/>
+                                </list>
+                            </field>
+                        </group>
+                        <group string="Menus" class="border rounded mb-4 i__group">
+                            <field name="menu_access"/>
+                        </group>
+                        <group string="Views" class="border rounded mb-4 i__group">
+                            <field name="view_access" groups="base.group_system"/>
+                        </group>
+                    </div>
+                    <sidepanel>
+                        <group string="Status" class="border rounded mb-4 i__group">
+                            <div class="alert alert-warning" colspan="2">
+                                <strong>Warning! </strong>editing this, may result in unnecessary security and behaviour leaks,
+                                please really make sure you know what you're doing.
+                            </div>
+                            <field name="create_date" widget="date" options="{'show_time': false}" readonly="1" class="fw-bold"/>
+                            <field name="write_date" readonly="1" class="fw-bold"/>
+                        </group>
+                        <group string="Notes" class="border rounded mb-4 i__group">
+                            <field name="comment" options="{'height': 100}" nolabel="1" colspan="2" placeholder="Internal Notes"/>
+                        </group>
+                        <div class="o_inner_group border rounded mb-4 i__group" name="quick_actions">
+                            <div class="o_horizontal_separator mt-4 mb-3 text-uppercase fw-bolder small">
+                                Quick Actions
+                            </div>
+                            <div class="action_button o-form-buttonbox list-group gap-2">
+                                <button name="action_show_all_users" type="object" groups="base.group_no_one" class="oe_stat_button btn-outline-secondary rounded" icon="fa-users order-first" help="Users having this group (implicitly or explicitly)">
+                                    <field string="Users" name="all_users_count" widget="statinfo"/>
+                                </button>
+                            </div>
+                        </div>
+                    </sidepanel>
+                    <!-- <div class="oe_button_box" name="button_box">
                         <button name="action_show_all_users" type="object" groups="base.group_no_one" class="oe_stat_button" icon="fa-users order-first" help="Users having this group (implicitly or explicitly)">
                             <field string="Users" name="all_users_count" widget="statinfo"/>
                         </button>
@@ -138,10 +238,11 @@
                                     <field name="perm_unlink"/>
                                 </list>
                             </field>
-                        </page><page string="Notes" name="notes">
+                        </page>
+                        <page string="Notes" name="notes">
                             <field name="comment"/>
                         </page>
-                    </notebook>
+                    </notebook> -->
                   </sheet>
                 </form>
             </field>

@@ -6,7 +6,52 @@
             <field name="arch" type="xml">
                 <form string="Record rules">
                   <sheet>
-                    <group>
+                    <div>
+                        <group string="Definition" class="rounded border mb-4 i__group">
+                            <field name="name"/>
+                            <field name="model_id"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                        <group string="Access Rights" class="rounded border mx-0 mb-4 i__group">
+                            <group>
+                                <field name="perm_read"/>
+                                <field name="perm_create"/>
+                            </group>
+                            <group>
+                                <field name="perm_write"/>
+                                <field name="perm_unlink"/>
+                            </group>
+                        </group>
+                        <group string="Rule Definition (Domain Filter)" class="rounded border mb-4 i__group">
+                            <field name="domain_force" colspan="2" nolabel="1"/>
+                        </group>
+                        <group string="Groups (no group = global)" class="rounded border mb-4 i__group">
+                            <field name="global"/>
+                            <field name="groups" nolabel="1" colspan="2"/>
+                        </group>
+                    </div>
+                    <sidepanel>
+                        <group string="Interaction between rules" class="border rounded mb-4 i__group">
+                            <i class="fa fa-info fa-3x text-info float-start" role="img" aria-label="Info" title="Info"/>
+                            <div class="smaller">
+                            <p>
+                                Global rules (non group-specific) are restrictions, and cannot be bypassed.
+                                Group-specific rules grant additional permissions, but are constrained within the bounds of global ones.
+                                The first group rules restrict further the global rules, but can be relaxed by additional group rules.
+                            </p>
+                            <p>
+                                Detailed algorithm:
+                                <ol>
+                                <li>Global rules are combined together with a logical AND operator, and with the result of the following steps</li>
+                                <li>Group-specific rules are combined together with a logical OR operator</li>
+                                <li>If user belongs to several groups, the results from step 2 are combined with logical OR operator</li>
+                                </ol>
+                            </p>
+                            <p>Example: GLOBAL_RULE_1 AND GLOBAL_RULE_2 AND ( (GROUP_A_RULE_1 OR GROUP_A_RULE_2) OR (GROUP_B_RULE_1 OR GROUP_B_RULE_2) )</p>
+                            </div>
+                        </group>
+                    </sidepanel>
+                    <!-- <group>
                         <group string="General">
                             <field name="name"/>
                             <field name="model_id"/>
@@ -46,7 +91,7 @@
                         </ol>
                       </p>
                       <p>Example: GLOBAL_RULE_1 AND GLOBAL_RULE_2 AND ( (GROUP_A_RULE_1 OR GROUP_A_RULE_2) OR (GROUP_B_RULE_1 OR GROUP_B_RULE_2) )</p>
-                    </div>
+                    </div> -->
                    </sheet>
                 </form>
             </field>
