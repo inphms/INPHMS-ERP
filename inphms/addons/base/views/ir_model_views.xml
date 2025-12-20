@@ -7,7 +7,249 @@
                 <form string="Model Description" duplicate="0">
                   <header><!-- used for override --></header>
                   <sheet>
-                    <group>
+                    <div>
+                        <group string="Definition" class="rounded mb-4 border mx-0 i__group">
+                            <group>
+                                <field name="name"/>
+                                <field name="model" readonly="id"/>
+                                <field name="order"/>
+                                <field name="abstract" readonly="id" groups="base.group_no_one"/>
+                                <field name="transient" readonly="id" groups="base.group_no_one"/>
+                            </group>
+                            <group>
+                                <field name="state" readonly="1" groups="base.group_no_one"/>
+                                <field name="modules" groups="base.group_no_one"/>
+                            </group>
+                        </group>
+                        <group string="Fields" class="rounded mb-4 border i__group">
+                            <field name="field_id">
+                                <list string="Fields Description">
+                                    <field name="name"/>
+                                    <field name="field_description"/>
+                                    <field name="ttype"/>
+                                    <field name="required"/>
+                                    <field name="readonly"/>
+                                    <field name="index" groups="base.group_no_one"/>
+                                    <field name="state" groups="base.group_no_one"/>
+                                </list>
+                                <form string="Fields Description">
+                                    <div>
+                                        <group string="Definition" class="rounded mb-4 border mx-0 i__group">
+                                            <group>
+                                                <field name="name"/>
+                                                <field name="field_description"/>
+                                            </group>
+                                            <group>
+                                                <field name="ttype"/>
+                                                <field name="help"/>
+                                            </group>
+                                        </group>
+                                        <group string="Properties" class="rounded mb-4 border mx-0 i__group">
+                                            <group colspan="2">
+                                                <group>
+                                                    <field name="required"/>
+                                                    <field name="readonly"/>
+                                                    <field name="store" groups="base.group_no_one"/>
+                                                    <field name="index" groups="base.group_no_one"/>
+                                                    <field name="copied" groups="base.group_no_one"/>
+                                                    
+                                                </group>
+                                                <group>
+                                                    <field name="state" groups="base.group_no_one"/>
+                                                    <field name="modules" groups="base.group_no_one"/>
+                                                </group>
+                                                <group class="mt-3">
+                                                    <field name="translate" invisible="ttype not in ['char', 'text', 'html']" readonly="ttype not in ['char', 'text', 'html']"/>
+                                                    <field name="size" groups="base.group_no_one" invisible="ttype not in ['char', 'reference']" readonly="ttype not in ['char', 'reference']"/>
+                                                    <field name="relation" invisible="ttype not in ['many2one', 'one2many', 'many2many']" readonly="ttype not in ['many2one', 'one2many', 'many2many']" required="ttype in ['many2one', 'one2many', 'many2many']"/>
+                                                    <field name="on_delete" groups="base.group_no_one" invisible="ttype != 'many2one'" readonly="ttype != 'many2one'"/>
+                                                    <field name="relation_field" invisible="ttype != 'one2many'" readonly="ttype != 'one2many'" required="ttype == 'one2many'"/>
+                                                    <field name="relation_table" groups="base.group_no_one" invisible="ttype != 'many2many' or state != 'manual'" readonly="ttype != 'many2many' or state != 'manual'"/>
+                                                    <field name="column1" groups="base.group_no_one" invisible="ttype != 'many2many' or state != 'manual'" readonly="ttype != 'many2many' or state != 'manual'"/>
+                                                    <field name="column2" groups="base.group_no_one" invisible="ttype != 'many2many' or state != 'manual'" readonly="ttype != 'many2many' or state != 'manual'"/>
+                                                    <field name="domain" groups="base.group_no_one" invisible="ttype not in ['many2one', 'one2many', 'many2many']" readonly="ttype not in ['many2one', 'one2many', 'many2many']"/>
+                                                </group>
+                                            </group>
+                                            <group colspan="2" invisible="ttype not in ['selection', 'reference']" readonly="ttype not in ['selection', 'reference']">
+                                                <field name="selection_ids">
+                                                    <list editable="bottom">
+                                                        <field name="sequence" widget="handle"/>
+                                                        <field name="value"/>
+                                                        <field name="name"/>
+                                                    </list>
+                                                </field>
+                                            </group>
+                                        </group>
+                                        <group string="Compute" class="rounded mb-4 border mx-0 i__group" groups="base.group_no_one">
+                                            <group>
+                                                <field name="related"/>
+                                                <field name="depends" required="compute not in [False, '']"/>
+                                                <field name="compute" widget="code" options="{'mode': 'python'}"/>
+                                            </group>
+                                            <div class="small">
+                                                <h3>How to define a computed field</h3>
+                                                <p>Computed fields are defined with the fields
+                                                <strong>Dependencies</strong> and <strong>Compute</strong>.</p>
+                                                <p>The field <strong>Dependencies</strong> lists the fields that
+                                                the current field depends on. It is a comma-separated list of
+                                                field names, like <code>name, size</code>. You can also refer to
+                                                fields accessible through other relational fields, for instance
+                                                <code>partner_id.company_id.name</code>.</p>
+                                                <p>The field <strong>Compute</strong> is the Python code to
+                                                compute the value of the field on a set of records. The value of
+                                                the field must be assigned to each record with a dictionary-like
+                                                assignment.</p>
+                                                <pre>for record in self:
+    record['size'] = len(record.name)
+</pre>
+                                                <p>The only predefined variables are</p>
+                                                <ul>
+                                                    <li><code>self</code> (the set of records to compute)</li>
+                                                    <li><code>datetime</code> (Python module)</li>
+                                                    <li><code>dateutil</code> (Python module)</li>
+                                                    <li><code>time</code> (Python module)</li>
+                                                </ul>
+                                                <p>Other features are accessible through <code>self</code>, like
+                                                <code>self.env</code>, etc.</p>
+                                            </div>
+                                        </group>
+                                        <group string="Access Rights" class="rounded border mb-4 i__group">
+                                            <field name="groups"/>
+                                        </group>
+                                    </div>
+                                    <!-- <group>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="field_description"/>
+                                        </group>
+                                        <group>
+                                            <field name="ttype"/>
+                                            <field name="help"/>
+                                        </group>
+                                    </group>
+                                    <notebook>
+                                        <page name="base" string="Properties">
+                                            <group>
+                                                <group>
+                                                    <field name="required"/>
+                                                    <field name="readonly"/>
+                                                    <field name="store" groups="base.group_no_one"/>
+                                                    <field name="index" groups="base.group_no_one"/>
+                                                    <field name="copied" groups="base.group_no_one"/>
+                                                    <field name="state" groups="base.group_no_one"/>
+                                                    <field name="modules" groups="base.group_no_one"/>
+                                                </group>
+                                                <group>
+                                                    <field name="translate" invisible="ttype not in ['char', 'text', 'html']" readonly="ttype not in ['char', 'text', 'html']"/>
+                                                    <field name="size" groups="base.group_no_one" invisible="ttype not in ['char', 'reference']" readonly="ttype not in ['char', 'reference']"/>
+                                                    <field name="relation" invisible="ttype not in ['many2one', 'one2many', 'many2many']" readonly="ttype not in ['many2one', 'one2many', 'many2many']" required="ttype in ['many2one', 'one2many', 'many2many']"/>
+                                                    <field name="on_delete" groups="base.group_no_one" invisible="ttype != 'many2one'" readonly="ttype != 'many2one'"/>
+                                                    <field name="relation_field" invisible="ttype != 'one2many'" readonly="ttype != 'one2many'" required="ttype == 'one2many'"/>
+                                                    <field name="relation_table" groups="base.group_no_one" invisible="ttype != 'many2many' or state != 'manual'" readonly="ttype != 'many2many' or state != 'manual'"/>
+                                                    <field name="column1" groups="base.group_no_one" invisible="ttype != 'many2many' or state != 'manual'" readonly="ttype != 'many2many' or state != 'manual'"/>
+                                                    <field name="column2" groups="base.group_no_one" invisible="ttype != 'many2many' or state != 'manual'" readonly="ttype != 'many2many' or state != 'manual'"/>
+                                                    <field name="domain" groups="base.group_no_one" invisible="ttype not in ['many2one', 'one2many', 'many2many']" readonly="ttype not in ['many2one', 'one2many', 'many2many']"/>
+                                                </group>
+                                            </group>
+                                            <group invisible="ttype not in ['selection', 'reference']" readonly="ttype not in ['selection', 'reference']">
+                                                <field name="selection_ids">
+                                                    <list editable="bottom">
+                                                        <field name="sequence" widget="handle"/>
+                                                        <field name="value"/>
+                                                        <field name="name"/>
+                                                    </list>
+                                                </field>
+                                            </group>
+                                        </page>
+                                        <page name="compute" string="Compute" groups="base.group_no_one">
+                                            <group>
+                                                <field name="related"/>
+                                                <field name="depends" required="compute not in [False, '']"/>
+                                                <field name="compute" widget="code" options="{'mode': 'python'}"/>
+                                            </group>
+                                            <div>
+                                                <h3>How to define a computed field</h3>
+                                                <p>Computed fields are defined with the fields
+                                                <strong>Dependencies</strong> and <strong>Compute</strong>.</p>
+                                                <p>The field <strong>Dependencies</strong> lists the fields that
+                                                the current field depends on. It is a comma-separated list of
+                                                field names, like <code>name, size</code>. You can also refer to
+                                                fields accessible through other relational fields, for instance
+                                                <code>partner_id.company_id.name</code>.</p>
+                                                <p>The field <strong>Compute</strong> is the Python code to
+                                                compute the value of the field on a set of records. The value of
+                                                the field must be assigned to each record with a dictionary-like
+                                                assignment.</p>
+                                                <pre>
+    for record in self:
+        record['size'] = len(record.name)
+</pre>
+                                                <p>The only predefined variables are</p>
+                                                <ul>
+                                                    <li><code>self</code> (the set of records to compute)</li>
+                                                    <li><code>datetime</code> (Python module)</li>
+                                                    <li><code>dateutil</code> (Python module)</li>
+                                                    <li><code>time</code> (Python module)</li>
+                                                </ul>
+                                                <p>Other features are accessible through <code>self</code>, like
+                                                <code>self.env</code>, etc.</p>
+                                            </div>
+                                        </page>
+                                        <page name="groups" string="Access Rights">
+                                            <field name="groups"/>
+                                        </page>
+                                    </notebook> -->
+                                </form>
+                            </field>
+                        </group>
+                        <group string="Access Rights" class="rounded mb-4 border i__group">
+                            <field name="access_ids">
+                                <list string="Access Rights" editable="top" decoration-warning="not group_id and                                                          (perm_read or perm_write or                                                           perm_create or perm_unlink)">
+                                    <field name="name"/>
+                                    <field name="group_id"/>
+                                    <field name="perm_read"/>
+                                    <field name="perm_write"/>
+                                    <field name="perm_create"/>
+                                    <field name="perm_unlink"/>
+                                </list>
+                            </field>
+                        </group>
+                        <group string="Record Rules" class="rounded mb-4 border i__group">
+                            <field name="rule_ids">
+                                <list string="Record Rules" editable="top" decoration-info="not groups">
+                                    <field name="name"/>
+                                    <field name="groups" widget="many2many_tags" options="{'no_create':True}"/>
+                                    <field name="domain_force"/>
+                                    <field name="perm_read"/>
+                                    <field name="perm_write"/>
+                                    <field name="perm_create"/>
+                                    <field name="perm_unlink"/>
+                                </list>
+                            </field>
+                        </group>
+                        <group string="Views" class="rounded mb-4 border i__group" groups="base.group_no_one">
+                            <field name="view_ids"/>
+                        </group>
+                    </div>
+                    <sidepanel>
+                        <group string="Status" class="border rounded mb-4 i__group">
+                            <div colspan="2" class="alert alert-warning" role="alert">
+                                <span>Please make sure you know what you're doing.</span>
+                            </div>
+                        </group>
+                        <group string="Notes" class="border rounded mb-4 i__group" groups="base.group_no_one">
+                            <field colspan="2" name="info" options="{'height': 100}" nolabel="1"/>
+                        </group>
+                        <div class="o_inner_group border rounded mb-4 i__group" name="quick_actions">
+                            <div class="o_horizontal_separator mt-4 mb-3 text-uppercase fw-bolder small">
+                                Quick Actions
+                            </div>
+                            <div class="action_button o-form-buttonbox list-group gap-2">
+                                <button groups="base.group_no_one" class="btn-outline-secondary rounded" icon="fa-align-justify" name="1" string="Create a Menu" type="action" target="new"/>
+                            </div>
+                        </div>
+                    </sidepanel>
+                    <!-- <group>
                         <group>
                             <field name="name"/>
                             <field name="model" readonly="id"/>
@@ -177,7 +419,7 @@
                         <page string="Views" name="views" groups="base.group_no_one">
                             <field name="view_ids"/>
                         </page>
-                    </notebook>
+                    </notebook> -->
                   </sheet>
                 </form>
             </field>
@@ -221,7 +463,108 @@
             <field name="arch" type="xml">
                 <form string="Fields" duplicate="false">
                     <sheet>
-                        <group>
+                        <div>
+                            <group string="Definition" class="rounded mb-4 border mx-0 i__group">
+                                <group>
+                                    <field name="name"/>
+                                    <field name="field_description"/>
+                                    <field name="model_id" readonly="state != 'manual'"/>
+                                </group>
+                                <group>
+                                    <field name="ttype"/>
+                                    <field name="help"/>
+                                </group>
+                            </group>
+                            <group string="Properties" class="rounded mb-4 border mx-0 i__group">
+                                <group colspan="2">
+                                    <group>
+                                        <field name="required"/>
+                                        <field name="readonly"/>
+                                        <field name="store" groups="base.group_no_one"/>
+                                        <field name="index" groups="base.group_no_one"/>
+                                        <field name="copied" groups="base.group_no_one"/>
+                                        
+                                    </group>
+                                    <group>
+                                        <field name="state" groups="base.group_no_one"/>
+                                        <field name="modules" groups="base.group_no_one"/>
+                                    </group>
+                                    <group class="mt-3">
+                                        <field name="translate" invisible="ttype not in ['char', 'text', 'html']" readonly="ttype not in ['char', 'text', 'html']"/>
+                                        <field name="size" groups="base.group_no_one" invisible="ttype not in ['char', 'reference']" readonly="ttype not in ['char', 'reference']"/>
+                                        <field name="relation" invisible="ttype not in ['many2one', 'one2many', 'many2many']" readonly="ttype not in ['many2one', 'one2many', 'many2many']" required="ttype in ['many2one', 'one2many', 'many2many']"/>
+                                        <field name="group_expand" groups="base.group_no_one" invisible="ttype not in ['many2one', 'selection']" readonly="ttype not in ['many2one', 'selection']"/>
+                                        <field name="on_delete" groups="base.group_no_one" invisible="ttype != 'many2one'" readonly="ttype != 'many2one'"/>
+                                        <field name="relation_field" invisible="ttype != 'one2many'" readonly="ttype != 'one2many'" required="ttype == 'one2many'"/>
+                                        <field name="relation_table" groups="base.group_no_one" invisible="ttype != 'many2many' or state != 'manual'" readonly="ttype != 'many2many' or state != 'manual'"/>
+                                        <field name="column1" groups="base.group_no_one" invisible="ttype != 'many2many' or state != 'manual'" readonly="ttype != 'many2many' or state != 'manual'"/>
+                                        <field name="column2" groups="base.group_no_one" invisible="ttype != 'many2many' or state != 'manual'" readonly="ttype != 'many2many' or state != 'manual'"/>
+                                        <field name="domain" groups="base.group_no_one" invisible="ttype not in ['many2one', 'one2many', 'many2many']" readonly="ttype not in ['many2one', 'one2many', 'many2many']"/>
+                                        <field name="currency_field" invisible="ttype != 'monetary'" readonly="ttype != 'monetary'"/>
+                                    </group>
+                                </group>
+                                <group colspan="2" string="HTML/Sanitization Properties" invisible="ttype != 'html'">
+                                    <group>
+                                        <field name="sanitize" invisible="ttype != 'html'" readonly="ttype != 'html'"/>
+                                        <field name="sanitize_overridable" invisible="ttype != 'html' or sanitize == False" readonly="ttype != 'html' or sanitize == False"/>
+                                        <field name="sanitize_tags" invisible="ttype != 'html' or sanitize == False" readonly="ttype != 'html' or sanitize == False"/>
+                                        <field name="sanitize_attributes" invisible="ttype != 'html' or sanitize == False" readonly="ttype != 'html' or sanitize == False"/>
+                                    </group>
+                                    <group>
+                                        <field name="sanitize_style" invisible="ttype != 'html' or sanitize == False" readonly="ttype != 'html' or sanitize == False"/>
+                                        <field name="sanitize_form" invisible="ttype != 'html' or sanitize == False" readonly="ttype != 'html' or sanitize == False"/>
+                                        <field name="strip_style" invisible="ttype != 'html' or sanitize == False" readonly="ttype != 'html' or sanitize == False"/>
+                                        <field name="strip_classes" invisible="ttype != 'html' or sanitize == False" readonly="ttype != 'html' or sanitize == False"/>
+                                    </group>
+                                </group>
+                                <group colspan="2" invisible="ttype not in ['selection', 'reference']" readonly="ttype not in ['selection', 'reference']">
+                                    <field name="selection_ids">
+                                        <list editable="bottom">
+                                            <field name="sequence" widget="handle"/>
+                                            <field name="value"/>
+                                            <field name="name"/>
+                                        </list>
+                                    </field>
+                                </group>
+                            </group>
+                            <group string="Compute" class="rounded mb-4 border mx-0 i__group" groups="base.group_no_one">
+                                <group>
+                                    <field name="related"/>
+                                    <field name="depends" required="bool(compute) and store"/>
+                                    <field name="compute" widget="code" options="{'mode': 'python'}"/>
+                                </group>
+                                <div class="small">
+                                    <h3>How to define a computed field</h3>
+                                    <p>Computed fields are defined with the fields
+                                    <strong>Dependencies</strong> and <strong>Compute</strong>.</p>
+                                    <p>The field <strong>Dependencies</strong> lists the fields that
+                                    the current field depends on. It is a comma-separated list of
+                                    field names, like <code>name, size</code>. You can also refer to
+                                    fields accessible through other relational fields, for instance
+                                    <code>partner_id.company_id.name</code>.</p>
+                                    <p>The field <strong>Compute</strong> is the Python code to
+                                    compute the value of the field on a set of records. The value of
+                                    the field must be assigned to each record with a dictionary-like
+                                    assignment.</p>
+                                    <pre>for record in self:
+record['size'] = len(record.name)
+</pre>
+                                    <p>The only predefined variables are</p>
+                                    <ul>
+                                        <li><code>self</code> (the set of records to compute)</li>
+                                        <li><code>datetime</code> (Python module)</li>
+                                        <li><code>dateutil</code> (Python module)</li>
+                                        <li><code>time</code> (Python module)</li>
+                                    </ul>
+                                    <p>Other features are accessible through <code>self</code>, like
+                                    <code>self.env</code>, etc.</p>
+                                </div>
+                            </group>
+                            <group string="Access Rights" class="rounded border mb-4 i__group">
+                                <field name="groups"/>
+                            </group>
+                        </div>
+                        <!-- <group>
                             <group>
                                 <field name="name"/>
                                 <field name="field_description"/>
@@ -359,7 +702,7 @@
                             <page name="groups" string="Access Rights">
                                 <field name="groups"/>
                             </page>
-                        </notebook>
+                        </notebook> -->
                     </sheet>
                 </form>
             </field>
@@ -419,7 +762,7 @@
             <field name="arch" type="xml">
                 <form string="Fields" duplicate="false">
                     <sheet>
-                        <group>
+                        <group class="i__group border rounded mb-4">
                             <field name="field_id" options="{'no_create': True}"/>
                             <field name="value" groups="base.group_no_one"/>
                             <field name="name"/>
@@ -467,7 +810,29 @@
             <field name="arch" type="xml">
                 <form string="External Identifiers">
                     <sheet>
-                        <h1>
+                        <div>
+                            <group class='i__group mb-4 rounded border'>
+                                <h2 class="mb-0">
+                                    <field name="complete_name" nolabel="1"/>
+                                </h2>
+                            </group>
+                            <group string="Defintion" class='i__group mb-4 mx-0 rounded border'>
+                                <group>
+                                    <field name="module"/>
+                                    <field name="name"/>
+                                    <field name="noupdate"/>
+                                    <field name="write_date"/>
+                                    <field name="create_date"/>
+                                </group>
+                                <group>
+                                    <field name="display_name"/>
+                                    <field name="model"/>
+                                    <field name="res_id" widget="many2one_reference_integer"/>
+                                    <field name="reference" widget="reference" string="Record"/>
+                                </group>
+                            </group>
+                        </div>
+                        <!-- <h1>
                             <field name="complete_name"/>
                         </h1>
                         <group>
@@ -484,7 +849,7 @@
                                 <field name="res_id" widget="many2one_reference_integer"/>
                                 <field name="reference" widget="reference" string="Record"/>
                             </group>
-                        </group>
+                        </group> -->
                     </sheet>
                 </form>
             </field>
@@ -532,7 +897,20 @@
             <field name="arch" type="xml">
                 <form string="Model Constraints">
                 <sheet>
-                    <group col="4">
+                    <div>
+                        <group string="Definition" class="mb-4 rounded border mx-0 i__group">
+                            <group col="4">
+                                <field name="type"/>
+                                <field name="name"/>
+                                <field name="module" can_create="false"/>
+                                <field name="model"/>
+                            </group>
+                            <group>
+                                <field name="message"/>
+                            </group>
+                        </group>
+                    </div>
+                    <!-- <group col="4">
                         <field name="type"/>
                         <field name="name"/>
                         <field name="module" can_create="false"/>
@@ -540,7 +918,7 @@
                     </group>
                     <group>
                         <field name="message"/>
-                    </group>
+                    </group> -->
                 </sheet>
                 </form>
             </field>
@@ -588,7 +966,7 @@
             <field name="arch" type="xml">
                 <form string="ManyToMany Relations">
                 <sheet>
-                    <group col="4">
+                    <group string="Definition" class="i__group border rounded mb-4">
                         <field name="name"/>
                         <field name="module" can_create="false"/>
                         <field name="model"/>
@@ -657,7 +1035,32 @@
             <field name="arch" type="xml">
                 <form string="Access Rights">
                    <sheet>
-                    <div class="alert alert-warning text-center" role="alert">
+                    <div>
+                        <group string="Definition" class="mb-4 rounded border i__group">
+                            <field name="name"/>
+                            <field name="model_id"/>
+                            <field name="group_id"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                        <group string="Access" class="mb-4 rounded border mx-0 i__group">
+                            <group>
+                                <field name="perm_read"/>
+                                <field name="perm_write"/>
+                            </group>
+                            <group>
+                                <field name="perm_create"/>
+                                <field name="perm_unlink"/>
+                            </group>
+                        </group>
+                    </div>
+                    <sidepanel>
+                        <group string="Status" class="border rounded mb-4 i__group">
+                            <div colspan="2" class="alert alert-warning text-center" role="alert">
+                                Please note that modifications will be applied for all users of the specified group
+                            </div>
+                        </group>
+                    </sidepanel>
+                    <!-- <div class="alert alert-warning text-center" role="alert">
                         Please note that modifications will be applied for all users of the specified group
                     </div>
                     <group col="4">
@@ -671,7 +1074,7 @@
                         <field name="perm_write"/>
                         <field name="perm_create"/>
                         <field name="perm_unlink"/>
-                    </group>
+                    </group> -->
                    </sheet>
                 </form>
             </field>

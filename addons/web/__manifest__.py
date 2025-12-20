@@ -5,7 +5,7 @@
     'version': '1.0',
     'description': """
 Inphms Web core module.
-========================
+-----------------------
 
 This module provides the core of the Inphms Web Client.
 """,
