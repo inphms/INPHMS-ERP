@@ -7,7 +7,18 @@
         <field name="arch" type="xml">
             <form string="User-defined Defaults">
             <sheet>
-                <group>
+                <div>
+                    <group string="Definition" name="field_value" class="i__group rounded border mb-4">
+                        <field name="field_id" options="{'no_create': True}"/>
+                        <field name="json_value"/>
+                        <field name="condition"/>
+                    </group>
+                    <group string="Scope" name="user_company_details" class="i__group rounded border mb-4">
+                        <field name="user_id"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                </div>
+                <!-- <group>
                     <group name="field_value">
                         <field name="field_id" options="{'no_create': True}"/>
                         <field name="json_value"/>
@@ -17,7 +28,7 @@
                         <field name="user_id"/>
                         <field name="company_id" groups="base.group_multi_company"/>
                     </group>
-                </group>
+                </group> -->
             </sheet>
             </form>
         </field>

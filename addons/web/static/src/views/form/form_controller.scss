@@ -1179,6 +1179,11 @@
             > :nth-child(2n):not(:last-child) {
                 margin-bottom: 16px !important;
             }
+
+            // Fix kanban widget
+            .o_field_widget.o_field_handle {
+                width: auto !important;
+            }
         }
         .o_form_label:not(.form-check-label) {
             font-size: $o-label-font-size-factor * $o-font-size-base-touch;

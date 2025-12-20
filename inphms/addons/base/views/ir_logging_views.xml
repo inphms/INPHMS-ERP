@@ -5,7 +5,25 @@
             <field name="arch" type="xml">
                 <form string="Log">
                 <sheet>
-                    <group name="creation_details" string="Creation details">
+                    <div>
+                       <group name="log_details" string="Logging Details" class="border rounded mb-4 i__group">
+                           <field name="type"/>
+                            <field name="name"/>
+                            <field name="level"/>
+                            <field name="path"/>
+                            <field name="line"/>
+                            <field name="func"/>
+                            <field name="message"/>
+                       </group>
+                    </div>
+                    <sidepanel>
+                        <group string="Status" class="border rounded mb-4 i__group">
+                            <field name="create_date"/>
+                            <field name="create_uid"/>
+                            <field name="dbname"/>
+                        </group>
+                    </sidepanel>
+                    <!-- <group name="creation_details" string="Creation details">
                         <field name="create_date" />
                         <field name="create_uid" />
                         <field name="dbname" />
@@ -18,7 +36,7 @@
                         <field name="line" />
                         <field name="func" />
                         <field name="message" />
-                    </group>
+                    </group> -->
                 </sheet>
                 </form>
             </field>

@@ -8,10 +8,16 @@
             <field name="arch" type="xml">
                 <form string="Decimal Precision">
                     <sheet>
-                        <group col="4">
+                        <div>
+                            <group string="Definition" class="i__group rounded border mb-4">
+                                <field name="name" readonly="id"/>
+                                <field name="digits"/>
+                            </group>
+                        </div>
+                        <!-- <group col="4">
                             <field name="name" readonly="id"/>
                             <field name="digits"/>
-                        </group>
+                        </group> -->
                     </sheet>
                 </form>
             </field>
