@@ -498,7 +498,7 @@
                             <group string="Behaviour" class="i__group mx-0 rounded border mb-4" invisible="not model_id">
                                 <group name="action_content" class="mx-0 px-0" colspan="2">
                                     <field name="allowed_states" invisible="1"/> <!-- Used to filter state using selection_badge_with_filter -->
-                                    <group>
+                                    <group name="state_wrapper">
                                         <field name="state" widget="selection_badge_with_filter" options="{'size': 'sm', 'allowed_selection_field': 'allowed_states'}"/>
                                     </group>
                                     <group>

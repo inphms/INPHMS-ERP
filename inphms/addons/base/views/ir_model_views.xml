@@ -762,7 +762,7 @@ record['size'] = len(record.name)
             <field name="arch" type="xml">
                 <form string="Fields" duplicate="false">
                     <sheet>
-                        <group class="i__group border rounded mb-4">
+                        <group string="Definition" class="i__group border rounded mb-4">
                             <field name="field_id" options="{'no_create': True}"/>
                             <field name="value" groups="base.group_no_one"/>
                             <field name="name"/>

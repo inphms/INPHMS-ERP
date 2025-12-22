@@ -259,12 +259,38 @@
                         <a t-if="installed" name="button_uninstall_wizard" type="object" role="menuitem" class="dropdown-item" groups="base.group_system">Uninstall…</a>
                     </t>
                     <t t-name="card" class="flex-row align-items-center">
-                        <aside>
+                        <!-- <aside>
                             <field name="icon" widget="image_url" options="{'size': [50, 50]}" alt="Icon"/>
                             <field t-if="record.icon_flag" name="icon_flag" class="oe_module_flag"/>
-                        </aside>
-                        <main class="me-4" t-att-title="record.shortdesc.value">
-                            <field class="fw-bold fs-5" name="shortdesc"/>
+                        </aside> -->
+                        <main class="me-4 gap-2" t-att-title="record.shortdesc.value">
+                            
+                            <div class="d-flex gap-3 align-items-center">
+                                <field name="icon" widget="image_url" options="{'size': [40, 40]}" alt="Icon"/>
+                                <field t-if="record.icon_flag" name="icon_flag" class="oe_module_flag"/>
+                                <div>
+                                    <field class="fw-bold fs-5" name="shortdesc"/>
+                                    <p class="text-muted small my-0 lh-sm">
+                                        <field name="name"/>
+                                    </p>
+                                </div>
+                            </div>
+                            <p class="text-muted small my-0 lh-sm">
+                                <field name="summary"/>
+                            </p>
+                            <footer class="w-100">
+                                <button type="object" class="btn btn-primary btn-sm" name="button_immediate_install" invisible="state != 'uninstalled'" t-if="! record.to_buy.raw_value" groups="base.group_system">Activate</button>
+                                <button t-if="installed" class="d-flex align-items-center text-muted float-start">Installed</button>
+                                <button invisible="not state == 'installed'" class="btn btn-sm btn-success float-start">Installed</button>
+                                <a t-att-href="record.website.raw_value" target="_blank" invisible="website in (False, '')" class="btn btn-sm btn-secondary float-end o-hidden-ios" role="button">Learn More</a>
+                                <a type="open" class="btn btn-secondary btn-sm float-end" id="module_info" role="button" invisible="website != ''">Module Info</a>
+                                <a href="https://inphms.com/pricing?utm_source=db&amp;utm_medium=module#hosting=on_premise" target="_blank" class="btn btn-info btn-sm" invisible="state not in ('uninstalled', 'uninstallable')" t-if="record.to_buy.raw_value" role="button" groups="base.group_system">Upgrade</a>
+                                <button invisible="state != 'to remove'" class="btn btn-sm btn-secondary" groups="base.group_system" disabled="1">Removing</button>
+                                <button invisible="state != 'to upgrade'" class="btn btn-sm btn-secondary" groups="base.group_system" disabled="1">Upgrading</button>
+                                <button invisible="state != 'to install'" class="btn btn-sm btn-secondary" groups="base.group_system" disabled="1">Installing</button>
+                            </footer>
+
+                            <!-- <field class="fw-bold fs-5" name="shortdesc"/>
                             <p class="text-muted small my-0 lh-sm">
                                 <field groups="!base.group_no_one" name="summary"/>
                                 <code groups="base.group_no_one"><field name="name"/></code>
@@ -278,7 +304,7 @@
                                 <button invisible="state != 'to remove'" class="btn btn-sm btn-secondary" groups="base.group_system" disabled="1">Removing</button>
                                 <button invisible="state != 'to upgrade'" class="btn btn-sm btn-secondary" groups="base.group_system" disabled="1">Upgrading</button>
                                 <button invisible="state != 'to install'" class="btn btn-sm btn-secondary" groups="base.group_system" disabled="1">Installing</button>
-                            </footer>
+                            </footer> -->
                         </main>
                     </t>
                   </templates>

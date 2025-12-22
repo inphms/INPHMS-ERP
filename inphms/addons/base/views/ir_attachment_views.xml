@@ -6,7 +6,44 @@
             <field name="arch" type="xml">
                 <form string="Attachments">
                    <sheet>
-                    <label for="name"/>
+                    <div>
+                        <group string="Definition" class="border rounded mb-4 mx-0 i__group">
+                            <field name="name"/>
+                            <field name="type"/>
+                            <label for="datas" class="mt-1" invisible="type == 'url'"/>
+                            <field name="datas" nolabel="1" class="w-100" filename="name" invisible="type == 'url'"/>
+                            <field name="url" widget="url" invisible="type == 'binary'"/>
+                            <field name="mimetype" groups="base.group_no_one"/>
+                        </group>
+                        <group string="Attached To" groups="base.group_no_one" class="i__group rounded mb-4 border">
+                            <field name="res_model"/>
+                            <field name="res_field"/>
+                            <field name="res_id"/>
+                            <field name="res_name"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                            <field name="public"/>
+                        </group>
+                        <group groups="base.group_no_one" string="Indexed Content" class="i__group mb-4 rounded border">
+                            <field colspan="2" class="small border p-2" name="index_content" nolabel="1"/>
+                        </group>
+                    </div>
+                    <sidepanel>
+                        <group string="Status" class="border rounded mb-4 i__group">
+                            <field name="create_date" widget="date" options="{'show_time': false}" readonly="1" class="fw-bold"/>
+                            <field name="write_date" readonly="1" class="fw-bold"/>
+                        </group>
+                        <group string="History" groups="base.group_no_one" invisible="not create_date" class="border rounded mb-4 i__group">
+                            <label for="create_uid" string="Creation"/>
+                            <div name="creation_div">
+                                <field name="create_uid" readonly="1" class="oe_inline"/> on
+                                <field name="create_date" readonly="1" class="oe_inline"/>
+                            </div>
+                        </group>
+                        <group string="Description" name="description_group" groups="base.group_no_one" class="border rounded mb-4 i__group">
+                            <field colspan="2" name="description" nolabel="1"/>
+                        </group>
+                    </sidepanel>
+                    <!-- <label for="name"/>
                     <h1>
                         <field name="name"/>
                     </h1>
@@ -39,7 +76,7 @@
                         <group groups="base.group_no_one" string="Indexed Content" colspan="4">
                             <field name="index_content" nolabel="1"/>
                         </group>
-                    </group>
+                    </group> -->
                   </sheet>
                 </form>
             </field>

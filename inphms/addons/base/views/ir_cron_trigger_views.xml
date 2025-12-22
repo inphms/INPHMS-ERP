@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <form string="Cron Trigger">
                 <sheet>
-                    <group>
+                    <group string="Definition" class="i__group border rounded mb-4">
                         <field name="cron_id"/>
                         <field name="call_at"/>
                     </group>

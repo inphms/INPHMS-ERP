@@ -23,7 +23,7 @@
             <field name="arch" type="xml">
                 <form string="System Parameters">
                   <sheet>
-                    <group>
+                    <group string="Definition" class="i__group rounded border mb-4">
                         <field name="key"/>
                         <field name="value"/>
                     </group>
