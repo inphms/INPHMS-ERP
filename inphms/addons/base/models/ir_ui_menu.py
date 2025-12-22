@@ -45,6 +45,7 @@ class IrUiMenu(models.Model):
     web_icon_data = fields.Binary(string='Web Icon Image', attachment=True)
 
     submenu_icon = fields.Char(string="Submenu Icon")
+    description = fields.Text("Description", help="Optional description for the menu item, must be used on root app.")
 
     @api.depends('name', 'parent_id.complete_name')
     def _compute_complete_name(self):
@@ -302,6 +303,7 @@ class IrUiMenu(models.Model):
             menus_dict[menu_id] = {
                 'id': menu_id,
                 'name': menu.name,
+                'description': menu.description,
                 'app_id': app_info[menu_id],
                 'action_model': action_model,
                 'action_id': action_id,
@@ -314,18 +316,14 @@ class IrUiMenu(models.Model):
 
         # prefetch action.path
         for model_name, action_ids in action_ids_by_type.items():
-            self.env[model_name].sudo().browse(action_ids).fetch(['path', 'help'])
+            self.env[model_name].sudo().browse(action_ids).fetch(['path'])
 
         # set children + model_path
         for menu_dict in menus_dict.values():
             if menu_dict['action_model']:
-                # add help fields from action
-                Action = self.env[menu_dict['action_model']].sudo().browse(menu_dict['action_id'])
-                menu_dict['action_path'] = Action.path
-                menu_dict['help'] = Action.help
+                menu_dict['action_path'] = self.env[menu_dict['action_model']].sudo().browse(menu_dict['action_id']).path
             else:
                 menu_dict['action_path'] = False
-                menu_dict['help'] = False
             menu_dict['children'] = children_dict[menu_dict['id']]
 
         menus_dict['root'] = {

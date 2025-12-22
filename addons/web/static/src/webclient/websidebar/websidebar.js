@@ -19,7 +19,6 @@ export class WebSidebar extends Component {
         this.width = "10px";
 
         const renderAndAdapt = () => {
-            console.log("when rendered", this.currentAppSections);
             this.render();
         };
         const updateActiveSelection = async ({ detail: info }) => {

@@ -86,6 +86,7 @@ export const menuService = {
             },
             async selectMenu(menu) {
                 menu = typeof menu === "number" ? this.getMenu(menu) : menu;
+                console.log("selectMenu called with menu:", menu, typeof menu);
                 if (!menu.actionID) {
                     return;
                 }

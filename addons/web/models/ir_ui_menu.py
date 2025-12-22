@@ -84,6 +84,7 @@ class IrUiMenu(models.Model):
                 web_menus[menu['id']] = {
                     "id": menu['id'],
                     "name": menu['name'],
+                    "description": menu['description'],
                     "children": menu['children'],
                     "appID": menu['app_id'],
                     "xmlid": menu['xmlid'],

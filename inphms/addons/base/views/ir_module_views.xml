@@ -243,7 +243,7 @@
             <field name="name">Apps Kanban</field>
             <field name="model">ir.module.module</field>
             <field name="arch" type="xml">
-                <kanban create="false" can_open="0" class="o_modules_kanban">
+                <kanban create="false" can_open="0" class="o_modules_kanban" js_class="apps_kanban">
                   <field name="to_buy"/>
                   <field name="name"/>
                   <field name="state"/>
@@ -328,7 +328,17 @@
         </record>
 
         <!--top menu -->
-        <menuitem id="menu_apps" name="Apps" parent="menu_management" sequence="5" action="open_module_tree"/>
+        <menuitem 
+            id="menu_apps"
+            name="Apps"
+            parent="menu_management"
+            sequence="5"
+            action="open_module_tree"
+            submenu_icon="base,static/description/menu_icons/home.svg"/>
+        
+        <record model="ir.actions.client" id="ir_action_menu_management">
+            <field name="params" eval="{'menu_id': ref('menu_apps')}"/>
+        </record>
 
         <!--submenu -->
         <!-- <menuitem id="menu_module_tree" parent="menu_apps" name="Main Apps" sequence="5" action="open_module_tree" />

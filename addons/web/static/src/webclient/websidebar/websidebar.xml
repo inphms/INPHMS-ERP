@@ -6,7 +6,9 @@
             <t t-set="sections" t-value="currentAppSections"/>
             <t t-foreach="sections" t-as="section" t-key="section.id">
                 <ul class="list-group d-block px-2 px-md-0">
-                    <t t-call="web.WebSidebar.Dashboard"/>
+                    <t t-call="web.WebSidebar.Dashboard">
+                        <t t-set="sectionLength" t-value="sections.length"/>
+                    </t>
                     <t t-call="web.WebSidebar.Item">
                         <t t-set="section" t-value="section"/>
                     </t>
@@ -89,7 +91,7 @@
                     </div>
                 </div>
             </header>
-            <ul class="list-group d-block">
+            <ul t-if="sectionLength > 1" class="list-group d-block">
                 <t t-call="web.WebSidebar.DashboardNav"></t>
             </ul>
         </li>

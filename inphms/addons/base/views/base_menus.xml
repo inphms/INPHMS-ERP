@@ -6,6 +6,7 @@
         id="menu_administration"
         web_icon="base,static/description/settings.png"
         sequence="550"
+        description="System configuration and platform controls"
         groups="base.group_erp_manager">
         <menuitem id="menu_administration_shortcut" name="Custom Shortcuts" sequence="50"/>
         <!-- FYI The group no_one on 'User & Companies' and 'Translations' is a FP/APR request -->
@@ -27,7 +28,12 @@
         </menuitem>
     </menuitem>
 
-    <menuitem id="menu_management" name="Apps" sequence="500" web_icon="base,static/description/modules.png" groups="base.group_system"/>
+    <record model="ir.actions.client" id="ir_action_menu_management">
+        <field name="name">Apps</field>
+        <field name="tag">reload</field>
+        <field name="help">Manage system capabilities and installed modules</field>
+    </record>
+    <menuitem action="ir_action_menu_management" id="menu_management" name="Apps" sequence="500" web_icon="base,static/description/modules.png" groups="base.group_system"/>
     <menuitem id="base.menu_tests" name="Tests" sequence="1000" web_icon="base,static/description/exception.png"/>
 
     <record model="ir.ui.menu" id="base.menu_administration">

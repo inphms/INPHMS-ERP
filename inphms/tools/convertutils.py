@@ -433,6 +433,9 @@ form: module.record_id""" % (xml_id,)
         if rec.get('name'):
             values['name'] = rec.attrib['name']
 
+        if rec.get('description'):
+            values['description'] = rec.attrib['description']
+
         if rec.get('action'):
             a_action = rec.attrib['action']
 

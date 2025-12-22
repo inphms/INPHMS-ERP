@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+
+    <t t-name="web.AppsKanbanView.buttons" 
+       t-inherit="web.KanbanView.Buttons"
+       t-inherit-mode="primary">
+        <xpath expr="." position="inside">
+            <t t-if="isVisible">
+                <t t-foreach="appsActionButtons" t-as="action" t-key="action.id">
+                    <button
+                        type="button"
+                        class="btn btn-sm"
+                        t-att-class="action.btnClass"
+                        t-on-click.prevent="() => this.onAppsActionButtonClick(action)"
+                        t-att-data-tooltip="action.help"
+                        t-att-data-hotkey="action.hotkey">
+                        <t t-esc="action.label"/>
+                    </button>
+                </t>
+            </t>
+        </xpath>
+    </t>
+
+</templates>

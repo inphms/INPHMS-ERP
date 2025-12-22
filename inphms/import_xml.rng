@@ -254,9 +254,11 @@
             <rng:ref name="menuitem_attrs"/>
             <rng:choice>
                 <!-- a root menu can have a web_icon, an action and children -->
+                <!-- + New description field for root menu -->
                 <rng:group>
                     <rng:optional><rng:attribute name="web_icon"/></rng:optional>
                     <rng:optional><rng:attribute name="action"/></rng:optional>
+                    <rng:optional><rng:attribute name="description"/></rng:optional>
                     <rng:zeroOrMore><rng:ref name="submenuitem"/></rng:zeroOrMore>
                 </rng:group>
                 <!-- a non-root menu can have a parent and either an action or submenus -->
