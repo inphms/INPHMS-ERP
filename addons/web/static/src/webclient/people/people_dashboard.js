@@ -3,6 +3,8 @@ import { registry } from "@web/core/registry"
 import { Dashboard } from "@web/core/dashboard/dashboard";
 import { standardActionServiceProps } from "@web/webclient/actions/action_service";
 import { useService } from "@web/core/utils/hooks";
+import { executeButtonCallback } from "@web/views/view_button/view_button_hook";
+import { ResConfigInviteUsersDialog } from "../settings_form_view/widgets/res_config_invite_users";
 
 export class PeopleDashboard extends Component {
     static template = "web.PeopleDashboard"
@@ -12,6 +14,7 @@ export class PeopleDashboard extends Component {
     setup() {
         this.orm = useService('orm');
         this.invite = useService('user_invite');
+        this.dialog = useService('dialog');
         this.peopleKpiService = useService("people_kpi");
         this.peopleKpis = [];
         this._populateData();
@@ -82,6 +85,23 @@ export class PeopleDashboard extends Component {
             this.peopleKpiService.fetchData(kpi).
                 then((res) => kpiItem.value = res)
         }
+    }
+
+    onAddPersonClick() {
+        this.env.services.action.doAction({
+            res_model: 'res.partner',
+            type: 'ir.actions.act_window',
+            views: [[false, 'form']],
+            target: 'current',
+            context: {
+                default_is_company: false,
+            },
+        });
+    }
+    onInviteUserClick() {
+        this.dialog.add(
+            ResConfigInviteUsersDialog,
+        )
     }
 }
 

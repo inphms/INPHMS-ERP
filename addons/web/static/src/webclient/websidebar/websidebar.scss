@@ -34,6 +34,13 @@
     // background: $o-white;
     // border-radius: #{$border-radius-sm};
 
+    &.i-sidebar-compact {
+        --SearchPanel-width: 40px;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        overflow-x: hidden !important;
+    }
+
     .list-group {
         --list-group-bg: transparent;
         --list-group-color: #{$o-white};

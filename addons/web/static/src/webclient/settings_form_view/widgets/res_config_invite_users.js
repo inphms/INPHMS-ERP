@@ -3,21 +3,18 @@ import { _t } from "@web/core/l10n/translation";
 import { unique } from "@web/core/utils/arrays";
 import { useService } from "@web/core/utils/hooks";
 
-import { Component, useState, onWillStart } from "@inphms/owl";
+import { Component, useState, onWillStart, xml } from "@inphms/owl";
 import { standardWidgetProps } from "@web/views/widgets/standard_widget_props";
+import { Dialog } from "@web/core/dialog/dialog";
 
-class ResConfigInviteUsers extends Component {
-    static template = "res_config_invite_users";
-    static props = {
-        ...standardWidgetProps,
-    };
+
+class ResConfigInviteUsersBase extends Component {
+    static template = xml``;
 
     setup() {
         this.orm = useService("orm");
         this.invite = useService("user_invite");
-        this.action = useService("action");
         this.notification = useService("notification");
-
         this.state = useState({
             status: "idle", // idle, inviting
             emails: "",
@@ -29,6 +26,22 @@ class ResConfigInviteUsers extends Component {
         });
     }
 
+    get emails() {
+        return unique(
+            this.state.emails
+                .split(/[ ,;\n]+/)
+                .map((email) => email.trim())
+                .filter((email) => email.length)
+        );
+    }
+
+    get inviteButtonText() {
+        if (this.state.status === "inviting") {
+            return _t("Inviting...");
+        }
+        return _t("Send Invite");
+    }
+
     /**
      * @param {string} email
      * @returns {boolean} true if the given email address is valid
@@ -37,15 +50,6 @@ class ResConfigInviteUsers extends Component {
         const re =
             /^([a-z0-9][-a-z0-9_+.]*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,63}(?:\.[a-z]{2})?)$/i;
         return re.test(email);
-    }
-
-    get emails() {
-        return unique(
-            this.state.emails
-                .split(/[ ,;\n]+/)
-                .map((email) => email.trim())
-                .filter((email) => email.length)
-        );
     }
 
     validate() {
@@ -77,24 +81,6 @@ class ResConfigInviteUsers extends Component {
             })();
             throw new Error(errorMessage);
         }
-    }
-
-    get inviteButtonText() {
-        if (this.state.status === "inviting") {
-            return _t("Inviting...");
-        }
-        return _t("Send Invite");
-    }
-
-    onClickMore(ev) {
-        this.action.doAction(this.state.invite.action_pending_users);
-    }
-
-    onClickUser(ev, user) {
-        const action = Object.assign({}, this.state.invite.action_pending_users, {
-            res_id: user[0],
-        });
-        this.action.doAction(action);
     }
 
     onKeydownUserEmails(ev) {
@@ -137,6 +123,39 @@ class ResConfigInviteUsers extends Component {
             this.state.emails = "";
             this.state.status = "idle";
         }
+    }
+}
+
+
+export class ResConfigInviteUsersDialog extends ResConfigInviteUsersBase {
+    static template = "res_config_invite_users_dialog";
+    static components = { Dialog }
+
+    setup() {
+        super.setup();
+    }
+}
+
+class ResConfigInviteUsers extends ResConfigInviteUsersBase {
+    static template = "res_config_invite_users";
+    static props = {
+        ...standardWidgetProps,
+    };
+
+    setup() {
+        super.setup();
+        this.action = useService("action");
+    }
+
+    onClickMore(ev) {
+        this.action.doAction(this.state.invite.action_pending_users);
+    }
+
+    onClickUser(ev, user) {
+        const action = Object.assign({}, this.state.invite.action_pending_users, {
+            res_id: user[0],
+        });
+        this.action.doAction(action);
     }
 }
 

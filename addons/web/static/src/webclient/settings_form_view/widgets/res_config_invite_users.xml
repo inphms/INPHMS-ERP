@@ -27,4 +27,21 @@
             </t>
         </div>
     </div>
+
+    <t t-name="res_config_invite_users_dialog">
+        <Dialog size="'sm'" title.translate="Invite Users">
+            <div>
+                <p class="o_form_label mb-0">Add New Team Members</p>
+                <span class="text-muted smaller">
+                    Send an invitation to supervisors, field staff, or administrators to join your Inphms system.
+                </span>
+            </div>
+            <div class="mt-3">
+                <div class="d-flex input-group">
+                    <input t-model="state.emails" t-att-disabled="state.status != 'idle'" class="o_user_emails o_input form-control text-truncate" t-on-keydown="onKeydownUserEmails" type="text" placeholder="Type an email address..."/>
+                    <button t-att-disabled="state.status != 'idle'" class="btn btn-primary o_web_settings_invite flex-shrink-0" t-on-click="sendInvite"><strong><t t-esc="inviteButtonText"/></strong></button>
+                </div>
+            </div>
+        </Dialog>
+    </t>
 </templates>

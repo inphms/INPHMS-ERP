@@ -3,6 +3,8 @@ import { updateIconSections } from "@web/webclient/navbar/navbar";
 import { useService } from "@web/core/utils/hooks";
 import { debounce } from "@web/core/utils/timing";
 
+const SIDEBAR_ORIGINAL_WIDTH_PX = 220;
+
 export class WebSidebar extends Component {
     static template = "web.WebSidebar";
     static components = {};
@@ -14,6 +16,7 @@ export class WebSidebar extends Component {
 
         this.state = useState({
             activeMenu: null,
+            isSidebarCompact: false,
         });
 
         this.root = useRef("root");
@@ -31,7 +34,6 @@ export class WebSidebar extends Component {
         const updateActiveSelection = async ({ detail: info }) => {
             const currentAction = await this.actionService.currentAction;
             this.state.activeMenu = currentAction.id;
-            console.log(currentAction);
         };
 
         this.env.bus.addEventListener("ACTION_MANAGER:UI-UPDATED", updateActiveSelection);
@@ -60,8 +62,9 @@ export class WebSidebar extends Component {
         return sections;
     }
 
-    async adapt() {
-        console.log("hello");
+    toggleSidebar() {
+        this.state.isSidebarCompact = !this.state.isSidebarCompact;
+        this.root.el.style["min-width"] = 0;
     }
 
     async _onDashboardClick() {
@@ -73,6 +76,10 @@ export class WebSidebar extends Component {
 
     searchApp() {
         this.env.services.command.openMainPalette();
+    }
+
+    async adapt() {
+        this.render();
     }
 
     _onStartResize(ev) {
@@ -93,6 +100,7 @@ export class WebSidebar extends Component {
             const newWidth = Math.min(maxWidth, Math.max(10, initialWidth + delta));
             this.width = `${newWidth}px`;
             this.root.el.style["min-width"] = this.width;
+            this.state.isSidebarCompact = newWidth < SIDEBAR_ORIGINAL_WIDTH_PX / 2;
         };
         document.addEventListener("pointermove", resizeSidebar, true);
 

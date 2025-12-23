@@ -887,7 +887,7 @@ record['size'] = len(record.name)
             <field name="res_model">ir.model.data</field>
             <field name="view_id" ref="view_model_data_list"/>
         </record>
-        <menuitem id="next_id_5" name="Sequences &amp; Identifiers" parent="base.menu_custom" sequence="21" groups="base.group_no_one"/>
+        <menuitem id="next_id_5" name="Sequences &amp; Identifiers" parent="base.menu_administration" sequence="21" groups="base.group_no_one"/>
         <menuitem action="action_model_data" id="ir_model_data_menu" parent="base.next_id_5"
                   groups="base.group_no_one"/>
 

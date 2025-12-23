@@ -278,7 +278,7 @@
         <menuitem
             id="menu_config"
             name="System Setup"
-            parent="base.menu_administration"
+            parent="base.menu_system_overview"
             sequence="0"
             action="action_general_configuration"
             groups="base.group_system"/>

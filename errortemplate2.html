@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Error – INPHMS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+        :root {
+            --bg: #f5f6f8;
+            --card: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border: #e5e7eb;
+            --danger: #b91c1c;
+            --warning: #d97706;
+            --info: #2563eb;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .error-shell {
+            max-width: 640px;
+            width: 100%;
+            padding: 24px;
+        }
+
+        .error-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 32px;
+        }
+
+        .error-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .error-code {
+            font-size: 48px;
+            font-weight: 700;
+            margin-right: 16px;
+        }
+
+        .error-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .error-description {
+            margin-top: 4px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .error-body {
+            margin-top: 24px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .error-actions {
+            margin-top: 32px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--danger);
+            color: #ffffff;
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            border-color: var(--border);
+            color: var(--text-primary);
+        }
+
+        .btn-link {
+            background: none;
+            border: none;
+            color: var(--info);
+            padding: 0;
+        }
+
+        .error-footer {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px dashed var(--border);
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .error-footer details {
+            margin-top: 8px;
+        }
+
+        .error-footer summary {
+            cursor: pointer;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="error-shell">
+    <div class="error-card">
+
+        <!-- HEADER -->
+        <div class="error-header">
+            <div class="error-code" id="errorCode">404</div>
+            <div>
+                <div class="error-title" id="errorTitle">Page Not Found</div>
+                <div class="error-description" id="errorSubtitle">
+                    The resource you are looking for does not exist or was moved.
+                </div>
+            </div>
+        </div>
+
+        <!-- BODY -->
+        <div class="error-body" id="errorMessage">
+            Please verify the URL or return to the dashboard.
+            If you believe this is a system error, contact your administrator.
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="error-actions">
+            <a href="/" class="btn btn-primary">Go to Dashboard</a>
+            <button onclick="history.back()" class="btn btn-secondary">
+                Go Back
+            </button>
+            <a href="/support" class="btn btn-link">Contact Support</a>
+        </div>
+
+        <!-- FOOTER / TECH DETAILS -->
+        <div class="error-footer">
+            <div>INPHMS Platform · Error Reference</div>
+
+            <details>
+                <summary>Technical details</summary>
+                <pre id="errorDebug">
+Error Code: 404
+Timestamp: 2025-12-22T14:20:00Z
+Request ID: req_xxxxx
+                </pre>
+            </details>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -50,7 +50,7 @@
         <menuitem
             id="reporting_menuitem"
             name="Reporting"
-            parent="base.menu_custom"
+            parent="base.menu_administration"
             sequence="15"
             groups="base.group_no_one"
             />

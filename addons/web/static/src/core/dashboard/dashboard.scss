@@ -10,3 +10,8 @@
         padding: map-get($spacers, 3);
     }
 }
+
+.dashboard-panel-actions {
+    display: flex;
+    gap: map-get($spacers, 1);
+}

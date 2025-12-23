@@ -108,7 +108,8 @@
     <!-- Under Technical/Discuss -->
     <menuitem name="Talks"
         id="mail_menu_technical"
-        parent="base.menu_custom"
+        parent="base.menu_administration"
+        groups="base.group_no_one"
         sequence="1"/>
 
     <menuitem name="Messages"
@@ -188,7 +189,8 @@
 
     <menuitem name="Activities"
         id="menu_mail_activities_section"
-        parent="base.menu_custom"
+        parent="base.menu_administration"
+        groups="base.group_no_one"
         sequence="2" />
     <menuitem
       id="menu_mail_activities"
