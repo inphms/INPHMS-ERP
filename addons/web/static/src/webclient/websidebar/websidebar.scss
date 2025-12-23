@@ -12,15 +12,16 @@
             }
             & > *:last-child {
                 flex: 1 1 100%;
-                @extend %i-inphms-blur-background;
+                background: #{$gray-100};
+                margin-right: map-get($spacers, 2);
+                margin-top: map-get($spacers, 2);
+                // @extend %i-inphms-blur-background;
                 // margin-left: map-get($spacers, 2);
-                // border-radius: #{$border-radius-sm};
+                border-radius: #{$border-radius};
             }
         }
         .o_main_navbar {
-            background: $o-navbar-background;
-            backdrop-filter: none;
-            border-bottom: 1px solid #{$border-color} !important;
+            // background: $o-navbar-background;
         }
     }
 }
@@ -30,12 +31,38 @@
     font-size: var(--SearchPanel-fontSize, #{$o-search-panel-font-size});
     @extend %i-scrollbar-style;
     // @extend %i-inphms-blur-background;
-    background: $o-white;
+    // background: $o-white;
     // border-radius: #{$border-radius-sm};
 
     .list-group {
         --list-group-bg: transparent;
-        --list-group-active-bg: hsla(#{$i-system-color-dark-hsl}, .2);
-        --list-group-action-active-bg: #{$list-group-hover-bg};
+        --list-group-color: #{$o-white};
+        --list-group-action-hover-bg: hsla(#{$i-system-color-light-hsl}, .1);
+        --list-group-action-hover-color: #{$o-white};
+        --list-group-active-bg: hsla(#{$i-system-color-light-hsl}, .2);
+        --list-group-active-color: #{$o-white};
+        --list-group-action-active-bg: hsla(#{$i-system-color-light-hsl}, .1);
+        --list-group-action-active-color: #{$o-white};
+
+        .sidebar_action {
+            height: 40px;
+            display: flex;
+            align-items: center;
+        }
+    }
+    .list-group-item {
+        .list-group-item.list-group-item-action {
+            border-radius: 0;
+        }
+        .active {
+            box-shadow: inset 2px 0 0 $o-component-active-border;
+        }
+    }
+
+    .i_sidebar_search_bar {
+        background: hsla(#{$i-system-color-light-hsl}, .1);
+        .form-control {
+            color: #{$input-placeholder-color};
+        }
     }
 }

@@ -2,13 +2,23 @@
 <templates xml:space="preserve">
 
     <t t-name="web.WebSidebar">
-        <div t-ref="root" class="i_web_sidebar border-end flex-grow-0 flex-shrink-0 h-100 pb-5 overflow-auto position-relative px-3">
+        <div t-ref="root" class="i_web_sidebar flex-grow-0 flex-shrink-0 h-100 pb-5 overflow-auto position-relative px-3">
+            <div class="d-flex pt-4 pb-2">
+                <div class="flex-grow-1 input-group rounded-1 i_sidebar_search_bar"
+                     t-on-click.prevent="() => this.searchApp()"
+                >
+                    <span class="btn pe-0 text-white">
+                        <i class="fa fa-fw fa-search"></i>
+                    </span>
+                    <span class="form-control border-0">Search app...</span>
+                </div>
+                <button class="btn btn-link text-white">
+                    <i class="fa fa-fw fa-chevron-left"></i>
+                </button>
+            </div>
             <t t-set="sections" t-value="currentAppSections"/>
             <t t-foreach="sections" t-as="section" t-key="section.id">
                 <ul class="list-group d-block px-2 px-md-0">
-                    <t t-call="web.WebSidebar.Dashboard">
-                        <t t-set="sectionLength" t-value="sections.length"/>
-                    </t>
                     <t t-call="web.WebSidebar.Item">
                         <t t-set="section" t-value="section"/>
                     </t>
@@ -25,23 +35,23 @@
             <header
                 class="list-group-item py-1 border-0"
                 t-att-class="{
-                    'list-group-item-action cursor-pointer ps-0': !section.childrenTree.length,
+                    'list-group-item-action cursor-pointer sidebar_action': !section.childrenTree.length,
                     'pt-4 pb-2 px-0': section.childrenTree.length,
-                    'active text-black fw-bold': state.activeMenu === section.actionID,
+                    'active fw-bold': state.activeMenu === section.actionID,
                 }"
                 t-on-click="() => this._onSectionClick(section)"
             >
                 <div class="" t-att-data-tooltip="section.name">
                     <div class="d-flex align-items-center gap-2"
                         t-att-class="{
-                            'smaller fw-semibold text-uppercase text-muted': section.childrenTree.length
+                            'smaller fw-semibold text-uppercase text-light': section.childrenTree.length
                         }">
                         <t t-if="section.submenuIcon" t-out="section.submenuIcon"/>
                         <span class="text-truncate" t-esc="section.name"></span>
                     </div>
                 </div>
             </header>
-            <ul class="list-group d-block" t-if="section.childrenTree.length">
+            <ul class="list-group d-block mx-n3" t-if="section.childrenTree.length">
                 <t t-foreach="section.childrenTree" t-as="sectionChild" t-key="sectionChild_index">
                     <t t-call="web.WebSidebar.Item">
                         <t t-set="section" t-value="sectionChild"/>
@@ -80,40 +90,6 @@
                 </t>
             </ul>
         </li> -->
-    </t>
-
-    <t t-name="web.WebSidebar.Dashboard">
-        <li class="list-group-item border-0 p-0">
-            <header class="list-group-item py-1 border-0 pt-4 pb-2 px-0">
-                <div class="" data-tooltip="Overview">
-                    <div class="d-flex align-items-center gap-2 smaller fw-semibold text-uppercase text-muted">
-                        <span class="text-truncate">Overview</span>
-                    </div>
-                </div>
-            </header>
-            <ul t-if="sectionLength > 1" class="list-group d-block">
-                <t t-call="web.WebSidebar.DashboardNav"></t>
-            </ul>
-        </li>
-    </t>
-
-    <t t-name="web.WebSidebar.DashboardNav">
-        <li class="list-group-item border-0 p-0">
-            <header
-                class="list-group-item py-1 border-0 list-group-item-action cursor-pointer ps-0"
-                t-att-class="{
-                    'active text-black fw-bold': state.activeMenu === currentApp.actionID,
-                }"
-                t-on-click="() => this._onDashboardClick()"
-            >
-                <div class="" data-tooltip="Dashboard">
-                    <div class="d-flex align-items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="13" fill="none"><path fill="currentColor" d="M3 7.11V2.22c0-.33.12-.62.36-.86S3.89 1 4.22 1H7.9v6.11H3ZM9.11 1h3.67c.33 0 .62.12.86.36s.36.53.36.86v2.45H9.11V1Zm0 11V5.89H14v4.89c0 .33-.12.62-.36.86s-.53.36-.86.36H9.1ZM3 8.33h4.89V12H4.22c-.33 0-.62-.12-.86-.36a1.18 1.18 0 0 1-.36-.86V8.33ZM4.22 5.9h2.45V2.22H4.22V5.9Zm6.11-2.45h2.45V2.22h-2.45v1.22Zm0 3.67v3.67h2.45V7.1h-2.45Zm-6.1 2.45v1.22h2.44V9.56H4.22Z"/></svg>
-                        <span class="text-truncate">Dashboard</span>
-                    </div>
-                </div>
-            </header>
-        </li>
     </t>
 
 </templates>

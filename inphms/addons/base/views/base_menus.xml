@@ -28,12 +28,15 @@
         </menuitem>
     </menuitem>
 
-    <record model="ir.actions.client" id="ir_action_menu_management">
-        <field name="name">Apps</field>
-        <field name="tag">reload</field>
-        <field name="help">Manage system capabilities and installed modules</field>
-    </record>
-    <menuitem action="ir_action_menu_management" id="menu_management" name="Apps" sequence="500" web_icon="base,static/description/modules.png" groups="base.group_system"/>
+    <menuitem
+        id="menu_management"
+        name="Apps"
+        description="Manage system capabilities and installed modules"
+        sequence="500"
+        web_icon="base,static/description/modules.png" groups="base.group_system"
+    >
+        <menuitem id="menu_management_overview" name="Overview" sequence="0"/>
+    </menuitem>
     <menuitem id="base.menu_tests" name="Tests" sequence="1000" web_icon="base,static/description/exception.png"/>
 
     <record model="ir.ui.menu" id="base.menu_administration">
@@ -70,17 +73,20 @@
         <field name="name">People</field>
         <field name="path">people</field>
         <field name="tag">action_people_dashboard</field>
-        <field name="help">Employees, users, access</field>
     </record>
     <!-- TODO: add group -->
     <menuitem 
         id="menu_people_root" 
-        name="People"
+        name="Contacts"
         sequence="10"
         action="ir_action_people_views"
         web_icon="base,static/description/people.png"
+        description="Users, Access, and People Management"
     >
-        <menuitem id="menu_people_people_views" name="Directory" sequence="0"/>
+        <menuitem id="menu_people_overview" name="Overview" sequence="0">
+            <menuitem id="menu_people_dashboard" name="Dashboard" sequence="0" action="ir_action_people_views" submenu_icon="base,static/description/menu_icons/home.svg"/>
+        </menuitem>
+        <menuitem id="menu_people_people_views" name="Directory" sequence="10"/>
         <menuitem id="menu_people_administrator" name="Administrations" sequence="100"/>
     </menuitem>
     

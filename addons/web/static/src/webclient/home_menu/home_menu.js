@@ -38,7 +38,7 @@ export class HomeMenu extends Component {
                     appID: Number,
                     id: Number,
                     label: String,
-                    help: {
+                    description: {
                         type: [Boolean, String],
                         optional: 1
                     },
@@ -151,7 +151,8 @@ export class HomeMenu extends Component {
 
     }
     labelHelpOrDescription(app) {
-        return app.help ? markup(app.help) : 'No Description';
+        console.log(app, 'app');
+        return app.description ? markup(app.description) : 'No Description';
     }
     get hasAppCategory() {
         return this.groupedApps.apps.length > 0;

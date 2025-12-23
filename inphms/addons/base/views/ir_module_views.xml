@@ -331,15 +331,11 @@
         <menuitem 
             id="menu_apps"
             name="Apps"
-            parent="menu_management"
+            parent="menu_management_overview"
             sequence="5"
             action="open_module_tree"
             submenu_icon="base,static/description/menu_icons/home.svg"/>
-        
-        <record model="ir.actions.client" id="ir_action_menu_management">
-            <field name="params" eval="{'menu_id': ref('menu_apps')}"/>
-        </record>
-
+            
         <!--submenu -->
         <!-- <menuitem id="menu_module_tree" parent="menu_apps" name="Main Apps" sequence="5" action="open_module_tree" />
 

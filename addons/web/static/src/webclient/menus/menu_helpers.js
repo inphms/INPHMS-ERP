@@ -31,7 +31,7 @@ export function computeAppsAndMenuItems(menuTree) {
                 .map((p) => p.name)
                 .join(" / "),
             label: menuItem.name,
-            help: menuItem.help, // add help into menuitem
+            description: menuItem.description, // add description into menuitem
             id: menuItem.id,
             xmlid: menuItem.xmlid,
             actionID: menuItem.actionID,

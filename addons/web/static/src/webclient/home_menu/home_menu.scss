@@ -10,8 +10,10 @@
         // background: hsla(#{$i-system-color-light-hsl}, .3);
         
         border-bottom-color: transparent;
-        --NavBar-entry-color: #212529;
-        --NavBar-entry-color--hover: #000;
+        // --NavBar-entry-color: #212529;
+        --NavBar-entry-color: #{$o-white};
+        --NavBar-entry-color--hover: #{$o-white};
+        // --NavBar-entry-color--hover: #000;
 
         .o_dropdown_active,
         > ul > li.show > a {

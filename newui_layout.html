@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INPHMS | Intelligent Plantation OS</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <style>
+        /* --- 2. THE DESIGN SYSTEM (CSS Variables) --- */
+        :root {
+            /* Colors */
+            --bg-deep: #050505; /* The Void */
+            --bg-ambient: radial-gradient(circle at 15% 50%, rgba(0, 255, 194, 0.08), transparent 25%), 
+                          radial-gradient(circle at 85% 30%, rgba(118, 75, 162, 0.08), transparent 25%);
+            
+            --glass-surface: rgba(20, 25, 30, 0.65);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+            --glass-highlight: 1px solid rgba(255, 255, 255, 0.15);
+            --glass-blur: 16px;
+            
+            --primary-neon: #00FFC2; /* AI Cyan */
+            --accent-purple: #BD93F9;
+            --text-main: #FFFFFF;
+            --text-muted: #94A3B8;
+            
+            /* Dimensions */
+            --sidebar-width: 260px;
+            --header-height: 70px;
+            --footer-height: 36px;
+        }
+
+        /* --- 3. CORE STYLES --- */
+        body {
+            background-color: var(--bg-deep);
+            background-image: var(--bg-ambient);
+            background-attachment: fixed; /* Parallax feel */
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden; /* App-like feel, no window scroll */
+            height: 100vh;
+        }
+
+        /* Font Helper for Numbers/Data */
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* The Holographic Glass Class */
+        .glass-panel {
+            background: var(--glass-surface);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- 4. LAYOUT GRID --- */
+        .app-container {
+            display: grid;
+            grid-template-columns: var(--sidebar-width) 1fr;
+            grid-template-rows: var(--header-height) 1fr var(--footer-height);
+            grid-template-areas: 
+                "sidebar header"
+                "sidebar main"
+                "sidebar footer";
+            height: 100vh;
+        }
+
+        /* --- 5. SIDEBAR (Navigation) --- */
+        .app-sidebar {
+            grid-area: sidebar;
+            border-right: var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            z-index: 10;
+        }
+
+        .brand-logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            letter-spacing: 2px;
+            color: var(--primary-neon);
+            text-shadow: 0 0 10px rgba(0, 255, 194, 0.4);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 4px;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        .nav-link.active {
+            background: rgba(0, 255, 194, 0.1);
+            color: var(--primary-neon);
+            border: 1px solid rgba(0, 255, 194, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 194, 0.1);
+        }
+
+        /* --- 6. HEADER (Command Bar) --- */
+        .app-header {
+            grid-area: header;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            border-bottom: var(--glass-border);
+        }
+
+        /* The Omni-Search Bar */
+        .search-container {
+            position: relative;
+            width: 400px;
+        }
+        
+        .search-input {
+            width: 100%;
+            background: rgba(0,0,0,0.2);
+            border: var(--glass-border);
+            border-radius: 50px; /* Pill shape */
+            padding: 10px 20px 10px 45px;
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-neon);
+            box-shadow: 0 0 15px rgba(0, 255, 194, 0.2);
+            background: rgba(0,0,0,0.4);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        /* --- 7. MAIN CONTENT (Workspace) --- */
+        .app-main {
+            grid-area: main;
+            padding: 2rem;
+            overflow-y: auto; /* Scroll only inside content */
+        }
+
+        /* Custom Card Overrides */
+        .card {
+            background: transparent; /* Use glass-panel class instead */
+            border: none;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            background: transparent;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            padding: 1rem 1.5rem;
+        }
+
+        /* Glowing Badge */
+        .badge-neon {
+            background: rgba(0, 255, 194, 0.1);
+            color: var(--primary-neon);
+            border: 1px solid rgba(0, 255, 194, 0.3);
+            box-shadow: 0 0 8px rgba(0, 255, 194, 0.2);
+        }
+
+        /* --- 8. FOOTER (System Tray / Status) --- */
+        .app-footer {
+            grid-area: footer;
+            border-top: var(--glass-border);
+            background: rgba(0,0,0,0.3); /* Slightly darker */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--primary-neon);
+            box-shadow: 0 0 8px var(--primary-neon);
+            margin-right: 6px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <nav class="app-sidebar glass-panel rounded-0 border-top-0 border-bottom-0 border-start-0">
+            <div class="brand-logo">
+                <i class="bi bi-hexagon-fill"></i> INPHMS
+            </div>
+            
+            <div class="nav flex-column">
+                <p class="text-uppercase text-muted mb-2" style="font-size: 0.7rem; letter-spacing: 1px;">Main</p>
+                <a href="#" class="nav-link active">
+                    <i class="bi bi-grid-1x2"></i> Dashboard
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="bi bi-geo-alt"></i> Plantation Map
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="bi bi-moisture"></i> Harvest Log
+                </a>
+                
+                <p class="text-uppercase text-muted mt-4 mb-2" style="font-size: 0.7rem; letter-spacing: 1px;">Intelligence</p>
+                <a href="#" class="nav-link">
+                    <i class="bi bi-cpu"></i> AI Insights
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="bi bi-graph-up-arrow"></i> Yield Prediction
+                </a>
+            </div>
+
+            <div class="mt-auto pt-3 border-top border-secondary border-opacity-25 d-flex align-items-center gap-2">
+                <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center text-white" style="width: 32px; height: 32px;">U</div>
+                <div>
+                    <div style="font-size: 0.85rem;">Admin User</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">Site Manager</div>
+                </div>
+            </div>
+        </nav>
+
+        <header class="app-header glass-panel rounded-0 border-top-0 border-start-0 border-end-0">
+            <div class="d-flex align-items-center text-muted">
+                <span class="text-white">Overview</span>
+                <i class="bi bi-chevron-right mx-2" style="font-size: 0.8rem;"></i>
+                <span>Real-time Operations</span>
+            </div>
+
+            <div class="search-container">
+                <i class="bi bi-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Ask INPHMS AI or search data...">
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-link text-white p-0 position-relative">
+                    <i class="bi bi-bell" style="font-size: 1.2rem;"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
+                </button>
+                <button class="btn btn-outline-light btn-sm rounded-pill px-3" style="border-color: rgba(255,255,255,0.2);">
+                    <i class="bi bi-cloud-arrow-down me-1"></i> Sync
+                </button>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <div class="container-fluid p-0">
+                
+                <div class="row g-4 mb-4">
+                    <div class="col-md-3">
+                        <div class="glass-panel card h-100 p-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted small text-uppercase">Daily Harvest</span>
+                                <i class="bi bi-tree text-success"></i>
+                            </div>
+                            <h2 class="font-mono mb-0">124.5 <span class="fs-6 text-muted">Tons</span></h2>
+                            <div class="small text-success mt-2">
+                                <i class="bi bi-arrow-up-short"></i> +12% vs yesterday
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="glass-panel card h-100 p-3" style="box-shadow: 0 0 20px rgba(0, 255, 194, 0.1);">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted small text-uppercase">AI Confidence</span>
+                                <i class="bi bi-stars" style="color: var(--primary-neon);"></i>
+                            </div>
+                            <h2 class="font-mono mb-0" style="color: var(--primary-neon);">98.2%</h2>
+                            <div class="small text-muted mt-2">
+                                Predictive Model: <span class="text-white">Active</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="glass-panel card h-100 p-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted small text-uppercase">Active Workforce</span>
+                                <i class="bi bi-people text-warning"></i>
+                            </div>
+                            <h2 class="font-mono mb-0">342</h2>
+                            <div class="small text-muted mt-2">
+                                4 Teams Deployed
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="glass-panel card h-100 p-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted small text-uppercase">Weather</span>
+                                <i class="bi bi-cloud-rain text-info"></i>
+                            </div>
+                            <h2 class="font-mono mb-0">28°C</h2>
+                            <div class="small text-info mt-2">
+                                Heavy rain expected 14:00
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-8">
+                        <div class="glass-panel card h-100">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <span>Harvest Efficiency Map</span>
+                                <button class="btn btn-sm btn-outline-secondary border-0 text-white"><i class="bi bi-three-dots"></i></button>
+                            </div>
+                            <div class="card-body d-flex align-items-center justify-content-center" style="min-height: 300px;">
+                                <div class="text-center text-muted">
+                                    <i class="bi bi-map fs-1 opacity-25"></i>
+                                    <p class="mt-2 small">Interactive Map Visualization Component</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="glass-panel card h-100">
+                            <div class="card-header">
+                                Live Feed
+                            </div>
+                            <div class="card-body p-0">
+                                <ul class="list-group list-group-flush bg-transparent">
+                                    <li class="list-group-item bg-transparent text-white border-secondary border-opacity-25 py-3">
+                                        <div class="d-flex justify-content-between">
+                                            <span class="badge badge-neon rounded-pill">Alert</span>
+                                            <span class="small font-mono text-muted">10:42 AM</span>
+                                        </div>
+                                        <div class="small mt-1">Block A4 moisture below threshold.</div>
+                                    </li>
+                                    <li class="list-group-item bg-transparent text-white border-secondary border-opacity-25 py-3">
+                                        <div class="d-flex justify-content-between">
+                                            <span class="badge bg-secondary bg-opacity-25 text-white border border-secondary border-opacity-25 rounded-pill">System</span>
+                                            <span class="small font-mono text-muted">10:30 AM</span>
+                                        </div>
+                                        <div class="small mt-1">Local Database synced successfully.</div>
+                                    </li>
+                                     <li class="list-group-item bg-transparent text-white border-secondary border-opacity-25 py-3">
+                                        <div class="d-flex justify-content-between">
+                                            <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25 rounded-pill">Harvest</span>
+                                            <span class="small font-mono text-muted">09:15 AM</span>
+                                        </div>
+                                        <div class="small mt-1">Batch #442 weighed in at weighbridge.</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <footer class="app-footer glass-panel rounded-0 border-bottom-0 border-start-0 border-end-0">
+            <div class="d-flex gap-3">
+                <span class="d-flex align-items-center"><span class="status-indicator"></span> AI Online</span>
+                <span class="d-flex align-items-center text-muted"><i class="bi bi-database me-1"></i> Local DB: Connected</span>
+            </div>
+            
+            <div class="font-mono opacity-50">
+                v2.4.0-stable | 60ms latency
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

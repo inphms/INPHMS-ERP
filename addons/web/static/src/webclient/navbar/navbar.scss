@@ -4,9 +4,9 @@
 .o_main_navbar {
     @include print-variable(o-navbar-height, $o-navbar-height);
 
-    --NavBar-entry-backgroundColor--active: hsla(#{$i-system-color-dark-hsl}, .2);
-    --NavBar-entry-backgroundColor--hover: hsla(${$i-system-color-dark-hsl}, .2);
-    --NavBar-entry-backgroundColor--focus: hsla(${$i-system-color-dark-hsl}, .2);
+    --NavBar-entry-backgroundColor--active: hsla(#{$i-system-color-light-hsl}, .2);
+    --NavBar-entry-backgroundColor--hover: hsla(#{$i-system-color-light-hsl}, .1);
+    --NavBar-entry-backgroundColor--focus: hsla(#{$i-system-color-light-hsl}, .1);
 
     --Dropdown_menu-margin-y: #{map-get($spacers, 1)};
 
@@ -16,8 +16,8 @@
     padding-bottom: $o-navbar-padding-v;
     border-bottom: $o-navbar-border-bottom;
     // background: $o-navbar-background;
-    background: hsla(#{$i-system-color-light-hsl}, .3);
-    backdrop-filter: blur(12px);
+    // background: hsla(#{$i-system-color-light-hsl}, .3);
+    // backdrop-filter: blur(12px);
     font-size: $o-navbar-font-size;
 
     @include media-breakpoint-up(md) {
@@ -180,7 +180,7 @@
         .dropdown.show.dropdown-toggle {
             border-color: var(--NavBar-entry-borderColor-active, transparent);
             background: var(--NavBar-entry-backgroundColor--active, #{$o-navbar-entry-bg--active});
-            color: var(--NavBar-entry-color--active, #{$o-navbar-entry-color--active});
+            // color: var(--NavBar-entry-color--active, #{$o-navbar-entry-color--active});
         }
     }
 
@@ -221,7 +221,7 @@
     }
 
     .o_menu_brand, .o_navbar_breadcrumbs, .o_navbar_breadcrumbs .btn {
-        color: var(--NavBar-brand-color, #{$o-navbar-brand-color});
+        // color: var(--NavBar-brand-color, #{$o-navbar-brand-color});
     }
 
     .o_menu_sections {

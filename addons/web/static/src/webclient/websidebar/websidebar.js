@@ -1,6 +1,7 @@
-import { Component, useRef, onWillUnmount, useState } from "@inphms/owl";
+import { Component, useRef, onWillUnmount, useState, useEffect, onWillDestroy, useExternalListener } from "@inphms/owl";
 import { updateIconSections } from "@web/webclient/navbar/navbar";
 import { useService } from "@web/core/utils/hooks";
+import { debounce } from "@web/core/utils/timing";
 
 export class WebSidebar extends Component {
     static template = "web.WebSidebar";
@@ -18,7 +19,13 @@ export class WebSidebar extends Component {
         this.root = useRef("root");
         this.width = "10px";
 
+        const debouncedAdapt = debounce(this.adapt.bind(this), 250);
+        onWillDestroy(() => debouncedAdapt.cancel());
+        useExternalListener(window, "resize", debouncedAdapt);
+
+        let adaptCounter = 0;
         const renderAndAdapt = () => {
+            adaptCounter++;
             this.render();
         };
         const updateActiveSelection = async ({ detail: info }) => {
@@ -33,6 +40,11 @@ export class WebSidebar extends Component {
             this.env.bus.removeEventListener("ACTION_MANAGER:UI-UPDATED", updateActiveSelection);
             this.env.bus.removeEventListener("MENUS:APP-CHANGED", renderAndAdapt);
         });
+
+        useEffect(
+            () => {this.adapt();},
+            () => [adaptCounter]
+        );
     }
 
     get currentApp() {
@@ -48,11 +60,19 @@ export class WebSidebar extends Component {
         return sections;
     }
 
+    async adapt() {
+        console.log("hello");
+    }
+
     async _onDashboardClick() {
         await this.menuService.selectMenu(this.currentApp);
     }
     async _onSectionClick(section) {
         await this.menuService.selectMenu(section);
+    }
+
+    searchApp() {
+        this.env.services.command.openMainPalette();
     }
 
     _onStartResize(ev) {

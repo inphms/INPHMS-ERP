@@ -42,9 +42,3 @@
 .i_sidebar_resize {
     @extend .o_search_panel_resize;
 }
-
-.list-group-item {
-    .list-group-item.list-group-item-action {
-        border-radius: $o-border-radius-sm;
-    }
-}

@@ -96,7 +96,6 @@ class IrUiMenu(models.Model):
                     "webIconData": web_icon_data,
                     "webIconDataMimetype": menu['web_icon_data_mimetype'],
                     "webIconDataWhite": web_icon_data_white,
-                    "help": menu['help'],
                 }
 
         # print(json.dumps(web_menus, indent=2))
