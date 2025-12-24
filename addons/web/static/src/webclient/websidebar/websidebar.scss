@@ -26,6 +26,24 @@
     }
 }
 
+%i-scrollbar-style {
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+    // &::-webkit-scrollbar-track {
+    //     background-color: transparent;
+    //     border-radius: 10px;
+    // }
+    &::-webkit-scrollbar-thumb {
+        background: hsla(#{$i-system-color-light-hsl}, .3);
+        border-radius: $border-radius-pill;
+        
+        &:hover {
+            background: hsla(#{$i-system-color-light-hsl}, .6);
+        }
+    }
+}
+
 .i_web_sidebar {
     width: var(--SearchPanel-width, #{$o-search-panel-width});
     font-size: var(--SearchPanel-fontSize, #{$o-search-panel-font-size});
@@ -72,4 +90,8 @@
             color: #{$input-placeholder-color};
         }
     }
+}
+
+.i_sidebar_resize {
+    @extend .o_search_panel_resize;
 }

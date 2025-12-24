@@ -418,16 +418,20 @@ form: module.record_id""" % (xml_id,)
             'active': nodeattr2bool(rec, 'active', default=True),
         }
 
-        if rec.get('sequence'):
-            values['sequence'] = int(rec.get('sequence'))
+        if sequence := rec.get('sequence'):
+            values['sequence'] = int(sequence)
+        if not parent and (parent_xml_id := rec.get('parent')):
+            parent = self.id_get(parent_xml_id)
         if parent is not None:
+            # or should we use just `if parent:` instead?
+            # because 0 would pass here, but would fail above check...
+            # handle child menuitem
             values['parent_id'] = parent
-        elif rec.get('parent'):
-            values['parent_id'] = self.id_get(rec.attrib['parent'])
-            if rec.get('submenu_icon'):
-                values['submenu_icon'] = rec.attrib['submenu_icon']
-        elif rec.get('web_icon'):
-            values['web_icon'] = rec.attrib['web_icon']
+            if icon := rec.get('submenu_icon'):
+                values['submenu_icon'] = icon
+        elif web_icon := rec.get('web_icon'):
+            # handle parent menuitem
+            values['web_icon'] = web_icon
 
 
         if rec.get('name'):
