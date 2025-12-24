@@ -26,8 +26,8 @@
                 <span>
                     <t t-out="content" />
                 </span>
-                <div class="d-flex justify-content-end">
-                    <button class="btn btn-link" t-on-click="onStopClicked">Stop Tour</button>
+                <div class="d-flex justify-content-end mt-3">
+                    <button class="btn btn-outline-danger" t-on-click="onStopClicked">Stop Tour</button>
                 </div>
             </div>
         </div>

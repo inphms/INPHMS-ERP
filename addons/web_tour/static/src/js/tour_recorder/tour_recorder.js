@@ -3,11 +3,20 @@ import { Dropdown } from "@web/core/dropdown/dropdown";
 import { DropdownItem } from "@web/core/dropdown/dropdown_item";
 import { browser } from "@web/core/browser/browser";
 import { queryAll, queryFirst, queryOne } from "@inphms/hoot-dom";
-import { Component, useState, useExternalListener, useRef } from "@inphms/owl";
+import {
+    Component,
+    useState,
+    useExternalListener,
+    useRef,
+    onWillDestroy,
+    useEffect,
+} from "@inphms/owl";
 import { _t } from "@web/core/l10n/translation";
 import { x2ManyCommands } from "@web/core/orm_service";
 import { tourRecorderState } from "./tour_recorder_state";
 import { makeDraggableHook } from "@web/core/utils/draggable_hook_builder_owl";
+import { debounce } from "@web/core/utils/timing";
+import { useDropdownState } from "@web/core/dropdown/dropdown_hooks";
 
 const PRECISE_IDENTIFIERS = ["data-menu-xmlid", "name", "contenteditable"];
 const INPHMS_CLASS_REGEX = /^oe?(-|_)[\w-]+$/;
@@ -134,6 +143,18 @@ export class TourRecorder extends Component {
             steps: [],
         });
 
+        const debouncedAdapt = debounce(this.adapt.bind(this), 250);
+        onWillDestroy(() => debouncedAdapt.cancel());
+        useExternalListener(window, "resize", debouncedAdapt);
+        useEffect(
+            () => {
+                this.adapt();
+            },
+            () => []
+        );
+
+        this.steps = useDropdownState();
+        this.save = useDropdownState();
         this.root = useRef("root");
         this.position = useState({
             dragged: false,
@@ -149,6 +170,8 @@ export class TourRecorder extends Component {
             ref: this.root,
             elements: ".o_tour_recorder",
             onDragStart: () => {
+                this.steps.close();
+                this.save.close();
                 this.position.isDragging = true;
                 this.position.dragged = true;
             },
@@ -166,6 +189,10 @@ export class TourRecorder extends Component {
         useExternalListener(document, "keyup", this.recordKeyboardEvent, { capture: true });
     }
 
+    async adapt() {
+        this.render();
+    }
+
     onDrop({ top, left }) {
         this.position.bottom = "unset";
         this.position.right = "unset";
@@ -177,7 +204,11 @@ export class TourRecorder extends Component {
      * @param {PointerEvent} ev
      */
     setStartingEvent(ev) {
-        if (!this.state.recording || ev.target.closest(".o_tour_recorder")) {
+        if (
+            !this.state.recording ||
+            ev.target.closest(".o_tour_recorder") ||
+            this.position.isDragging
+        ) {
             return;
         }
         this.originClickEvent = ev.composedPath().filter((p) => p instanceof Element);
@@ -187,7 +218,11 @@ export class TourRecorder extends Component {
      * @param {PointerEvent} ev
      */
     recordClickEvent(ev) {
-        if (!this.state.recording || ev.target.closest(".o_tour_recorder")) {
+        if (
+            !this.state.recording ||
+            ev.target.closest(".o_tour_recorder") ||
+            this.position.isDragging
+        ) {
             return;
         }
         const pathElements = ev.composedPath().filter((p) => p instanceof Element);
@@ -216,7 +251,8 @@ export class TourRecorder extends Component {
         if (
             !this.state.recording ||
             !this.state.editedElement ||
-            ev.target.closest(".o_tour_recorder")
+            ev.target.closest(".o_tour_recorder") ||
+            this.position.isDragging
         ) {
             return;
         }
@@ -244,7 +280,8 @@ export class TourRecorder extends Component {
         if (
             !this.state.recording ||
             VALIDATING_KEYS.includes(ev.key) ||
-            ev.target.closest(".o_tour_recorder")
+            ev.target.closest(".o_tour_recorder") ||
+            this.position.isDragging
         ) {
             return;
         }
