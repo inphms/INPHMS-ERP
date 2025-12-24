@@ -4,11 +4,11 @@
         <field name="model">web_tour.tour</field>
         <field name="arch" type="xml">
             <form create="0">
-                <header>
+                <!-- <header>
                     <div>
                         <field name="name" widget="tour_start_widget"/>
                     </div>
-                </header>
+                </header> -->
                 <sheet>
                     <div>
                         <group string="Definition" class="border rounded mb-4 mx-0 i__group">
