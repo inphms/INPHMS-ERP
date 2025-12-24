@@ -1,7 +1,7 @@
 
 {
     'name': 'Partners Geolocation',
-    'version': '2.1',
+    'version': '1.0',
     'category': 'Sales/Sales',
     'description': """
 Partners Geolocation

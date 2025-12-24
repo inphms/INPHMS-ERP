@@ -293,7 +293,7 @@
                                 </group>
                             </group>
                         </group>
-                        <group string="Internal Notes" class="border rounded mx-0 i__group">
+                        <group string="Internal Notes" name="internal_notes" class="border rounded mx-0 i__group">
                             <field name="comment" placeholder="Internal notes..."/>
                             <group name="warnings"/>
                         </group>

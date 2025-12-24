@@ -1,5 +1,10 @@
 {
     'name' : 'IM Bus',
+    'summary': """
+Extension module for advanced Websocket,
+it enables, Instant Messaging, RTC, Notifications, and Live Update Data Sync.
+that is not available in base or web module.
+    """,
     'version': '1.0',
     'category': 'Hidden',
     'description': "Instant Messaging Bus allow you to send messages to users, in live.",

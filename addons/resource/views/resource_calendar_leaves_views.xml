@@ -38,7 +38,7 @@
             <form string="Time Off Detail">
             <field name="company_id" invisible="1"/>
             <sheet>
-                <group>
+                <group string="Definition" class="border rounded mb-4 mx-0 i__group">
                     <group name="leave_details">
                         <field name="name" string="Reason"/>
                         <field name="calendar_id"/>

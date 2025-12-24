@@ -1,5 +1,6 @@
 {
     'name': 'Tours',
+    'summary': "Core module for managing onboarding and tour for users.",
     'category': 'Hidden',
     'description': """
 Inphms Web tours.
