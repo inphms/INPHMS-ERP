@@ -22,20 +22,26 @@
             <field name="arch" type="xml">
                 <form string="Email message">
                     <sheet>
-                        <group>
-                            <group string='Description'>
-                                <field name="name"/>
-                                <field name="sequence"/>
-                                <field name="res_model"/>
-                                <field name="description"/>
-                                <field name="default"/>
-                                <field name="internal"/>
-                                <field name="hidden"/>
-                                <field name="track_recipients"/>
+                        <group string="Definition" class="i__group rounded mb-4 mx-0 border">
+                            <group string="Description" class="mb-3" colspan="2">
+                                <group>
+                                    <field name="name"/>
+                                    <field name="sequence"/>
+                                    <field name="res_model"/>
+                                    <field name="description"/>
+                                </group>
+                                <group>
+                                    <field name="default"/>
+                                    <field name="internal"/>
+                                    <field name="hidden"/>
+                                    <field name="track_recipients"/>
+                                </group>
                             </group>
-                            <group string='Auto subscription'>
-                                <field name="parent_id"/>
-                                <field name="relation_field"/>
+                            <group colspan="2" string="Auto subscription">
+                                <group>
+                                    <field name="parent_id"/>
+                                    <field name="relation_field"/>
+                                </group>
                             </group>
                         </group>
                     </sheet>

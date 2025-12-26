@@ -12,6 +12,7 @@ Inphms Web tours.
     'data': [
         'security/ir.model.access.csv',
         'views/tour_views.xml',
+        'views/res_config_settings_views.xml',
     ],
     'assets': {
         'web.assets_backend': [

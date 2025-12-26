@@ -135,6 +135,6 @@
                 </p>
             </field>
         </record>
-        <menuitem action="action_attachment" id="menu_action_attachment" parent="base.next_id_9"/>
+        <!-- <menuitem action="action_attachment" id="menu_action_attachment" parent="base.next_id_9"/> -->
 
 </inphms>

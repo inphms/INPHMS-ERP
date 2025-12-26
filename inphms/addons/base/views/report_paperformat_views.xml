@@ -47,14 +47,14 @@
             <field name="res_model">ir.actions.report</field>
             <field name="view_mode">list,form</field>
         </record>
-        <menuitem
+        <!-- <menuitem
             id="reporting_menuitem"
             name="Reporting"
             parent="base.menu_administration"
             sequence="15"
             groups="base.group_no_one"
-            />
-        <menuitem
+            /> -->
+        <!-- <menuitem
             id="paper_format_menuitem"
             name="Paper Format"
             parent="reporting_menuitem"
@@ -69,6 +69,6 @@
             action="reports_action"
             sequence="3"
             groups="base.group_no_one"
-            />
+            /> -->
     </data>
 </inphms>

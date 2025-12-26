@@ -5,10 +5,10 @@
             <field name="model">ir.mail_server</field>
             <field name="arch" type="xml">
                 <form string="Outgoing Mail Servers">
-                    <header>
+                    <!-- <header>
                         <button string="Test Connection" type="object"
                             name="test_smtp_connection" class="btn-primary"/>
-                    </header>
+                    </header> -->
                     <sheet>
                         <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
                             invisible="active"/>
@@ -181,5 +181,5 @@
             </field>
         </record>
 
-        <menuitem id="menu_mail_servers" parent="menu_email" action="action_ir_mail_server_list" sequence="5" groups="base.group_no_one"/>
+        <!-- <menuitem id="menu_mail_servers" parent="menu_email" action="action_ir_mail_server_list" sequence="5" groups="base.group_no_one"/> -->
 </inphms>

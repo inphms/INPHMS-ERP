@@ -14,7 +14,53 @@
                         The last message received on this alias has caused an error.
                     </div>
                     <sheet>
-                        <div class="oe_button_box" name="button_box">
+                        <div>
+                            <group class="rounded border mb-4 mx-0 i__group" string="Definition">
+                                <div colspan="2" class="mb-3 d-flex">
+                                    <div class="flex-grow-1 d-flex align-items-center gap-1" dir="ltr">
+                                        <field name="alias_name" placeholder="alias" class="oe_inline"/>@
+                                        <field name="alias_domain_id" class="oe_inline" placeholder="e.g. mycompany.com" options="{'no_create': True, 'no_open': True}"/>
+                                    </div>
+                                    <field class="w-auto" name="alias_status" widget="badge" decoration-success="alias_status == 'valid'" decoration-warning="alias_status == 'not_tested'" decoration-danger="alias_status == 'invalid'"/>
+                                </div>
+                                <group class="mx-0 px-0" colspan="2">
+                                    <group>
+                                        <field name="alias_model_id"/>
+                                        <field name="alias_force_thread_id"/>
+                                        <field name="alias_defaults"/>
+                                    </group>
+                                    <group>
+                                        <field name="alias_contact"/>
+                                        <field name="alias_parent_model_id"/>
+                                        <field name="alias_parent_thread_id"/>
+                                        <field name="alias_incoming_local"/>
+                                    </group>
+                                </group>
+                                <group colspan="2">
+                                    <field name="alias_bounced_content" invisible="alias_contact == 'everyone'"/>
+                                </group>
+                            </group>
+                        </div>
+                        <sidepanel>
+                            <div class="o_inner_group border rounded mb-4 i__group" name="quick_actions">
+                                <div class="o_horizontal_separator mt-4 mb-3 text-uppercase fw-bolder small">
+                                    Quick Actions
+                                </div>
+                                <div class="action_button o-form-buttonbox list-group gap-2">
+                                    <button name="open_document" string="Open Document"
+                                            type="object" class="oe_link" icon="fa-sitemap"
+                                            invisible="not alias_model_id or alias_force_thread_id == 0"/>
+                                    <button name="open_parent_document"
+                                            type="object" class="oe_link" icon="fa-sitemap"
+                                            invisible="not alias_parent_model_id or alias_parent_thread_id == 0">
+                                            <div class="o_field_widget o_stat_info">
+                                                <span class="o_stat_text">Open Parent Document</span>
+                                            </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </sidepanel>
+                        <!-- <div class="oe_button_box" name="button_box">
                             <button name="open_document" string="Open Document"
                                     type="object" class="oe_link" icon="fa-sitemap"
                                     invisible="not alias_model_id or alias_force_thread_id == 0"/>
@@ -47,7 +93,7 @@
                             <field name="alias_parent_thread_id"/>
                         </group>
                         <label for="alias_bounced_content" invisible="alias_contact == 'everyone'"/>
-                        <field name="alias_bounced_content" invisible="alias_contact == 'everyone'"/>
+                        <field name="alias_bounced_content" invisible="alias_contact == 'everyone'"/> -->
                     </sheet>
                 </form>
             </field>

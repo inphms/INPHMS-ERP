@@ -36,10 +36,10 @@
                 <field name="name">Decimal Accuracy</field>
                 <field name="res_model">decimal.precision</field>
         </record>
-        <menuitem
+        <!-- <menuitem
             parent="base.next_id_9"
             id="menu_decimal_precision_form"
-            action="action_decimal_precision_form"/>
+            action="action_decimal_precision_form"/> -->
 
     </data>
 </inphms>

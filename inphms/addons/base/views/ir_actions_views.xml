@@ -47,8 +47,8 @@
             <field name="view_id" ref="action_view_tree"/>
             <field name="search_view_id" ref="action_view_search"/>
         </record>
-        <menuitem id="next_id_6" name="Actions" parent="base.menu_administration" groups="base.group_no_one" sequence="5"/>
-        <menuitem action="ir_sequence_actions" id="menu_ir_sequence_actions" parent="next_id_6"/>
+        <!-- <menuitem id="next_id_6" name="Actions" parent="base.menu_administration" groups="base.group_no_one" sequence="5"/> -->
+        <!-- <menuitem action="ir_sequence_actions" id="menu_ir_sequence_actions" parent="next_id_6"/> -->
 
         <!-- ir.actions.report -->
 
@@ -194,7 +194,7 @@
             <field name="view_id" ref="act_report_xml_view_tree"/>
             <field name="search_view_id" ref="act_report_xml_search_view"/>
         </record>
-        <menuitem action="ir_action_report" id="menu_ir_action_report" parent="base.next_id_6"/>
+        <!-- <menuitem action="ir_action_report" id="menu_ir_action_report" parent="base.next_id_6"/> -->
 
         <!-- ir.actions.client -->
 
@@ -413,7 +413,7 @@
             <field name="view_id" ref="view_window_action_form"/>
             <field name="act_window_id" ref="ir_action_window"/>
         </record>
-        <menuitem action="ir_action_window" id="menu_ir_action_window" parent="base.next_id_6"/>
+        <!-- <menuitem action="ir_action_window" id="menu_ir_action_window" parent="base.next_id_6"/> -->
 
         <record id="view_client_action_tree" model="ir.ui.view">
             <field name="name">Client Actions</field>
@@ -431,7 +431,7 @@
             <field name="res_model">ir.actions.client</field>
             <field name="view_id" ref="view_client_action_tree"/>
         </record>
-        <menuitem action="ir_client_actions_report" id="menu_ir_client_actions_report" parent="base.next_id_6"/>
+        <!-- <menuitem action="ir_client_actions_report" id="menu_ir_client_actions_report" parent="base.next_id_6"/> -->
 
         <!-- ir.actions.server -->
 
@@ -892,7 +892,7 @@ env['res.partner'].create({'name': partner_name})
                 'search_default_toplevel_actions': 1,
             }</field>
         </record>
-        <menuitem action="action_server_action" id="menu_server_action" parent="base.next_id_6"/>
+        <!-- <menuitem action="action_server_action" id="menu_server_action" parent="base.next_id_6"/> -->
 
         <!-- ir.embedded.actions -->
 
@@ -967,7 +967,7 @@ env['res.partner'].create({'name': partner_name})
             <field name="res_model">ir.embedded.actions</field>
             <field name="view_id" ref="embedded_action_tree"/>
         </record>
-        <menuitem action="ir_embedded_action" id="menu_ir_embedded_action" parent="base.next_id_6"/>
+        <!-- <menuitem action="ir_embedded_action" id="menu_ir_embedded_action" parent="base.next_id_6"/> -->
 
         <!-- ir.actions.todo -->
 
@@ -1050,7 +1050,7 @@ env['res.partner'].create({'name': partner_name})
             <field name="view_id" ref="ir_actions_todo_tree"/>
             <field name="help">The configuration wizards are used to help you configure a new instance of Inphms. They are launched during the installation of new modules, but you can choose to restart some wizards manually from this menu.</field>
         </record>
-        <menuitem id="menu_ir_actions_todo_form" action="act_ir_actions_todo_form" parent="base.next_id_6"/>
+        <!-- <menuitem id="menu_ir_actions_todo_form" action="act_ir_actions_todo_form" parent="base.next_id_6"/> -->
         <record id="action_run_ir_action_todo" model="ir.actions.server">
             <field name="name">Config: Run Remaining Action Todo</field>
             <field name="model_id" ref="model_res_config"/>

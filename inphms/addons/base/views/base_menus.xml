@@ -22,12 +22,12 @@
         </menuitem> -->
 
         <!-- <menuitem id="menu_custom" name="Developer Tools" sequence="110" groups="base.group_no_one"> -->
-            <menuitem id="next_id_2" name="User Interface" groups="base.group_no_one"/>
-            <menuitem id="menu_email" name="Email" sequence="1" groups="base.group_no_one"/>
-            <menuitem id="next_id_9" name="Database Structure" groups="base.group_no_one"/>
-            <menuitem id="menu_automation" name="Automation" groups="base.group_no_one"/>
-            <menuitem id="menu_security" name="Security" sequence="25" groups="base.group_no_one"/>
-            <menuitem id="menu_ir_property" name="Parameters" sequence="24" groups="base.group_no_one"/>
+            <!-- <menuitem id="next_id_2" name="User Interface" groups="base.group_no_one"/> -->
+            <!-- <menuitem id="menu_email" name="Email" sequence="1" groups="base.group_no_one"/> -->
+            <!-- <menuitem id="next_id_9" name="Database Structure" groups="base.group_no_one"/> -->
+            <!-- <menuitem id="menu_automation" name="Automation" groups="base.group_no_one"/> -->
+            <!-- <menuitem id="menu_security" name="Security" sequence="25" groups="base.group_no_one"/> -->
+            <!-- <menuitem id="menu_ir_property" name="Parameters" sequence="24" groups="base.group_no_one"/> -->
         <!-- </menuitem> -->
     </menuitem>
 
