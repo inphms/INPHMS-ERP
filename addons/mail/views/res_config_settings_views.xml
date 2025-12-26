@@ -154,6 +154,13 @@
                         </div>
                     </setting>
                 </setting>
+
+                <!-- Converting every menus into system menus -->
+                <app name="integration_setting" position="before">
+                    <app data-string="Emails" string="Emails" name="email_settings">
+                        
+                    </app>
+                </app>
             </field>
         </record>
     </data>

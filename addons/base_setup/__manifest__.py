@@ -1,6 +1,6 @@
 {
     'name': 'Initial Setup Tools',
-    'sumary': """
+    'summary': """
 Extension module for Advanced System Configuration at the installation of a new databases, that is not available in base or web module.
     """,
     'version': '1.0',

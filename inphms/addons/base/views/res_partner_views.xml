@@ -149,7 +149,11 @@
                             <group>
                                 <field options="{'line_breaks': False}" widget="char" class="text-break d-block w-100" name="name" default_focus="1" placeholder="e.g. Lumber Inc" invisible="not is_company" required="type == 'contact'"/>
                                 <field options="{'line_breaks': False}" widget="char" class="text-break d-block w-100" name="name" default_focus="1" placeholder="e.g. Brandon Freeman" invisible="is_company" required="type == 'contact'"/>
-                                <field name="email" class="w-100" widget="email" required="user_ids" placeholder="Email"/>
+                                
+                                <label for="email"></label>
+                                <div class="d-flex">
+                                    <field name="email" class="w-100" widget="email" required="user_ids" placeholder="Email"/>
+                                </div>
                             </group>
                             <group>
                                 <field name="phone" widget="phone" placeholder="Phone"/>
@@ -293,10 +297,7 @@
                                 </group>
                             </group>
                         </group>
-                        <group string="Internal Notes" name="internal_notes" class="border rounded mx-0 i__group">
-                            <field name="comment" placeholder="Internal notes..."/>
-                            <group name="warnings"/>
-                        </group>
+                        
                     </div>
                     <sidepanel>
                         <group string="Status" invisible="not name" class="border rounded mb-4 i__group">
@@ -307,6 +308,10 @@
                             <div class="d-flex">
                                 <div class="badge rounded-pill text-bg-warning" invisible="not main_user_id">User</div>
                             </div>
+                        </group>
+                        <group string="Internal Notes" name="internal_notes" class="border rounded mx-0 i__group">
+                            <field name="comment" options="{'height': 100}" placeholder="Internal notes..."/>
+                            <group name="warnings"/>
                         </group>
                     </sidepanel>
                     <!-- <div class="mb16 pb16 border-bottom">
