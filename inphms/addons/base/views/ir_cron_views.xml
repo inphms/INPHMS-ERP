@@ -20,9 +20,9 @@
                         <group>
                             <field name="user_id"/>
                             <label for="interval_number" string="Execute Every"/>
-                            <div>
-                                <field name="interval_number" class="oe_inline"/>
-                                <field name="interval_type" class="oe_inline"/>
+                            <div class="d-flex gap-2">
+                                <field name="interval_number" class="w-auto o_input_4ch"/>
+                                <field name="interval_type" class="flex-grow-1"/>
                             </div>
                             <field name="active" widget="boolean_toggle"/>
                         </group>

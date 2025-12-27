@@ -7,7 +7,46 @@
             <form string="Activities">
                 <sheet>
                     <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
-                    <div class="oe_title">
+                    <div>
+                        <group string="Definition" class="rounded mb-4 border mx-0 i__group">
+                            <field name="name" placeholder="e.g. Schedule a meeting" options="{'line_breaks': False}" widget="text"/>
+                            <group colspan="2">
+                                <group name="activity_details" string="Activity Settings">
+                                    <group colspan="2">
+                                        <field name="active" invisible="1"/>
+                                        <field name="category"/>
+                                        <field name="default_user_id" options="{'no_create': True}" domain="[('share', '=', False)]" widget="many2one_avatar_user"/>
+                                        <field name="res_model" invisible="context.get('default_res_model')" placeholder="Available everywhere"/>
+                                        <field name="summary" placeholder="e.g. &quot;Discuss proposal&quot;"/>
+                                        <field name="icon" groups="base.group_no_one"/>
+                                        <field name="decoration_type" groups="base.group_no_one"/>
+                                        <label for="delay_count"/>
+                                        <div class="d-flex flex-wrap">
+                                            <field class="oe_inline pe-1 o_input_4ch" name="delay_count"/>
+                                            <field class="flex-grow-1 w-auto ps-1" name="delay_unit"/>
+                                            <field class="mt-2" name="delay_from"/>
+                                        </div>
+                                    </group>
+                                </group>
+                                <group name="activity_planning" string="Next Activity">
+                                    <group colspan="2">
+                                        <field name="chaining_type" invisible="category == 'upload_file'"/>
+                                        <field name="triggered_next_type_id" options="{'no_open': True}" context="{'default_res_model': res_model}" invisible="chaining_type == 'suggest' and category != 'upload_file'" required="chaining_type == 'trigger' and category != 'upload_file'"/>
+                                        <field name="suggested_next_type_ids" widget="many2many_tags" context="{'default_res_model': res_model}" invisible="chaining_type == 'trigger' or category == 'upload_file'"/>
+                                        <field name="mail_template_ids" widget="many2many_tags" domain="[('model_id.model', '=', res_model)]" invisible="not res_model" context="{'default_model': res_model}"/>
+                                    </group>
+                                </group>
+                            </group>
+                        </group>
+                    </div>
+                    <sidepanel>
+                        <group string="Note" class="i__group border rounded mb-4 mx-0">
+                            <group colspan="2">
+                                <field nolabel="0" name="default_note" placeholder="e.g. &quot;Go over the offer and discuss details&quot;" class="oe-bordered-editor"/>
+                            </group>
+                        </group>
+                    </sidepanel>
+                    <!-- <div class="oe_title">
                         <label for="name" class="oe_edit_only"/>
                         <h1><field name="name" placeholder="e.g. Schedule a meeting" options="{'line_breaks': False}" widget="text"/></h1>
                     </div>
@@ -43,7 +82,7 @@
                         </group>
                     </group>
                     <label for="default_note" class="fw-bold"/>
-                    <field nolabel="1" name="default_note" placeholder="e.g. &quot;Go over the offer and discuss details&quot;" class="oe-bordered-editor"/>
+                    <field nolabel="1" name="default_note" placeholder="e.g. &quot;Go over the offer and discuss details&quot;" class="oe-bordered-editor"/> -->
                 </sheet>
             </form>
         </field>
@@ -150,16 +189,22 @@
                             domain="[('previous_type_ids', '=', previous_activity_type_id)]"
                             string="Recommended Activities"/>
                     </group>
-
-                    <group>
-                        <field name="activity_type_id" required="1" widget="selection_badge_icons" iconField="icon" nolabel="1"/>
-                        <field name="summary" placeholder="e.g. Discuss Proposal" class="fs-3 pb-2"/>
-                        <group>
-                            <field name="date_deadline"/>
+                    <group class="i__group mb-4 mx-0 rounded border" string="Definition">
+                        <group invisible="not has_recommended_activities">
+                            <field name="recommended_activity_type_id" widget="selection_badge" domain="[('previous_type_ids', '=', previous_activity_type_id)]" string="Recommended Activities"/>
                         </group>
-                        <field name="user_id" widget="many2one_avatar_user"/>
+                        <group colspan="2">
+                            <field name="activity_type_id" required="1" widget="selection_badge_icons" iconField="icon"/>
+                            <group>
+                                <field name="summary" placeholder="e.g. Discuss Proposal" class=""/>
+                                <field name="date_deadline"/>
+                            </group>
+                            <group>
+                                <field name="user_id" widget="many2one_avatar_user"/>
+                                <field name="note" class="oe-bordered-editor embedded-editor-height-4" placeholder="Log a note..."/>
+                            </group>
+                        </group>
                     </group>
-                    <field name="note" class="oe-bordered-editor embedded-editor-height-4" placeholder="Log a note..."/>
                     <footer>
                         <field name="id" invisible="1"/>
                         <button id="mail_activity_schedule" string="Schedule" close="1" name="action_close_dialog" type="object" class="btn-primary"
@@ -199,21 +244,35 @@
         <field name="priority">32</field>
         <field name="arch" type="xml">
             <form string="Log an Activity" create="false" delete="false">
-                <header>
+                <!-- <header>
                     <button string="Mark Done" class="btn-primary"
                             name="action_done_redirect_to_other" type="object"/>
-                </header>
+                </header> -->
                 <sheet string="Activity">
                     <field name="display_name" invisible="1"/>
-                    <group>
-                        <field name="activity_type_id" required="1"
-                        widget="selection_badge_icons" iconField="icon" nolabel="1"/>
-                        <field name="summary" placeholder="e.g. Discuss proposal"/>
-                        <group>
-                            <field name="date_deadline"/>
+                    <div>
+                        <group string="Definition" class="i__group border rounded mb-4 mx-0">
+                            <field name="activity_type_id" required="1" widget="selection_badge_icons" iconField="icon" nolabel="1"/>
+                            <group>
+                                <field name="summary" placeholder="e.g. Discuss proposal"/>
+                                <field name="date_deadline"/>
+                            </group>
+                            <group>
+                                <field name="note" class="oe-bordered-editor embedded-editor-height-4" placeholder="Log a note..."/>
+                            </group>
                         </group>
-                    </group>
-                    <field name="note" class="oe-bordered-editor embedded-editor-height-4" placeholder="Log a note..."/>
+                    </div>
+                    <sidepanel>
+                        <div class="o_inner_group border rounded mb-4 i__group" name="quick_actions">
+                            <div class="o_horizontal_separator mt-4 mb-3 text-uppercase fw-bolder small">
+                                Quick Actions
+                            </div>
+                            <div class="action_button o-form-buttonbox list-group gap-2">
+                                <button string="Mark Done" class="btn-primary"
+                                        name="action_done_redirect_to_other" type="object"/>
+                            </div>
+                        </div>
+                    </sidepanel>
                 </sheet>
             </form>
         </field>

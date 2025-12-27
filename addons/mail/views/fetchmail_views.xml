@@ -23,16 +23,84 @@
             <field name="arch" type="xml">
                 <form string="Incoming Mail Server">
                     <header invisible="server_type == 'local'">
-                        <button string="Test &amp; Confirm" type="object" name="button_confirm_login" invisible="state != 'draft'"/>
+                        <!-- <button string="Test &amp; Confirm" type="object" name="button_confirm_login" invisible="state != 'draft'"/>
                         <button string="Fetch Now" type="object" name="fetch_mail" invisible="state != 'done'"/>
-                        <button string="Reset Confirmation" type="object" name="set_draft" invisible="state != 'done'"/>
+                        <button string="Reset Confirmation" type="object" name="set_draft" invisible="state != 'done'"/> -->
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
-                    <field name="active" invisible="1"/>
-                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
-                        invisible="active"/>
-                     <group>
+                        <field name="active" invisible="1"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
+                            invisible="active"/>
+                        <div>
+                            <group string="Definition" class="mb-4 rounded border mx-0 i__group">
+                                <group>
+                                    <field name="name"/>
+                                    <field name="server_type" widget="radio" readonly="state == 'done'"/>
+                                </group>
+                                <group>
+                                    <field name="date" invisible="not date"/>
+                                    <div class="small text-muted fst-italic" colspan="8" role="alert" invisible="not server_type_info">
+                                        <field name="server_type_info"/>
+                                    </div>
+                                </group>
+                            </group>
+                            <group string="Server &amp; Login" name="server_login_details" class="rounded border mb-4 mx-0 i__group">
+                                <group class="mx-0 px-0" invisible="server_type == 'local'" string="Server Information">
+                                    <group colspan="2">
+                                        <field name="server" readonly="state != 'draft'" required="server_type != 'local'"/>
+                                        <field name="port" required="1" readonly="state != 'draft'" options="{'format': false}"/>
+                                        <field name="is_ssl"/>
+                                    </group>
+                                </group>
+                                <group class="mx-0 px-0" invisible="server_type == 'local'" string="Login Information">
+                                    <group colspan="2">
+                                        <field name="user" readonly="state != 'draft'" required="server_type != 'local'"/>
+                                        <field name="password" password="True" invisible="server_type not in ('imap', 'pop')" readonly="state != 'draft'" required="server_type in ('imap', 'pop')"/>
+                                    </group>
+                                    
+                                </group>
+                                <group class="mx-0 px-0" string="Actions to Perform on Incoming Mails">
+                                    <group colspan="2">
+                                        <field name="object_id"/>
+                                    </group>
+                                </group>
+                                <group class="mx-0 px-0" invisible="server_type != 'local'" string="Configuration">
+                                    <group colspan="2">
+                                        <field name="configuration"/>
+                                        <field name="script" widget="url"/>
+                                    </group>
+                                </group>
+                            </group>
+                            <group string="Advanced" name="advanced_options" groups="base.group_no_one" class="rounded border mb-4 mx-0 i__group">
+                                <group class="mx-0 px-0" string="Advanced Options">
+                                    <group colspan="2">
+                                        <field name="priority" readonly="state != 'draft'"/>
+                                        <field name="attach"/>
+                                        <field name="original"/>
+                                    </group>
+                                </group>
+                                <group class="mx-0 px-0" string="Last Error">
+                                    <group colspan="2">
+                                        <field name="error_date"/>
+                                        <field name="error_message"/>
+                                    </group>
+                                </group>
+                            </group>
+                        </div>
+                        <sidepanel>
+                            <div class="o_inner_group border rounded mb-4 i__group" name="quick_actions" invisible="server_type == 'local'">
+                                <div class="o_horizontal_separator mt-4 mb-3 text-uppercase fw-bolder small">
+                                    Quick Actions
+                                </div>
+                                <div class="action_button o-form-buttonbox list-group gap-2">
+                                    <button string="Test &amp; Confirm" type="object" name="button_confirm_login" invisible="state != 'draft'"/>
+                                    <button string="Fetch Now" type="object" name="fetch_mail" invisible="state != 'done'"/>
+                                    <button string="Reset Confirmation" type="object" name="set_draft" invisible="state != 'done'"/>
+                                </div>
+                            </div>
+                        </sidepanel>    
+                     <!-- <group>
                         <group>
                             <field name="name"/>
                             <field name="server_type" widget="radio" readonly="state == 'done'"/>
@@ -85,7 +153,7 @@
                                 </group>
                             </group>
                         </page>
-                    </notebook>
+                    </notebook> -->
                   </sheet>
                 </form>
             </field>
