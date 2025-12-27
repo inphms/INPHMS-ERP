@@ -5,7 +5,6 @@ import { DiscussSearch } from "./discuss_search";
 import { registry } from "@web/core/registry";
 import { ResizablePanel } from "@web/core/resizable_panel/resizable_panel";
 import { useService } from "@web/core/utils/hooks";
-import { markEventHandled } from "@web/core/utils/misc";
 
 export const discussSidebarItemsRegistry = registry.category("mail.discuss_sidebar_items");
 
@@ -37,14 +36,5 @@ export class DiscussSidebar extends Component {
             return; // ignore resize from mount not triggered by user
         }
         this.store.discuss.isSidebarCompact = width <= 100;
-    }
-
-    get mailboxHeader() {
-        return this.store.starred;
-    }
-
-    openThreadHeader(ev) {
-        markEventHandled(ev, "sidebar.openThread");
-        this.mailboxHeader.setAsDiscussThread();
     }
 }
