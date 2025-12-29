@@ -232,7 +232,7 @@
                                     </div>
                                 </group>
                             </group>
-                            <group string="Access &amp; Privilege" class="border rounded mx-0 i__group">
+                            <group string="Access &amp; Privilege" class="border rounded mx-0 mb-4 i__group">
                                 <group invisible="share and companies_count &lt;= 1">
                                     <field name="role" invisible="share"/>
                                     <field string="Default Company" name="company_id" invisible="companies_count &lt;= 1" context="{'user_preference': 0}"/>
@@ -240,8 +240,8 @@
                                 <group>
                                     <field string="Companies" name="company_ids" invisible="companies_count &lt;= 1" widget="many2many_tags" options="{'no_create': True, 'color_field': 'color'}"/>
                                 </group>
-                                <field name="group_ids" widget="res_user_group_ids" nolabel="1" colspan="2" groups="base.group_no_one"/>
-                                <field name="group_ids" widget="res_user_group_ids" nolabel="1" colspan="2" groups="!base.group_no_one" invisible="share"/>
+                                <field name="group_ids" class="mx-0 px-0" widget="res_user_group_ids" nolabel="1" colspan="2" groups="base.group_no_one"/>
+                                <field name="group_ids" class="mx-0 px-0" widget="res_user_group_ids" nolabel="1" colspan="2" groups="!base.group_no_one" invisible="share"/>
                             </group>
                         </div>
                         <sidepanel>

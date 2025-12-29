@@ -123,7 +123,7 @@
                     </app>
                 </app>
                 <app name="email_settings" position="before">
-                    <app data-string="Activities" string="Activities" name="activities_settings" logo="">
+                    <app data-string="Activities" string="Activities" name="activities_settings" logo="/mail/static/description/activity.svg">
                         <div id="activities">
                             <block title="Activities" groups="base.group_no_one" icon="fa-fw fa-clock-o">
                                 <setting name="activities_menu_items" string="Activities" help="Quick menu list of activities">

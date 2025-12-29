@@ -253,7 +253,7 @@
 
                         </block>
                     </app>
-                    <app data-string="Email" string="Email" name="email_settings" logo="">
+                    <app data-string="Email" string="Email" name="email_settings" logo="/base/static/description/email.svg">
                         <div id="email">
                             <block title="Email" groups="base.group_no_one" icon="fa-fw fa-file-text">
                                 <setting name="email_menu_items" string="Email" help="Define the email mailing configuration">
@@ -266,7 +266,7 @@
                             </block>
                         </div>
                     </app>
-                    <app data-string="Reporting" string="Reporting" name="reporting_settings" logo="">
+                    <app data-string="Reporting" string="Reporting" name="reporting_settings" logo="/base/static/description/report.svg">
                         <div id="reporting">
                             <block title="Reporting" groups="base.group_no_one" icon="fa-fw fa-file-text">
                                 <setting name="reporting_menu_items" string="Reporting" help="Define how the entries should be reported">
@@ -282,7 +282,7 @@
                             </block>
                         </div>
                     </app> 
-                    <app data-string="Functions" string="Functions" name="function_settings" logo="">
+                    <app data-string="Functions" string="Functions" name="function_settings" logo="/base/static/description/actions.svg">
                         <div id="action">
                             <block title="Actions" groups="base.group_no_one" icon="fa-fw fa-microchip">
                                 <setting name="actions_menu_items" string="Actions" help="Define Actions">
@@ -326,7 +326,7 @@
                             </block>
                         </div>
                     </app>
-                    <app data-string="Security" string="Security" name="security_settings" logo="">
+                    <app data-string="Security" string="Security" name="security_settings" logo="/base/static/description/security.svg">
                         <div id="security">
                             <block title="Security" groups="base.group_no_one" icon="fa-fw fa-lock">
                                 <setting name="access_rule_menu_items" string="Access &amp; Rules" help="Define security and access rights granted across INPHMS wide.">

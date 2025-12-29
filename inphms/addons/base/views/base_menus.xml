@@ -80,6 +80,7 @@
         action="ir_action_people_views"
         web_icon="base,static/description/people.png"
         description="Users, Access, and People Management"
+        groups="base.group_erp_manager"
     >
         <menuitem id="menu_people_overview" name="Overview" sequence="0">
             <menuitem id="menu_people_dashboard" name="Dashboard" sequence="0" action="ir_action_people_views" submenu_icon="base,static/description/menu_icons/home.svg"/>

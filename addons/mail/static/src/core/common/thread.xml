@@ -102,17 +102,17 @@
 
 <t t-name="mail.Thread.startMessage">
     <div class="pt-4" t-att-class="{ 'px-3': env.inChatWindow, 'px-2': env.inDiscussApp or env.inMeetingChat }">
-        <div class="d-flex align-items-center gap-2" t-att-class="{
+        <div class="d-flex flex-column align-items-center gap-2" t-att-class="{
             'mt-2 mb-1': !props.thread.parent_channel_id,
             'mt-1': props.thread.parent_channel_id,
         }">
             <div class="o-mail-Thread-avatar d-inline" t-att-class="{'o-mail-Thread-avatarChatWindow': env.inChatWindow }">
-                <img t-if="!props.thread.parent_channel_id" class="rounded-3 object-fit-cover" t-att-src="props.thread?.avatarUrl" alt="Thread Image"/>
+                <img t-if="!props.thread.parent_channel_id" class="rounded-3 object-fit-cover i-mail-thread-empty-channelIcon" t-att-src="props.thread?.avatarUrl" alt="Thread Image"/>
                 <i t-else="" class="fa fa-comments-o text-muted" role="presentation"/>
             </div>
-            <div role="heading" aria-level="1" t-att-class="{ 'fs-1': !env.inChatWindow, 'fs-3': env.inChatWindow }" t-esc="startMessageTitle"/>
+            <div role="heading" aria-level="1" class="fw-bold" t-att-class="{ 'fs-3': !env.inChatWindow, 'fs-3': env.inChatWindow }" t-esc="startMessageTitle"/>
         </div>
-        <p class="text-muted mb-0 small" t-esc="startMessageSubtitle"/>
+        <p class="text-muted mb-0 smaller text-center" t-esc="startMessageSubtitle"/>
     </div>
 </t>
 </templates>

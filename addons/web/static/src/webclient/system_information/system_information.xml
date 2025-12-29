@@ -28,14 +28,15 @@
                 </t>
             </t>
             <t t-if="this.env.debug">
-                <ul class="list-group">
+                <ul class="list-group" style="--list-group-bg: transparent;--list-group-color: inherit;">
                     <li class="list-group-item border-0 p-0">
                         <header class="fw-semibold pt-3 pb-2 border-top">Developer Tools</header>
-                        <ul class="list-group d-block">
+                        <ul class="list-group d-block"
+                            style="--list-group-bg: transparent;--list-group-color: inherit;">
                             <li t-foreach="debugToolsActions" t-as="action" t-key="action_index" class="list-group-item border-0 p-0">
                                 <header class="list-group-item py-lg-1 border-0 list-group-item-action cursor-pointer"
                                         t-on-click.prevent="action.callback">
-                                    <a href="#" class="text-primary d-flex align-items-center justify-content-between">
+                                    <a href="#" class="text-reset d-flex align-items-center justify-content-between">
                                         <div t-esc="action.label"/>
                                         <div>→</div>
                                     </a>

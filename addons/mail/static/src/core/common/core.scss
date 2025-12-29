@@ -1,8 +1,8 @@
 $o-discuss-talkingColor: lighten($success, 10%);
 
 .o-mail-discussSidebarBgColor {
-    // background-color: $white !important;
-    @extend %i-inphms-blur-background;
+    background-color: $white !important;
+    // @extend %i-inphms-blur-background;
 }
 
 .o-mail-brighter {

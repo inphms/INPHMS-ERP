@@ -5,6 +5,7 @@ import { standardActionServiceProps } from "@web/webclient/actions/action_servic
 import { useService } from "@web/core/utils/hooks";
 import { executeButtonCallback } from "@web/views/view_button/view_button_hook";
 import { ResConfigInviteUsersDialog } from "../settings_form_view/widgets/res_config_invite_users";
+import { user } from "@web/core/user";
 
 export class PeopleDashboard extends Component {
     static template = "web.PeopleDashboard"
@@ -16,7 +17,21 @@ export class PeopleDashboard extends Component {
         this.invite = useService('user_invite');
         this.dialog = useService('dialog');
         this.peopleKpiService = useService("people_kpi");
-        this.peopleKpis = [];
+
+        // this.peopleKpis = useState([]);
+        this.state = useState({
+            peopleKpis: [],
+        })
+        
+        onWillStart(async () => {
+            const visibleKpis = await this._getVisibleKpis();
+            this.state.peopleKpis = visibleKpis.map(kpi => ({
+                id: kpi.id,
+                name: kpi.label,
+                value: kpi.defaultValue,
+                help: kpi.help,
+            }));
+        });
         this._populateData();
     }
 
@@ -39,6 +54,7 @@ export class PeopleDashboard extends Component {
             },
             {
                 id: 'active_users',
+                group: 'base.group_erp_manager',
                 label: 'Active Users',
                 defaultValue: '...',
                 get value() {
@@ -48,10 +64,11 @@ export class PeopleDashboard extends Component {
             },
             {
                 id: 'pending_invite',
+                group: 'base.group_erp_manager',
                 label: 'Pending Invitations',
                 defaultValue: '...',
                 get value() {
-                    return invite.fetchData().then((res) => res.pending_count);
+                    return invite.fetchData(true).then((res) => res.pending_count);
                 },
                 sequence: 5,
             },
@@ -70,21 +87,25 @@ export class PeopleDashboard extends Component {
             }
         ]
     }
-
-    _populateData(reload = false) {
-        const sortedKpis = Object.values(this.peopleKpisRaw)
-            .sort((a, b) => a.sequence - b.sequence);
-        for (const kpi of sortedKpis) {
-                const kpiItem = useState({
-                id: kpi.id,
-                name: kpi.label,
-                value: kpi.defaultValue,
-                help: kpi.help,
-            });
-            this.peopleKpis.push(kpiItem);
-            this.peopleKpiService.fetchData(kpi).
-                then((res) => kpiItem.value = res)
-        }
+    
+    // What i can think of, there's 2 way we can solve, the groups visibility.
+    // Because of filter and async Promise can't be used together.
+    // We either:
+    //     1. call the groups endpoint first, and let it be cached.
+    //     2. or paralel function that trully filter the visibility
+    async _getVisibleKpis() {
+        const rawKpis = Object.values(this.peopleKpisRaw);
+        const filteredByGroups = await Promise.all(rawKpis.map(kpi => kpi.group ? user.hasGroup(kpi.group) : true));
+        return rawKpis
+                .filter((_, i) => filteredByGroups[i])
+                .sort((a, b) => a.sequence - b.sequence);
+    }
+    async _populateData(reload = false) {
+        const visibleKpis = await this._getVisibleKpis();
+        visibleKpis.map((kpi, index) => {
+            this.peopleKpiService.fetchData(kpi, reload)
+                .then((res) => this.state.peopleKpis[index].value = res);
+        });
     }
 
     onAddPersonClick() {
@@ -100,26 +121,30 @@ export class PeopleDashboard extends Component {
     }
     onInviteUserClick() {
         this.dialog.add(
-            ResConfigInviteUsersDialog,
-        )
+            ResConfigInviteUsersDialog, {
+            onAction: () => this._populateData(true),
+        });
     }
 }
 
 registry.category("actions").add('action_people_dashboard', PeopleDashboard);
 
+
 export const peopleKpisService = {
     async start() {
-        const kpis = {};
+        const cache = new Map();
         return {
             fetchData(kpi, reload) {
-                if (!kpis[kpi.id] || reload) {
-                    kpis[kpi.id] = Promise.resolve(kpi.value)
-                        .catch((err) => {
-                            console.error(`Error fetching KPI for ${kpi.id}:`, err);
-                            return "N/A"
-                        });
+                if (!reload && cache.has(kpi.id)) {
+                    return cache.get(kpi.id);
                 }
-                return kpis[kpi.id]
+                const promise = Promise.resolve(kpi.value)
+                    .catch((err) => {
+                        console.error(`Error fetching KPI for ${kpi.id}:`, err);
+                        return "N/A"
+                    });
+                cache.set(kpi.id, promise);
+                return promise;
             }
         }
     }

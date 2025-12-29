@@ -124,15 +124,35 @@ class ResConfigInviteUsersBase extends Component {
             this.state.status = "idle";
         }
     }
+
+    onClickMore(ev) {
+        this.action.doAction(this.state.invite.action_pending_users);
+    }
+
+    onClickUser(ev, user) {
+        const action = Object.assign({}, this.state.invite.action_pending_users, {
+            res_id: user[0],
+        });
+        this.action.doAction(action);
+    }
 }
 
 
 export class ResConfigInviteUsersDialog extends ResConfigInviteUsersBase {
     static template = "res_config_invite_users_dialog";
-    static components = { Dialog }
+    static components = { Dialog };
+    static props = {
+        close: Function,
+        onAction: Function,
+    }
 
     setup() {
         super.setup();
+    }
+
+    async sendInvite() {
+        await super.sendInvite();
+        this.props.onAction();
     }
 }
 
@@ -145,17 +165,6 @@ class ResConfigInviteUsers extends ResConfigInviteUsersBase {
     setup() {
         super.setup();
         this.action = useService("action");
-    }
-
-    onClickMore(ev) {
-        this.action.doAction(this.state.invite.action_pending_users);
-    }
-
-    onClickUser(ev, user) {
-        const action = Object.assign({}, this.state.invite.action_pending_users, {
-            res_id: user[0],
-        });
-        this.action.doAction(action);
     }
 }
 

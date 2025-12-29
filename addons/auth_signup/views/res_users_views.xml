@@ -8,10 +8,13 @@
             <field name="arch" type="xml">
                 <!-- add state field in header -->
                 <xpath expr="//header" position="inside">
+                    <field name="state" widget="statusbar"/>
+                </xpath>
+                <!-- Change into quick actions -->
+                <xpath expr="//div[hasclass('action_button')]" position="inside">
                     <button string="Send an Invitation Email"
                                 type="object" name="action_reset_password" context="{'create_user': 1}"
                                 invisible="state != 'new'"/>
-                    <field name="state" widget="statusbar"/>
                 </xpath>
                 <xpath expr="//div[@name='auth']" position="inside">
                     <button string="Send Password Reset"
