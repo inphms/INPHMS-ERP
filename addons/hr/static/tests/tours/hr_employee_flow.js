@@ -7,7 +7,7 @@ registry.category("web_tour.tours").add("hr_employee_tour", {
         stepUtils.showAppsMenuItem(),
         {
             content: "Open Employees app",
-            trigger: ".o_app[data-menu-xmlid='hr.sidebar_hr_resource']",
+            trigger: ".o_app[data-menu-xmlid='hr.menu_hr_root']",
             run: "click",
         },
         {

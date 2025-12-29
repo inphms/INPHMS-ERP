@@ -245,7 +245,12 @@
                                 Quick Actions
                             </div>
                             <div class="action_button o-form-buttonbox list-group gap-2">
-                                <button groups="base.group_no_one" class="btn-outline-secondary rounded" icon="fa-align-justify" name="1" string="Create a Menu" type="action" target="new"/>
+                                <button groups="base.group_no_one"
+                                    class="btn-outline-secondary rounded" 
+                                    icon="fa-align-justify"
+                                    name="%(act_menu_create)d"
+                                    string="Create a Menu" type="action"
+                                    target="new" />
                             </div>
                         </div>
                     </sidepanel>

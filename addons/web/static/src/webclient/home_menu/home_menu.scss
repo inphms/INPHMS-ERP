@@ -66,8 +66,12 @@
     // Content
     .i_menu_sections_wrapper {
         display: grid;
-        grid-template-columns: 2fr 1fr;
+        grid-template-columns: 1fr;
         gap: 32px;
+
+        @include media-breakpoint-up(md) {
+            grid-template-columns: 2fr 1fr;
+        }
 
         .i_group_title {
             letter-spacing: 0.14em;

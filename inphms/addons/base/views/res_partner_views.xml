@@ -313,6 +313,14 @@
                             <field name="comment" options="{'height': 100}" placeholder="Internal notes..."/>
                             <group name="warnings"/>
                         </group>
+                        <div class="o_inner_group border rounded mb-4 i__group" name="quick_actions">
+                            <div class="o_horizontal_separator mt-4 mb-3 text-uppercase fw-bolder small">
+                                Quick Actions
+                            </div>
+                            <div name="button_box_action" class="action_button o-form-buttonbox list-group gap-2">
+                                
+                            </div>
+                        </div>
                     </sidepanel>
                     <!-- <div class="mb16 pb16 border-bottom">
                         <div class="d-flex flex-wrap gap-2">

@@ -178,7 +178,7 @@
                                 <group name="other_preferences">
                                     
                                 </group>
-                                <group string="Calendar" class="col-lg-12">
+                                <group name="calendar" string="Calendar" class="col-lg-12">
                                     <group name="calendar_preferences">
                                         <field name="tz" widget="timezone_mismatch" options="{'tz_offset_field': 'tz_offset'}" readonly="0" invisible="share"/>
                                         <field name="tz_offset" invisible="1"/> <!-- needed for the timezone_mismatch widget -->
@@ -254,7 +254,7 @@
                                 <div class="o_horizontal_separator mt-4 mb-3 text-uppercase fw-bolder small">
                                     Quick Actions
                                 </div>
-                                <div class="action_button o-form-buttonbox list-group gap-2">
+                                <div name="button_box_action" class="action_button o-form-buttonbox list-group gap-2">
                                     <button name="action_show_groups" type="object" groups="base.group_no_one" class="oe_stat_button btn-outline-secondary rounded" icon="fa-users order-first" help="Groups that apply to the current user">
                                         <field string="Groups" name="groups_count" widget="statinfo"/>
                                     </button>
@@ -608,7 +608,14 @@
                                             <label for="lang"/>
                                             <div class="o_row">
                                                 <field name="lang" required="1" readonly="0"/>
-                                                <button type="action" name="44" class="oe_edit_only btn-sm btn-link mb4 fa fa-globe" aria-label="Add a language" groups="base.group_system" title="Add a language"/>
+                                                <button
+                                                    type="action"
+                                                    name="%(base.action_view_base_language_install)d"
+                                                    class="oe_edit_only btn-sm btn-link mb4 fa fa-globe"
+                                                    aria-label="Add a language"
+                                                    groups="base.group_system"
+                                                    title="Add a language"
+                                                />
                                             </div>
                                             <field name="signature" readonly="0" options="{'codeview': true, 'height': 112, 'resizable': true}" class="border border-secondary"/>
                                         </group>

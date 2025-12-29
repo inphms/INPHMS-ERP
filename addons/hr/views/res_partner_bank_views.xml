@@ -17,8 +17,8 @@
                 </div>
                 <field name="employee_id" invisible="not employee_id" widget="many2many_avatar_employee"/>
             </xpath>
-            <xpath expr="//page" position="before">
-                <page string="Bank Information" invisible="not bank_id">
+            <xpath expr="//group[@name='definition']" position="after">
+                <group string="Bank Information" class="border rounded mb-4 mx-0 i__group" invisible="not bank_id">
                     <group>
                         <field name="bank_name" string="Bank Name"/>
                         <field name="bank_bic"/>
@@ -44,7 +44,7 @@
                             <field name="bank_email" widget="email"/>
                         </group>
                     </group>
-                </page>
+                </group>
             </xpath>
         </field>
     </record>

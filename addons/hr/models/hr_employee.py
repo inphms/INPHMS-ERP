@@ -1338,7 +1338,7 @@ class HrEmployee(models.Model):
                 ('subscription_department_ids', 'in', employee_departments.ids)
             ])._subscribe_users_automatically()
         onboarding_notes_bodies = {}
-        hr_root_menu = self.env.ref('hr.sidebar_hr_resource')
+        hr_root_menu = self.env.ref('hr.menu_hr_root')
         for employee in employees:
             # Launch onboarding plans
             url = '/inphms/%s/action-hr.plan_wizard_action?active_model=hr.employee&menu_id=%s' % (employee.id, hr_root_menu.id)

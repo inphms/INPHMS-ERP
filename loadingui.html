@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INPHMS - System Boot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Palette: Deep Jungle Night */
+            --bg-deep: #020617;
+            --bg-accent: #064e3b; /* Deep Emerald */
+            --glow-primary: #10b981; /* Bright Emerald */
+            --glow-secondary: #0ea5e9; /* Sky Blue (AI) */
+            --text-main: #ffffff;
+            --text-dim: rgba(255,255,255,0.4);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- BACKGROUND ANIMATION --- */
+        .ambient-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            background: radial-gradient(circle at 50% 120%, var(--bg-accent), transparent 70%),
+                        radial-gradient(circle at 10% 20%, #0c152e, transparent 40%);
+            opacity: 0.8;
+            animation: breatheBg 8s ease-in-out infinite alternate;
+        }
+
+        /* --- MAIN CONTAINER --- */
+        .loader-wrapper {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 400px;
+        }
+
+        /* --- THE ICON (Squircle) --- */
+        .brand-icon-lg {
+            width: 90px;
+            height: 90px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .icon-svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.4));
+            animation: iconFloat 4s ease-in-out infinite;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        .brand-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #fff 30%, var(--text-dim));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease-out forwards 0.2s;
+        }
+
+        .brand-subtitle {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-dim);
+            margin-bottom: 40px;
+            text-align: center;
+            opacity: 0;
+            animation: fadeUp 0.8s ease-out forwards 0.4s;
+        }
+
+        /* --- PROGRESS BAR (Apple Style) --- */
+        .progress-track {
+            width: 240px;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards 0.6s;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--glow-primary), var(--glow-secondary));
+            border-radius: 4px;
+            box-shadow: 0 0 10px var(--glow-primary);
+            transition: width 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+            position: relative;
+        }
+
+        /* The "shimmer" effect on the bar */
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; bottom: 0; width: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+            transform: translateX(-100%);
+            animation: shimmer 1.5s infinite;
+        }
+
+        /* --- TERMINAL TEXT (AI STATUS) --- */
+        .status-terminal {
+            margin-top: 24px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--glow-primary);
+            height: 20px; /* Fixed height to prevent jumping */
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards 0.8s;
+        }
+
+        .blink-cursor {
+            width: 6px;
+            height: 6px;
+            background: var(--glow-primary);
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes breatheBg {
+            0% { transform: scale(1); opacity: 0.6; }
+            100% { transform: scale(1.1); opacity: 0.9; }
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes fadeUp {
+            from { transform: translateY(10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes shimmer {
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-bg"></div>
+
+    <div class="loader-wrapper">
+        <div class="brand-icon-lg">
+            <svg viewBox="0 0 50 50" fill="none" class="icon-svg">
+                <rect width="50" height="50" rx="12" fill="url(#main_grad)" />
+                <path d="M25 10C18 10 13 15 13 22C13 29 17 32 20 38C21 40 25 42 25 42C25 42 29 40 30 38C33 32 37 29 37 22C37 15 32 10 25 10Z" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="25" cy="22" r="3" fill="white"/>
+                <path d="M25 25V34" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M13 22H10" stroke="white" stroke-width="2" stroke-opacity="0.5"/>
+                <path d="M40 22H37" stroke="white" stroke-width="2" stroke-opacity="0.5"/>
+                
+                <defs>
+                    <linearGradient id="main_grad" x1="0" y1="0" x2="50" y2="50" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#10B981"/>
+                        <stop offset="1" stop-color="#0284c7"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+
+        <h1 class="brand-title">INPHMS</h1>
+        <div class="brand-subtitle">Intelligence Nusantara Plantation System</div>
+
+        <div class="progress-track">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+
+        <div class="status-terminal">
+            <span id="statusText">Initializing core...</span>
+            <div class="blink-cursor"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- SIMULATED BOOT SEQUENCE ---
+        
+        const statusText = document.getElementById('statusText');
+        const progressBar = document.getElementById('progressBar');
+
+        const bootSequence = [
+            { pct: 10, text: "Waking up AI Agents..." },
+            { pct: 25, text: "Loading Leaf Neural Networks..." },
+            { pct: 40, text: "Connecting to Plantation Sensors..." },
+            { pct: 55, text: "Calibrating Harvest Models..." },
+            { pct: 70, text: "Authenticating User..." },
+            { pct: 85, text: "Hydrating Dashboard..." },
+            { pct: 95, text: "System Ready." },
+            { pct: 100, text: "Welcome." }
+        ];
+
+        let step = 0;
+
+        function runBoot() {
+            if (step >= bootSequence.length) {
+                // End of loading - usually you'd redirect here
+                // window.location.href = '/dashboard';
+                return;
+            }
+
+            const current = bootSequence[step];
+            
+            // Randomize timing to make it feel like "real" processing
+            const delay = Math.random() * 600 + 300; 
+
+            setTimeout(() => {
+                // Update text
+                statusText.style.opacity = 0; // Quick fade out for glitch effect
+                
+                setTimeout(() => {
+                    statusText.textContent = current.text;
+                    statusText.style.opacity = 1;
+                    progressBar.style.width = current.pct + '%';
+                }, 100);
+
+                step++;
+                runBoot();
+            }, delay);
+        }
+
+        // Start after slight delay
+        setTimeout(runBoot, 1000);
+
+    </script>
+</body>
+</html>

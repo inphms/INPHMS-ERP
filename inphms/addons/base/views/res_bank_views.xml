@@ -106,7 +106,7 @@
                 <form string="Bank account" name="bank_account_form">
                 <sheet>
                     <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
-                    <group string="Definition" class="border rounded mb-4 mx-0 i__group">
+                    <group name="definition" string="Definition" class="border rounded mb-4 mx-0 i__group">
                         <group>
                             <field name="acc_number"/>
                             <field name="clearing_number"/>

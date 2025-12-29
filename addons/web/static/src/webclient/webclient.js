@@ -7,10 +7,12 @@ import { useBus, useService } from "@web/core/utils/hooks";
 import { ActionContainer } from "./actions/action_container";
 import { NavBar } from "./navbar/navbar";
 
-import { Component, onMounted, onWillStart, useExternalListener, useState } from "@inphms/owl";
+import { Component, onMounted, onWillStart, useExternalListener, useState, useEffect, useRef } from "@inphms/owl";
 import { router, routerBus } from "@web/core/browser/router";
 import { browser } from "@web/core/browser/browser";
 import { rpcBus } from "@web/core/network/rpc";
+import { useTransition } from "@web/core/transition";
+import { session } from "@web/session";
 
 export class WebClient extends Component {
     static template = "web.WebClient";
@@ -27,6 +29,62 @@ export class WebClient extends Component {
         this.title = useService("title");
         this.hm = useService("home_menu");
 
+        this.serverVersion = session.server_version;
+        this.loadingBarRef = useRef("loading-bar");
+        this.loadingTextRef = useRef("loading-text");
+        this.transition = useTransition({
+            name: 'boot-loading',
+            leaveDuration: 800,
+            onLeave: () => console.log("System Ready. Removing Loader.")
+        });
+        useEffect(
+            (stage) => {
+                console.log(stage, "starting")
+            },
+            () => [this.transition.stage]
+        )
+        this.bootSequence = {
+            interval: null,
+            texts: [
+                { pct: 15, text: "Waking up AI Agents..." },
+                { pct: 30, text: "Loading Leaf Neural Networks..." },
+                { pct: 45, text: "Connecting to Plantation Sensors..." },
+                { pct: 60, text: "Calibrating Harvest Models..." },
+                { pct: 80, text: "Hydrating Dashboard..." },
+                { pct: 100, text: "Welcome." }
+            ],
+            // Phase 1: Asymptotic approach to 65%
+            start: () => {
+                this.bootSequence.interval = setInterval(() => {
+                    // If we are below 65%, grow. If we are close to 65%, grow slower.
+                    // This creates a natural "processing" curve.
+                    if (this.state.loadingProgress < 65) {
+                        const remaining = 65 - this.state.loadingProgress;
+                        const step = Math.max(0.5, remaining / 10); // Decaying increment
+                        this.updateProgress(this.state.loadingProgress + step);
+                    }
+                }, 100);
+            },
+            // Phase 2: Acceleration to 100%
+            finish: async () => {
+                clearInterval(this.bootSequence.interval);
+                return new Promise((resolve) => {
+                    const finishInterval = setInterval(() => {
+                        const remaining = 100 - this.state.loadingProgress;
+                        if (remaining <= 0.5) {
+                            this.updateProgress(100);
+                            clearInterval(finishInterval);
+                            resolve();
+                            this.transition.shouldMount = false;
+                        } else {
+                            // Fast linear fill for satisfaction
+                            this.updateProgress(this.state.loadingProgress + (remaining / 4));
+                        }
+                    }, 30); // High refresh rate for smooth finish
+                });
+            }
+        };
+
         useOwnDebugContext({ categories: ["default"] });
         if (this.env.debug) {
             registry.category("systray").add(
@@ -40,6 +98,8 @@ export class WebClient extends Component {
         this.localization = localization;
         this.state = useState({
             fullscreen: false,
+            loadingProgress: 0,
+            loadingText: "Initializing System..."
         });
         useBus(routerBus, "ROUTE_CHANGE", async () => {
             document.body.style.pointerEvents = "none";
@@ -55,14 +115,31 @@ export class WebClient extends Component {
             }
         });
         useBus(this.env.bus, "WEBCLIENT:LOAD_DEFAULT_APP", this._loadDefaultApp);
-        onMounted(() => {
-            this.loadRouterState();
+        onMounted(async () => {
+            await this.loadRouterState();
             // the chat window and dialog services listen to 'web_client_ready' event in
             // order to initialize themselves:
             this.env.bus.trigger("WEB_CLIENT_READY");
+
+            // Loading untrue
+            setTimeout(async () => {
+                await this.bootSequence.finish();
+            }, 1000);
         });
         useExternalListener(window, "click", this.onGlobalClick, { capture: true });
-        onWillStart(this.registerServiceWorker);
+        onWillStart(() => {
+            this.registerServiceWorker();
+            this.bootSequence.start();
+        });
+    }
+
+    updateProgress(value) {
+        this.state.loadingProgress = value;
+
+        const stage = this.bootSequence.texts.find(t => value <= t.pct && value > (t.pct - 20));
+        if (stage && this.state.loadingText !== stage.text) {
+             this.state.loadingText = stage.text;
+        }
     }
 
     async loadRouterState() {

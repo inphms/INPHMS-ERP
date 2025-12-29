@@ -93,7 +93,7 @@
 
     <menuitem id="hr_menu_configuration"
         name="Settings"
-        parent="sidebar_hr_resource"
+        parent="menu_hr_technical"
         sequence="100"
         action="hr_config_settings_action"
         submenu_icon="base,static/description/menu_icons/config.svg"

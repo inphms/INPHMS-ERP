@@ -3,7 +3,7 @@
 
 <t t-name="web.HomeMenu">
     <div t-ref="root" class="o_home_menu h-100 overflow-auto" t-att-class="{ o_ios_app: state.isIosApp }">
-        <div class="container mt48">
+        <div class="container mt48 mb48">
             <input t-ref="input" type="text" class="o_search_hidden visually-hidden w-auto" data-allow-hotkeys="true" t-on-input="_onInputSearch" t-on-blur="_onInputBlur" t-on-compositionstart="_onCompositionStart" role="combobox" t-att-aria-activedescendant="'result_app_' + state.focusedIndex" t-att-aria-expanded="displayedApps.length ? 'true' : 'false'" aria-autocomplete="list" aria-haspopup="listbox" autocomplete="off"/>
 
             <ExpirationPanel t-if="subscription.warningType and !subscription.isWarningHidden and subscription.daysLeft &lt;= 30 and subscription.daysLeft &gt; 0"/>

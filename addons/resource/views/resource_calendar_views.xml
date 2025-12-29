@@ -164,17 +164,23 @@
                                 Quick Actions
                             </div>
                             <div class="action_button o-form-buttonbox list-group gap-2">
-                                <button name="86" type="action" icon="fa-plane order-first" class="oe_stat_button btn-outline-secondary rounded" groups="base.group_no_one">
-                                    <div class="o_field_widget o_stat_info">
-                                        <span class="o_stat_text">Time Off</span>
-                                    </div>
+                                <button name="%(resource_calendar_leaves_action_from_calendar)d" type="action"
+                                        icon="fa-plane order-first"
+                                        class="oe_stat_button btn-outline-secondary rounded"
+                                        groups="base.group_no_one">
+                                        <div class="o_field_widget o_stat_info">
+                                            <span class="o_stat_text">Time Off</span>
+                                        </div>
                                 </button>
-                                <button name="84" type="action" icon="fa-cogs order-first" class="oe_stat_button btn-outline-secondary rounded" groups="base.group_user">
-                                    <div class="o_field_widget o_stat_info">
-                                        <span class="o_stat_text">
-                                            <field name="work_resources_count" string="Work Resources" widget="statinfo"/>
-                                        </span>
-                                    </div>
+                                <button name="%(resource_resource_action_from_calendar)d" type="action"
+                                        icon="fa-cogs order-first"
+                                        class="oe_stat_button btn-outline-secondary rounded"
+                                        groups="base.group_user">
+                                        <div class="o_field_widget o_stat_info">
+                                            <span class="o_stat_text">
+                                                <field name="work_resources_count" string="Work Resources" widget="statinfo"/>
+                                            </span>
+                                        </div>
                                 </button>
                             </div>
                         </div>

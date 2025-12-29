@@ -57,3 +57,5 @@ export async function startWebClient(Webclient) {
     // delete inphms.debug; // FIXME: some legacy code rely on this
     inphms.isReady = true;
 }
+
+console.log("START, STARTING");
