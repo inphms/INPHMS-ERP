@@ -8,5 +8,3 @@ import { WebClient } from "./webclient/webclient";
  */
 
 startWebClient(WebClient);
-
-console.log("main, STARTING");

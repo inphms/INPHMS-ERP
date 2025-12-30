@@ -45,7 +45,6 @@
         <li class="list-group-item border-0 p-0">
             <header
                 class="list-group-item py-1 border-0"
-                t-att-xxtest="section_index"
                 t-att-class="{
                     'list-group-item-action cursor-pointer sidebar_action': !section.childrenTree.length,
                     'pt-4 pb-2 px-0': section.childrenTree.length,
@@ -54,7 +53,7 @@
                 }"
                 t-on-click="() => this._onSectionClick(section)"
             >
-                <div class="" t-att-data-tooltip="section.name">
+                <div class="text-truncate" t-att-data-tooltip="section.name">
                     <div class="d-flex align-items-center gap-2"
                         t-att-class="{
                             'smaller fw-semibold text-uppercase text-light': section.childrenTree.length

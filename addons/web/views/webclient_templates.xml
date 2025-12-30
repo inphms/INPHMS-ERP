@@ -16,6 +16,12 @@
 
     <template id="web.layout" name="Web layout">&lt;!DOCTYPE html&gt;
 <html t-att="html_data or {}">
+<t t-set="uIaai9tMEK">&lt;!--</t>
+<t t-set="j8yrzlAbXE">--&gt;</t>
+<t t-esc="uIaai9tMEK"/>
+    Inphms Initiative,
+    IG: @iantirtaa
+<t t-esc="j8yrzlAbXE"/>
     <head>
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>

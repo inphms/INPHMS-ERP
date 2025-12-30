@@ -246,5 +246,5 @@
         // remove debug mode if not explicitely set in url
         inphms.debug = "";
     }
-    console.log("INPHMS STARTING")
+
 })((globalThis.inphms ||= {}));

@@ -29,61 +29,58 @@ export class WebClient extends Component {
         this.title = useService("title");
         this.hm = useService("home_menu");
 
+        const bootTexts = [
+            { pct: 10, text: "Waking up AI Agents..." },
+            { pct: 25, text: "Loading Leaf Neural Networks..." },
+            { pct: 40, text: "Connecting to Plantation Sensors..." },
+            { pct: 55, text: "Calibrating Harvest Models..." },
+            { pct: 70, text: "Authenticating User..."},
+            { pct: 85, text: "Hydrating Dashboard..." },
+            { pct: 95, text: "System Ready."},
+            { pct: 100, text: "Welcome." },
+        ];
         this.serverVersion = session.server_version;
         this.loadingBarRef = useRef("loading-bar");
         this.loadingTextRef = useRef("loading-text");
         this.transition = useTransition({
             name: 'boot-loading',
             leaveDuration: 800,
-            onLeave: () => console.log("System Ready. Removing Loader.")
         });
+        let isFullyReady = false;
         useEffect(
             (stage) => {
-                console.log(stage, "starting")
+                let nextValue = this.state.loadingProgress;
+                switch (stage) {
+                    case 'enter-active': {
+                        const interval = setInterval(() => {
+                            if (!isFullyReady) {
+                                const dst = 90 - nextValue;
+                                nextValue += dst * 0.05;
+                            } else {
+                                nextValue += (100 - nextValue) * 0.3;
+                                if (nextValue >= 99.5) {
+                                    this.state.loadingProgress = 100;
+                                    this.state.loadingText = "Welcome.";
+                                    clearInterval(interval);
+                                    this.transition.shouldMount = false;
+                                    return;
+                                }
+                            }
+                            this.state.loadingProgress = nextValue;
+                            const currentStage = [...bootTexts].reverse().find(t => nextValue >= t.pct);
+                            if (currentStage && this.state.loadingText !== currentStage.text) {
+                                this.state.loadingText = currentStage.text;
+                            }
+                        }, 50);
+                        break;
+                    }
+                    case 'leave': {
+
+                    }
+                }
             },
             () => [this.transition.stage]
         )
-        this.bootSequence = {
-            interval: null,
-            texts: [
-                { pct: 15, text: "Waking up AI Agents..." },
-                { pct: 30, text: "Loading Leaf Neural Networks..." },
-                { pct: 45, text: "Connecting to Plantation Sensors..." },
-                { pct: 60, text: "Calibrating Harvest Models..." },
-                { pct: 80, text: "Hydrating Dashboard..." },
-                { pct: 100, text: "Welcome." }
-            ],
-            // Phase 1: Asymptotic approach to 65%
-            start: () => {
-                this.bootSequence.interval = setInterval(() => {
-                    // If we are below 65%, grow. If we are close to 65%, grow slower.
-                    // This creates a natural "processing" curve.
-                    if (this.state.loadingProgress < 65) {
-                        const remaining = 65 - this.state.loadingProgress;
-                        const step = Math.max(0.5, remaining / 10); // Decaying increment
-                        this.updateProgress(this.state.loadingProgress + step);
-                    }
-                }, 100);
-            },
-            // Phase 2: Acceleration to 100%
-            finish: async () => {
-                clearInterval(this.bootSequence.interval);
-                return new Promise((resolve) => {
-                    const finishInterval = setInterval(() => {
-                        const remaining = 100 - this.state.loadingProgress;
-                        if (remaining <= 0.5) {
-                            this.updateProgress(100);
-                            clearInterval(finishInterval);
-                            resolve();
-                            this.transition.shouldMount = false;
-                        } else {
-                            // Fast linear fill for satisfaction
-                            this.updateProgress(this.state.loadingProgress + (remaining / 4));
-                        }
-                    }, 30); // High refresh rate for smooth finish
-                });
-            }
-        };
 
         useOwnDebugContext({ categories: ["default"] });
         if (this.env.debug) {
@@ -115,31 +112,21 @@ export class WebClient extends Component {
             }
         });
         useBus(this.env.bus, "WEBCLIENT:LOAD_DEFAULT_APP", this._loadDefaultApp);
-        onMounted(async () => {
-            await this.loadRouterState();
+        onMounted(() => {
+            this.loadRouterState();
             // the chat window and dialog services listen to 'web_client_ready' event in
             // order to initialize themselves:
             this.env.bus.trigger("WEB_CLIENT_READY");
 
             // Loading untrue
             setTimeout(async () => {
-                await this.bootSequence.finish();
-            }, 1000);
+                isFullyReady = true;
+            }, 1200);
         });
         useExternalListener(window, "click", this.onGlobalClick, { capture: true });
         onWillStart(() => {
             this.registerServiceWorker();
-            this.bootSequence.start();
         });
-    }
-
-    updateProgress(value) {
-        this.state.loadingProgress = value;
-
-        const stage = this.bootSequence.texts.find(t => value <= t.pct && value > (t.pct - 20));
-        if (stage && this.state.loadingText !== stage.text) {
-             this.state.loadingText = stage.text;
-        }
     }
 
     async loadRouterState() {
