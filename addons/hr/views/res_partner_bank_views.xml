@@ -23,8 +23,8 @@
                         <field name="bank_name" string="Bank Name"/>
                         <field name="bank_bic"/>
                     </group>
-                    <group>
-                        <group name="address_details">
+                    <group class="mx-0 px-0">
+                        <group colspan="2" name="address_details">
                             <label for="bank_street" string="Bank Address"/>
                             <div class="o_address_format">
                                 <field name="bank_street" placeholder="Street..." class="o_address_street"/>
@@ -39,7 +39,7 @@
                                 />
                             </div>
                         </group>
-                        <group name="communication_details">
+                        <group colspan="2" name="communication_details">
                             <field name="bank_phone" class="o_force_ltr"/>
                             <field name="bank_email" widget="email"/>
                         </group>

@@ -8,34 +8,42 @@
                 <form string="department">
                     <field name="company_id" invisible="1"/>
                     <sheet>
-                        <div class="oe_button_box" name="button_box" invisible="not id">
-                            <button class="oe_stat_button" name="action_employee_from_department" type="object" icon="fa-users order-first">
-                                <field string="Employees" name="total_employee" widget="statinfo"/>
-                            </button>
-                            <button class="oe_stat_button" type="object" name="action_plan_from_department" icon="fa-list-ul order-first">
-                                <field string="Plans" name="plans_count" widget="statinfo"/>
-                            </button>
-                        </div>
                         <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
-                        <field name="active" invisible="1"/>
-                        <!-- <div class="oe_title">
-                            <h1>
-                                <field name="name"/>
-                            </h1>
-                        </div> -->
+                        <div>
+                            <field name="active" invisible="1"/>
+                            <group string="Definition" class="border rounded mb-4 mx-0 i__group">
+                                <group colspan="7">
+                                    <!-- <field name="name" invisible="1"/> Remove in master -->
+                                    <field name="name"/>
+                                    <field name="manager_id" widget="many2one_avatar_employee"/>
+                                    <field name="parent_id"/>
+                                    <field name="child_ids" invisible="1"/>
+                                    <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company" placeholder="Visible to all"/>
+                                    <field name="color" widget="color_picker" string="Color"/>
+                                </group>
+                                <group colspan="5" invisible="not id or id and not child_ids and not parent_id">
+                                    <widget name="hr_department_chart" class="mb-3"/>
+                                </group>
+                            </group>
+                        </div>
+                        <sidepanel>
+                            <div class="o_inner_group border rounded mb-4 i__group" name="quick_actions" invisible="not id">
+                                <div class="o_horizontal_separator mt-4 mb-3 text-uppercase fw-bolder small">
+                                    Quick Actions
+                                </div>
+                                <div name="button_box_action" class="action_button o-form-buttonbox list-group gap-2">
+                                    <button class="oe_stat_button btn-outline-secondary rounded" name="action_employee_from_department" type="object" icon="fa-users order-first">
+                                        <field string="Employees" name="total_employee" widget="statinfo"/>
+                                    </button>
+                                    <button class="oe_stat_button btn-outline-secondary rounded" type="object" name="action_plan_from_department" icon="fa-list-ul order-first">
+                                        <field string="Plans" name="plans_count" widget="statinfo"/>
+                                    </button>
+                                </div>
+                            </div>
+                        </sidepanel>
+                        
                         <group col="12">
-                            <group colspan="7">
-                                <!-- <field name="name" invisible="1"/> Remove in master -->
-                                <field name="name"/>
-                                <field name="manager_id" widget="many2one_avatar_employee"/>
-                                <field name="parent_id"/>
-                                <field name="child_ids" invisible="1"/>
-                                <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company" placeholder="Visible to all"/>
-                                <field name="color" widget="color_picker" string="Color"/>
-                            </group>
-                            <group colspan="5" invisible="not id or id and not child_ids and not parent_id">
-                                <widget name="hr_department_chart" class="mb-3"/>
-                            </group>
+                            
                         </group>
                     </sheet>
                     <chatter/>

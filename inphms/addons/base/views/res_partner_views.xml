@@ -309,7 +309,7 @@
                                 <div class="badge rounded-pill text-bg-warning" invisible="not main_user_id">User</div>
                             </div>
                         </group>
-                        <group string="Internal Notes" name="internal_notes" class="border rounded mx-0 i__group">
+                        <group string="Internal Notes" name="internal_notes" class="border rounded mx-0 mb-4 i__group">
                             <field name="comment" options="{'height': 100}" placeholder="Internal notes..."/>
                             <group name="warnings"/>
                         </group>

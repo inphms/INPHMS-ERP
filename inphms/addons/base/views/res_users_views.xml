@@ -178,7 +178,7 @@
                                 <group name="other_preferences">
                                     
                                 </group>
-                                <group name="calendar" string="Calendar" class="col-lg-12">
+                                <group name="calendar" string="Calendar" class="mx-0 px-0" colspan="2">
                                     <group name="calendar_preferences">
                                         <field name="tz" widget="timezone_mismatch" options="{'tz_offset_field': 'tz_offset'}" readonly="0" invisible="share"/>
                                         <field name="tz_offset" invisible="1"/> <!-- needed for the timezone_mismatch widget -->

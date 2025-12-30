@@ -17,8 +17,8 @@
             <field name="model">hr.contract.type</field>
             <field name="arch" type="xml">
                 <form>
-                    <group>
-                        <group>
+                    <group string="Definition" class="i__group border rounded mb-4 mx-0">
+                        <group colspan="2">
                             <field name="name"/>
                             <field name="code" invisible="1"/>
                             <field name="country_id"/>

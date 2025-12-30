@@ -22,7 +22,7 @@
                 <field name="attendance_state" invisible="1"/>
                 <field name="hours_last_month" groups="hr_attendance.group_hr_attendance_officer" invisible="1"/>
                 <button name="action_open_last_month_attendances"
-                        class="oe_stat_button"
+                        class="oe_stat_button btn-outline-secondary rounded"
                         icon="fa-clock-o"
                         type="object"
                         groups="hr_attendance.group_hr_attendance_officer"

@@ -20,7 +20,7 @@
             <field name="arch" type="xml">
                 <form string="Work Location">
                     <sheet>
-                        <group>
+                        <group string="Definition" class="rounded mb-4 border mx-0 i__group">
                             <group>
                                 <field name="active" invisible="1" />
                                 <field name="name" />

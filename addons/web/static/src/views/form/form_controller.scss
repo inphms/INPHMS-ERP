@@ -26,7 +26,7 @@
             line-height: $o-label-font-size-factor;
         }
 
-        .o_field_widget {
+        :not(.o_address_format) > .o_field_widget {
             &:not(.o_field_boolean){
                 width: 100%;
             }

@@ -6,40 +6,42 @@
         <field name="arch" type="xml">
             <form string="Contract Template">
                 <sheet>
-                    <div class="oe_title pe-0 w-100 mw-100" name="title">
-                        <h1 class="d-flex flex-row justify-content-between">
+                    <div>
+                        <group string="Definition" class="border rounded mb-4 mx-0 i__group">
                             <field name="name" class="text-truncate" placeholder="Template Name" required="1"/>
-                        </h1>
-                    </div>
-                    <group name="top_info">
-                        <group name="top_info_left">
-                            <field name="job_id" groups="hr.group_hr_manager"/>
-                            <field name="department_id" groups="hr.group_hr_manager"/>
-                        </group>
-                        <group name="top_info_right">
-                            <field name="hr_responsible_id" widget="many2one_avatar_user" groups="hr.group_hr_user"/>
-                        </group>
-                    </group>
-                    <notebook>
-                        <page string="Salary Information" name="information" class="o_hr_contract_salary_information" groups="hr.group_hr_manager">
-                            <field name="currency_id" invisible="1"/> <!-- for monetary fields -->
-                            <group name="salary_info">
-                                <group name="contract" string="Contract Overview" groups="hr.group_hr_user">
-                                    <label for="wage"/>
-                                    <div class="o_row" name="wage">
-                                        <field name="wage" class="o_hr_narrow_field"/>
-                                        <div name="wage_period_label">/ month</div>
-                                    </div>
-                                    <field name="contract_type_id" string="Contract Type" placeholder="Contract Type"/>
-                                    <field name="structure_type_id" string="Pay Category" placeholder="Pay Category"
-                                            domain="['|', ('country_id', '=', False), ('country_id', '=', company_country_id)]"/>
-
-                                    <separator name="schedule" string="Schedule"/>
-                                    <field name="resource_calendar_id" help="The default working hours are set in configuration."/>
+                            <group colspan="2" class="mx-0 px-0 mt-3" name="top_info">
+                                <group name="top_info_left">
+                                    <field name="job_id" groups="hr.group_hr_manager"/>
+                                    <field name="department_id" groups="hr.group_hr_manager"/>
+                                </group>
+                                <group name="top_info_right">
+                                    <field name="hr_responsible_id" widget="many2one_avatar_user" groups="hr.group_hr_user"/>
                                 </group>
                             </group>
-                        </page>
-                    </notebook>
+                        </group>
+                        <group string="Salary Information" name="information" class="o_hr_contract_salary_information i__group rounded border mb-4 mx-0" groups="hr.group_hr_manager">
+                            <field name="currency_id" invisible="1"/> <!-- for monetary fields -->
+                            <group class="mx-0 px-0" name="salary_info">
+                                <group colspan="2" class="mx-0 px-0" name="contract" string="Contract Overview" groups="hr.group_hr_user">
+                                    <group colspan="2">
+                                        <label for="wage"/>
+                                        <div class="o_row" name="wage">
+                                            <field name="wage" class="o_hr_narrow_field"/>
+                                            <div name="wage_period_label">/ month</div>
+                                        </div>
+                                        <field name="contract_type_id" string="Contract Type" placeholder="Contract Type"/>
+                                        <field name="structure_type_id" string="Pay Category" placeholder="Pay Category"
+                                                domain="['|', ('country_id', '=', False), ('country_id', '=', company_country_id)]"/>
+                                    </group>
+                                    <group colspan="2" string="Schedule" name="schedule">
+                                        <group colspan="2">
+                                            <field name="resource_calendar_id" help="The default working hours are set in configuration."/>
+                                        </group>
+                                    </group>
+                                </group>
+                            </group>
+                        </group>
+                    </div>
                 </sheet>
                 <chatter groups="hr.group_hr_manager"/>
             </form>

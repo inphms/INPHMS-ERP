@@ -182,7 +182,10 @@
             <field name="inherit_id" ref="base.view_users_form"/>
             <field name="arch" type="xml">
 
-                <xpath expr="//header" position="inside">
+                <!-- <xpath expr="//header" position="inside">
+                    
+                </xpath> -->
+                <xpath expr="//div[@name='button_box_action']" position="inside">
                     <field name="share" invisible="1"/>
                     <field name="employee_ids" invisible="1"/>
                     <field name="employee_id" invisible="1"/>
@@ -190,10 +193,8 @@
                             type="object" name="action_create_employee"
                             invisible="not id or share or employee_id"/>
                             <!-- share is not correctly recomputed because it depends on fields of reified view => invisible before saving (id=False) -->
-                </xpath>
-                <xpath expr="//div[@name='button_box_action']" position="inside">
                     <button name="action_open_employees"
-                        class="oe_stat_button"
+                        class="oe_stat_button btn-outline-secondary rounded"
                         icon="fa-users order-first"
                         invisible="employee_count == 0"
                         context="{'active_test': False}"
@@ -201,7 +202,7 @@
                         <field name="employee_count" widget="statinfo" string="Employee"/>
                     </button>
                     <button name="action_related_contact"
-                        class="oe_stat_button"
+                        class="oe_stat_button btn-outline-secondary rounded"
                         icon="fa-address-card-o order-first"
                         type="object"
                         help="Related Contact">
@@ -216,7 +217,7 @@
                 </field>
                 <field name="image_1920" widget="contact_image" position="after">
                     <field name="image_1920" class="o_contact_image_large" invisible="not employee_id or work_email == login"
-                        widget="contact_image" options="{'preview_image': 'avatar_128', 'img_class': 'rounded-4'}"/>
+                        widget="contact_image" options="{'preview_image': 'avatar_128', 'img_class': 'rounded-pill'}"/>
                 </field>
                 <!-- Must be replaced by login when the user has an employee_id. -->
                 <xpath expr="//field[@name='login']" position="attributes">

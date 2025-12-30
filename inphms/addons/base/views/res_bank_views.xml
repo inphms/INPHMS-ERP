@@ -106,19 +106,21 @@
                 <form string="Bank account" name="bank_account_form">
                 <sheet>
                     <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
-                    <group name="definition" string="Definition" class="border rounded mb-4 mx-0 i__group">
-                        <group>
-                            <field name="acc_number"/>
-                            <field name="clearing_number"/>
-                            <field name="partner_id"/>
-                            <field name="bank_id"/>
+                    <div>
+                        <group name="definition" string="Definition" class="border rounded mb-4 mx-0 i__group">
+                            <group>
+                                <field name="acc_number"/>
+                                <field name="clearing_number"/>
+                                <field name="partner_id"/>
+                                <field name="bank_id"/>
+                            </group>
+                            <group>
+                                <field name="allow_out_payment" widget="boolean_toggle"/>
+                                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                <field name="currency_id" groups="base.group_multi_currency" options="{'no_create': True}"/>
+                            </group>
                         </group>
-                        <group>
-                            <field name="allow_out_payment" widget="boolean_toggle"/>
-                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                            <field name="currency_id" groups="base.group_multi_currency" options="{'no_create': True}"/>
-                        </group>
-                    </group>
+                    </div>
                     <sidepanel>
                         <group string="Status" class="border rounded mb-4 i__group">
                             <field name="create_date" widget="date" options="{'show_time': false}" readonly="1" class="fw-bold"/>
