@@ -3,6 +3,10 @@
 
 <t t-name="hr_attendance.CardLayout">
     <div class="o_attendance_background d-flex flex-column h-100">
+        <div class="i_attendance_background_orb">
+            <div class="orb orb-1"/>
+            <div class="orb orb-2"/>
+        </div>
         <t t-if="env.isSmall">
             <div class="p-2 d-flex justify-content-between">
                 <button
@@ -37,10 +41,10 @@
                     </button>
                 </div>
                 <div class="o_hr_kiosk_mode_top d-flex flex-column-reverse flex-sm-row justify-content-between mx-4 my-3" t-if="this.props.activeDisplay != 'settings'">
-                    <div class="o_hr_kiosk_mode_top_time d-flex flex-column-reverse flex-sm-row align-items-center justify-content-center mt-2 mt-sm-0">
-                        <span class="me-0 me-sm-2 display-6" t-esc="state.time"/>
-                        <div class="d-flex flex-sm-column gap-1 gap-sm-0 small">
-                            <span t-esc="state.dayOfWeek"/>
+                    <div class="o_hr_kiosk_mode_top_time d-flex flex-column align-items-end justify-content-center">
+                        <span class="me-0 me-sm-2 display-5 lh-1 fw-bolder" style="letter-spacing: -0.03em;" t-esc="state.time"/>
+                        <div class="text-muted small">
+                            <span ><t t-esc="state.dayOfWeek"/>, </span>
                             <span t-esc="state.date"/>
                         </div>
                     </div>

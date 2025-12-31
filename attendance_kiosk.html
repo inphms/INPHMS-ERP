@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INPHMS Attendance Kiosk</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ============================================
+           GLOBAL STYLES & MODERN FOUNDATION
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Color Palette */
+            --bg-primary: #e8ecf0;
+            --bg-secondary: #f5f7fa;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b7280;
+            --success: #10b981;
+            --error: #ef4444;
+            --primary: #667eea;
+            --primary-dark: #5568d3;
+            
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+            
+            /* Typography */
+            --font-primary: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+        }
+
+        /* ============================================
+           PALM LEAF DECORATIONS (PLANTATION THEME)
+           ============================================ */
+        .palm-decoration {
+            position: fixed;
+            pointer-events: none;
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        .palm-left {
+            top: -50px;
+            left: -50px;
+            width: 400px;
+            height: 400px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path d="M10 150 Q 20 100, 40 80 Q 60 60, 80 50 Q 100 40, 120 40" fill="none" stroke="%234ade80" stroke-width="3"/><path d="M20 145 Q 30 110, 50 95 Q 70 80, 90 75" fill="none" stroke="%2322c55e" stroke-width="2"/><path d="M30 140 Q 40 115, 60 105 Q 80 95, 100 90" fill="none" stroke="%2316a34a" stroke-width="2"/></svg>') no-repeat;
+            background-size: contain;
+            animation: palmSway 8s ease-in-out infinite;
+        }
+
+        .palm-right {
+            top: 20px;
+            right: -30px;
+            width: 350px;
+            height: 350px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path d="M190 150 Q 180 100, 160 80 Q 140 60, 120 50 Q 100 40, 80 40" fill="none" stroke="%234ade80" stroke-width="3"/><path d="M180 145 Q 170 110, 150 95 Q 130 80, 110 75" fill="none" stroke="%2322c55e" stroke-width="2"/><path d="M170 140 Q 160 115, 140 105 Q 120 95, 100 90" fill="none" stroke="%2316a34a" stroke-width="2"/></svg>') no-repeat;
+            background-size: contain;
+            animation: palmSway 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes palmSway {
+            0%, 100% { transform: rotate(0deg) translateY(0); }
+            50% { transform: rotate(3deg) translateY(-5px); }
+        }
+
+        /* ============================================
+           MAIN CONTAINER
+           ============================================ */
+        .kiosk-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ============================================
+           HEADER
+           ============================================ */
+        .kiosk-header {
+            padding: 2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .datetime-display {
+            text-align: left;
+        }
+
+        .time {
+            font-size: 5rem;
+            font-weight: 300;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .date {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .header-logo {
+            text-align: right;
+        }
+
+        .logo-placeholder {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ff6b9d;
+            margin-bottom: 0.25rem;
+        }
+
+        .logo-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* ============================================
+           MAIN CONTENT AREA
+           ============================================ */
+        .kiosk-main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        /* ============================================
+           SCAN MODE (DEFAULT VIEW)
+           ============================================ */
+        .scan-mode {
+            width: 100%;
+            max-width: 500px;
+            animation: fadeInScale 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .scan-card {
+            background: white;
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .scan-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.18);
+        }
+
+        .install-badge {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--bg-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .install-badge:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .barcode-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(102, 126, 234, 0); }
+        }
+
+        .barcode-svg {
+            width: 80px;
+            height: 80px;
+        }
+
+        .scan-text {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .scan-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .input-methods {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .method-badge {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* ============================================
+           MANUAL ENTRY MODE
+           ============================================ */
+        .manual-mode {
+            width: 100%;
+            max-width: 600px;
+            display: none;
+            animation: fadeInScale 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .manual-mode.active {
+            display: block;
+        }
+
+        .manual-card {
+            background: white;
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .mode-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .mode-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+        }
+
+        .mode-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .mode-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .mode-description {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            font-size: 1.1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-family: var(--font-primary);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-results {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+
+        .employee-result {
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .employee-result:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateX(4px);
+        }
+
+        .employee-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .employee-info {
+            flex: 1;
+        }
+
+        .employee-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .employee-id {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* ============================================
+           CAMERA MODE
+           ============================================ */
+        .camera-mode {
+            width: 100%;
+            max-width: 700px;
+            display: none;
+            animation: fadeInScale 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .camera-mode.active {
+            display: block;
+        }
+
+        .camera-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .camera-preview {
+            width: 100%;
+            height: 400px;
+            background: #1a1a1a;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .camera-feed {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1); /* Mirror effect */
+        }
+
+        .camera-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 250px;
+            height: 300px;
+            border: 3px solid var(--success);
+            border-radius: 20px;
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+        }
+
+        .camera-guide {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            color: white;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .camera-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .camera-placeholder i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .camera-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        /* ============================================
+           SUCCESS/ERROR FEEDBACK
+           ============================================ */
+        .feedback-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .feedback-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .feedback-card {
+            background: white;
+            border-radius: 24px;
+            padding: 3rem;
+            text-align: center;
+            max-width: 450px;
+            animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .feedback-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .feedback-icon.success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            animation: successPop 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feedback-icon.error {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            animation: errorShake 0.5s ease;
+        }
+
+        @keyframes successPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes errorShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .feedback-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .feedback-message {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .employee-details {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+        }
+
+        .employee-photo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: 700;
+        }
+
+        .employee-detail-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .employee-detail-info {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        /* ============================================
+           BUTTONS
+           ============================================ */
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-primary);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .kiosk-footer {
+            padding: 2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .manual-entry-btn {
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .manual-entry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .manual-entry-btn i {
+            font-size: 1.5rem;
+        }
+
+        .powered-by {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .inphms-badge {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+        @media (max-width: 1024px) {
+            .time {
+                font-size: 4rem;
+            }
+
+            .scan-card {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .kiosk-header {
+                padding: 1.5rem;
+            }
+
+            .time {
+                font-size: 3rem;
+            }
+
+            .date {
+                font-size: 1rem;
+            }
+
+            .palm-left,
+            .palm-right {
+                display: none;
+            }
+        }
+
+        /* ============================================
+           UTILITIES
+           ============================================ */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-2 {
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Palm Decorations -->
+    <div class="palm-decoration palm-left"></div>
+    <div class="palm-decoration palm-right"></div>
+
+    <!-- Main Kiosk Container -->
+    <div class="kiosk-container">
+        <!-- Header -->
+        <header class="kiosk-header">
+            <div class="datetime-display">
+                <div class="time" id="time">12:49 PM</div>
+                <div class="date" id="date">Wednesday, December 31, 2025</div>
+            </div>
+            <div class="header-logo">
+                <div class="logo-placeholder">INPHMS</div>
+                <div class="logo-subtitle">Attendance System</div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="kiosk-main">
+            <!-- Scan Mode (Default) -->
+            <div class="scan-mode" id="scanMode">
+                <div class="scan-card">
+                    <div class="install-badge" onclick="installPWA()">
+                        <i class="fas fa-download"></i> Install
+                    </div>
+
+                    <div class="barcode-icon">
+                        <svg class="barcode-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="10" y="20" width="4" height="60" fill="#1a1a1a"/>
+                            <rect x="18" y="20" width="2" height="60" fill="#1a1a1a"/>
+                            <rect x="24" y="20" width="6" height="60" fill="#1a1a1a"/>
+                            <rect x="34" y="20" width="3" height="60" fill="#1a1a1a"/>
+                            <rect x="40" y="20" width="2" height="60" fill="#1a1a1a"/>
+                            <rect x="46" y="20" width="5" height="60" fill="#1a1a1a"/>
+                            <rect x="54" y="20" width="2" height="60" fill="#1a1a1a"/>
+                            <rect x="60" y="20" width="4" height="60" fill="#1a1a1a"/>
+                            <rect x="68" y="20" width="3" height="60" fill="#1a1a1a"/>
+                            <rect x="74" y="20" width="6" height="60" fill="#1a1a1a"/>
+                            <rect x="84" y="20" width="2" height="60" fill="#1a1a1a"/>
+                        </svg>
+                    </div>
+
+                    <h2 class="scan-text">Scan your badge</h2>
+                    <p class="scan-subtitle">Or use RFID card to check in/out</p>
+
+                    <div class="input-methods">
+                        <span class="method-badge">
+                            <i class="fas fa-barcode"></i> Barcode
+                        </span>
+                        <span class="method-badge">
+                            <i class="fas fa-wifi"></i> RFID
+                        </span>
+                        <span class="method-badge">
+                            <i class="fas fa-camera"></i> Photo
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manual Entry Mode -->
+            <div class="manual-mode" id="manualMode">
+                <div class="manual-card">
+                    <div class="mode-header">
+                        <div class="mode-icon">
+                            <i class="fas fa-user-edit"></i>
+                        </div>
+                        <h2 class="mode-title">Manual Entry</h2>
+                        <p class="mode-description">Search for your name or employee ID</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="searchInput">Employee Name or ID</label>
+                        <input 
+                            type="text" 
+                            id="searchInput" 
+                            class="form-input" 
+                            placeholder="Start typing..."
+                            oninput="searchEmployee(this.value)"
+                        >
+                    </div>
+
+                    <div class="search-results" id="searchResults"></div>
+
+                    <div class="text-center mt-2">
+                        <button class="btn btn-secondary" onclick="backToScan()">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Camera Mode -->
+            <div class="camera-mode" id="cameraMode">
+                <div class="camera-card">
+                    <div class="mode-header">
+                        <div class="mode-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <h2 class="mode-title">Photo Verification</h2>
+                        <p class="mode-description">Position your face in the frame</p>
+                    </div>
+
+                    <div class="camera-preview">
+                        <video id="cameraFeed" class="camera-feed hidden" autoplay playsinline></video>
+                        <canvas id="cameraCanvas" class="hidden"></canvas>
+                        
+                        <div class="camera-placeholder" id="cameraPlaceholder">
+                            <i class="fas fa-camera"></i>
+                            <p>Camera will start automatically</p>
+                        </div>
+
+                        <div class="camera-overlay"></div>
+                        <div class="camera-guide">
+                            Position your face within the frame
+                        </div>
+                    </div>
+
+                    <div class="camera-controls">
+                        <button class="btn btn-secondary" onclick="stopCamera()">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                        <button class="btn btn-success" onclick="capturePhoto()">
+                            <i class="fas fa-camera"></i> Capture Photo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="kiosk-footer">
+            <div class="manual-entry-btn" onclick="showManualEntry()">
+                <i class="fas fa-user-lock"></i>
+                <span>Identify Manually</span>
+            </div>
+
+            <div class="powered-by">
+                <span>Powered by</span>
+                <span class="inphms-badge">INPHMS</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Success/Error Feedback Overlay -->
+    <div class="feedback-overlay" id="feedbackOverlay">
+        <div class="feedback-card">
+            <div class="feedback-icon success" id="feedbackIcon">
+                <i class="fas fa-check"></i>
+            </div>
+
+            <h3 class="feedback-title" id="feedbackTitle">Success!</h3>
+            <p class="feedback-message" id="feedbackMessage">Your attendance has been recorded.</p>
+
+            <div class="employee-details" id="employeeDetails">
+                <div class="employee-photo">AD</div>
+                <div class="employee-detail-name">Administrator</div>
+                <div class="employee-detail-info">
+                    Employee ID: EMP001<br>
+                    Check-in: <span id="checkInTime">12:49 PM</span>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="closeFeedback()">
+                <i class="fas fa-check"></i> Done
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // CLOCK UPDATE
+        // ============================================
+        function updateClock() {
+            const now = new Date();
+            
+            // Time
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const displayHours = hours % 12 || 12;
+            const displayMinutes = minutes.toString().padStart(2, '0');
+            document.getElementById('time').textContent = `${displayHours}:${displayMinutes} ${ampm}`;
+            
+            // Date
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                           'July', 'August', 'September', 'October', 'November', 'December'];
+            const dayName = days[now.getDay()];
+            const monthName = months[now.getMonth()];
+            const date = now.getDate();
+            const year = now.getFullYear();
+            document.getElementById('date').textContent = `${dayName}, ${monthName} ${date}, ${year}`;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // ============================================
+        // MODE SWITCHING
+        // ============================================
+        function showManualEntry() {
+            document.getElementById('scanMode').classList.remove('active');
+            document.getElementById('scanMode').style.display = 'none';
+            document.getElementById('cameraMode').classList.remove('active');
+            document.getElementById('manualMode').classList.add('active');
+            document.getElementById('searchInput').focus();
+        }
+
+        function backToScan() {
+            document.getElementById('manualMode').classList.remove('active');
+            document.getElementById('cameraMode').classList.remove('active');
+            document.getElementById('scanMode').style.display = 'block';
+            document.getElementById('scanMode').classList.add('active');
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchResults').innerHTML = '';
+        }
+
+        function showCamera() {
+            document.getElementById('scanMode').style.display = 'none';
+            document.getElementById('manualMode').classList.remove('active');
+            document.getElementById('cameraMode').classList.add('active');
+            startCamera();
+        }
+
+        // ============================================
+        // EMPLOYEE SEARCH (MANUAL ENTRY)
+        // ============================================
+        const mockEmployees = [
+            { id: 'EMP001', name: 'Administrator', initials: 'AD' },
+            { id: 'EMP002', name: 'John Doe', initials: 'JD' },
+            { id: 'EMP003', name: 'Jane Smith', initials: 'JS' },
+            { id: 'EMP004', name: 'Bob Johnson', initials: 'BJ' },
+            { id: 'EMP005', name: 'Alice Williams', initials: 'AW' },
+        ];
+
+        function searchEmployee(query) {
+            const results = document.getElementById('searchResults');
+            
+            if (!query) {
+                results.innerHTML = '';
+                return;
+            }
+
+            const filtered = mockEmployees.filter(emp => 
+                emp.name.toLowerCase().includes(query.toLowerCase()) ||
+                emp.id.toLowerCase().includes(query.toLowerCase())
+            );
+
+            if (filtered.length === 0) {
+                results.innerHTML = '<p class="text-center" style="color: var(--text-secondary); padding: 2rem;">No employees found</p>';
+                return;
+            }
+
+            results.innerHTML = filtered.map(emp => `
+                <div class="employee-result" onclick="selectEmployee('${emp.id}', '${emp.name}', '${emp.initials}')">
+                    <div class="employee-avatar">${emp.initials}</div>
+                    <div class="employee-info">
+                        <div class="employee-name">${emp.name}</div>
+                        <div class="employee-id">${emp.id}</div>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            `).join('');
+        }
+
+        function selectEmployee(id, name, initials) {
+            // Here you would trigger photo capture
+            showCamera();
+            
+            // Store selected employee data
+            window.selectedEmployee = { id, name, initials };
+        }
+
+        // ============================================
+        // CAMERA FUNCTIONALITY
+        // ============================================
+        let stream = null;
+
+        async function startCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: 'user' } 
+                });
+                
+                const video = document.getElementById('cameraFeed');
+                video.srcObject = stream;
+                video.classList.remove('hidden');
+                document.getElementById('cameraPlaceholder').classList.add('hidden');
+            } catch (error) {
+                // console.error('Camera error:', error);
+                alert('Unable to access camera. Please check permissions.');
+            }
+        }
+
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            document.getElementById('cameraFeed').classList.add('hidden');
+            document.getElementById('cameraPlaceholder').classList.remove('hidden');
+            backToScan();
+        }
+
+        function capturePhoto() {
+            const video = document.getElementById('cameraFeed');
+            const canvas = document.getElementById('cameraCanvas');
+            const context = canvas.getContext('2d');
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0);
+
+            // Get image data
+            const imageData = canvas.toDataURL('image/jpeg');
+
+            // Stop camera
+            stopCamera();
+
+            // Show success feedback
+            showSuccessFeedback();
+        }
+
+        // ============================================
+        // FEEDBACK OVERLAY
+        // ============================================
+        function showSuccessFeedback() {
+            const overlay = document.getElementById('feedbackOverlay');
+            const icon = document.getElementById('feedbackIcon');
+            const title = document.getElementById('feedbackTitle');
+            const message = document.getElementById('feedbackMessage');
+
+            // Update content
+            icon.className = 'feedback-icon success';
+            icon.innerHTML = '<i class="fas fa-check"></i>';
+            title.textContent = 'Check-in Successful!';
+            message.textContent = 'Your attendance has been recorded.';
+
+            // Update time
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const displayHours = hours % 12 || 12;
+            const displayMinutes = minutes.toString().padStart(2, '0');
+            document.getElementById('checkInTime').textContent = `${displayHours}:${displayMinutes} ${ampm}`;
+
+            overlay.classList.add('active');
+
+            // Auto close after 3 seconds
+            setTimeout(closeFeedback, 3000);
+        }
+
+        function showErrorFeedback(message) {
+            const overlay = document.getElementById('feedbackOverlay');
+            const icon = document.getElementById('feedbackIcon');
+            const title = document.getElementById('feedbackTitle');
+            const messageEl = document.getElementById('feedbackMessage');
+            const details = document.getElementById('employeeDetails');
+
+            icon.className = 'feedback-icon error';
+            icon.innerHTML = '<i class="fas fa-times"></i>';
+            title.textContent = 'Error';
+            messageEl.textContent = message || 'Something went wrong. Please try again.';
+            details.style.display = 'none';
+
+            overlay.classList.add('active');
+
+            // Auto close after 3 seconds
+            setTimeout(closeFeedback, 3000);
+        }
+
+        function closeFeedback() {
+            document.getElementById('feedbackOverlay').classList.remove('active');
+            document.getElementById('employeeDetails').style.display = 'block';
+            backToScan();
+        }
+
+        // ============================================
+        // BARCODE/RFID SCANNER SIMULATION
+        // ============================================
+        let scanBuffer = '';
+        let scanTimeout = null;
+
+        document.addEventListener('keypress', (e) => {
+            // Only listen when in scan mode
+            if (!document.getElementById('scanMode').classList.contains('active') && 
+                document.getElementById('scanMode').style.display !== 'block') {
+                return;
+            }
+
+            clearTimeout(scanTimeout);
+            
+            // Accumulate characters
+            if (e.key === 'Enter') {
+                if (scanBuffer.length > 0) {
+                    processScannedCode(scanBuffer);
+                    scanBuffer = '';
+                }
+            } else {
+                scanBuffer += e.key;
+            }
+
+            // Reset buffer after 100ms of no input
+            scanTimeout = setTimeout(() => {
+                scanBuffer = '';
+            }, 100);
+        });
+
+        function processScannedCode(code) {
+            console.log('Scanned code:', code);
+            
+            // Simulate successful scan
+            showSuccessFeedback();
+        }
+
+        // ============================================
+        // PWA INSTALLATION
+        // ============================================
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('PWA installed');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                alert('This app is already installed or installation is not available.');
+            }
+        }
+
+        // ============================================
+        // KEYBOARD SHORTCUTS
+        // ============================================
+        document.addEventListener('keydown', (e) => {
+            // ESC to go back
+            if (e.key === 'Escape') {
+                backToScan();
+            }
+            
+            // M for manual entry
+            if (e.key === 'm' || e.key === 'M') {
+                if (document.getElementById('scanMode').style.display !== 'none') {
+                    showManualEntry();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

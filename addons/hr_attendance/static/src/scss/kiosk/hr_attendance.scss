@@ -93,11 +93,48 @@
 }
 // Shared with web client and login screen
 .o_attendance_background{
-    background: {
-        size: cover;
-        attachment: fixed;
-        color: var(--homeMenu-bg-color, #{$o-gray-200});
-        image: var(--homeMenu-bg-image, url("/hr_attendance/static/img/background-light.svg"));
+    // background: {
+    //     size: cover;
+    //     attachment: fixed;
+    //     color: var(--homeMenu-bg-color, #{$o-gray-200});
+    //     image: var(--homeMenu-bg-image, url("/hr_attendance/static/img/background-light.svg"));
+    // }
+
+    .i_attendance_background_orb {
+        z-index: -1;
+        @include o-position-absolute(0,0,0,0);
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: float 20s infinite ease-in-out;
+
+            &-1 {
+            width: 500px;
+            height: 500px;
+            background: #e0c3fc;
+            top: -100px;
+            left: -100px;
+            }
+            &-2 {
+                width: 400px;
+                height: 400px;
+                background: #8ec5fc;
+                bottom: -50px;
+                right: -50px;
+                animation-delay: -5s;
+            }
+        }
+    }
+}
+@keyframes float {
+    to {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(30px, 50px);
     }
 }
 

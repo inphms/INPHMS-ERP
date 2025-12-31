@@ -29,7 +29,8 @@ export class CardLayout extends Component {
         return {
             dayOfWeek: now.toFormat("cccc"),
             date: now.toLocaleString({
-                ...DateTime.DATE_FULL,
+                // ...DateTime.DATE_MED,
+                ...{day:'numeric', month:'short', year:'2-digit'},
                 weekday: undefined,
             }),
             time: now.toLocaleString(DateTime.TIME_SIMPLE),
