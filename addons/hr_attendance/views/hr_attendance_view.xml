@@ -75,9 +75,9 @@
                         invisible="not overtime_status"/>
                 </header>
                 <sheet>
-                    <group>
-                        <group colspan="2">
-                            <group col="1" name="group_employee">
+                    <div>
+                        <group string="Definition" class="i__group rounded border mb-4 mx-0">
+                            <group name="group_employee">
                                 <field
                                     id="employee_no_officer"
                                     name="employee_id"
@@ -104,7 +104,7 @@
                                 <field name="check_in" options="{'rounding': 0}" readonly="not is_manager"/>
                                 <field name="check_out" options="{'rounding': 0}" placeholder="Currently Working" readonly="not is_manager"/>
                             </group>
-                            <group col="2">
+                            <group>
                                 <field name="worked_hours" string="Worked Time" widget="float_time"/>
                                 <field name="overtime_hours" widget="float_time" string="Worked Extra Hours" invisible="overtime_hours == validated_overtime_hours"/>
                                 <label for="validated_overtime_hours"/>
@@ -135,99 +135,95 @@
                                         groups="hr_attendance.group_hr_attendance_officer"/>
                                 </div>
                             </group>
+                            <notebook>
+                                <page string="Attendance">
+                                    <group colspan="2" class="mx-0 px-0" string="Check In" name="check_in_group">
+                                        <group>
+                                            <field name="in_mode"/>
+                                            <field name="in_ip_address" invisible="in_mode == 'manual' or not device_tracking_enabled"/>
+                                            <field name="in_browser" invisible="in_mode == 'manual' or not device_tracking_enabled"/>
+                                        </group>
+                                        <group invisible="in_mode == 'manual' or not device_tracking_enabled">
+                                            <field name="in_location"/>
+                                            <label for="in_latitude" string="GPS Coordinates"/>
+                                            <div>
+                                                <div class="o_row">
+                                                    <span>
+                                                        <field name="in_latitude"/>
+                                                    </span>,
+                                                    <span>
+                                                        <field name="in_longitude" nolabel="1"/>
+                                                    </span>
+                                                </div>
+                                                <button
+                                                    name="action_in_attendance_maps"
+                                                    type="object"
+                                                    class="btn btn-link ps-0 pt-0 pb-2"
+                                                    icon="oi-arrow-right"
+                                                    string="View on Maps"
+                                                    colspan="2"/>
+                                            </div>
+                                        </group>
+                                    </group>
+                                    <group colspan="2" class="mx-0 px-0" string="Check Out" name="check_out_group" invisible="not check_out">
+                                        <group>
+                                            <field name="out_mode" string="Mode"/>
+                                            <field name="out_ip_address" string="IP Address" invisible="in_mode == 'manual' or not device_tracking_enabled"/>
+                                            <field name="out_browser" string="Browser" invisible="in_mode == 'manual' or not device_tracking_enabled"/>
+                                        </group>
+                                        <group invisible="out_mode == 'manual' or not device_tracking_enabled">
+                                            <field name="out_location"/>
+                                            <label for="out_latitude" string="GPS Coordinates"/>
+                                            <div>
+                                                <div class="o_row">
+                                                    <span>
+                                                        <field name="out_latitude"/>
+                                                    </span>,
+                                                    <span>
+                                                        <field name="out_longitude" nolabel="1"/>
+                                                    </span>
+                                                </div>
+                                                <button
+                                                    name="action_out_attendance_maps"
+                                                    type="object"
+                                                    class="btn btn-link ps-0 pt-0 pb-2"
+                                                    icon="oi-arrow-right"
+                                                    string="View on Maps"
+                                                    colspan="2"/>
+                                            </div>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Overtime" invisible="not overtime_status">
+                                    <field name="linked_overtime_ids">
+                                        <list editable="bottom">
+                                            <field name="rule_ids" widget="many2many_tags" readonly="1"/>
+                                            <field name="duration" widget="float_time" readonly="1"/>
+                                            <field name="manual_duration" widget="float_time" readonly="0"/>
+                                            <field name="amount_rate" widget="percentage"/>
+                                            <field name="status" widget="badge" readonly="1" decoration-warning="status == 'to_approve'" decoration-success="status == 'approved'" decoration-danger="status == 'refused'"/>
+                                            <button
+                                                class="oe_stat_button"
+                                                string="Approve"
+                                                invisible="not is_manager or status not in ['to_approve', 'refused']"
+                                                name="action_approve"
+                                                icon="fa-check"
+                                                type="object"
+                                                groups="hr_attendance.group_hr_attendance_officer"/>
+                                            <button
+                                                class="oe_stat_button"
+                                                string="Refuse"
+                                                invisible="not is_manager or status not in ['to_approve', 'approved']"
+                                                name="action_refuse"
+                                                icon="fa-times"
+                                                type="object"
+                                                groups="hr_attendance.group_hr_attendance_officer"/>
+                                        </list>
+                                    </field>
+                                </page>
+                            </notebook>
                         </group>
-                        <separator string="Check In"/>
-                        <group name="check_in_group" colspan="2">
-                            <group>
-                                <group>
-                                    <field name="in_mode"/>
-                                    <field name="in_ip_address" invisible="in_mode == 'manual' or not device_tracking_enabled"/>
-                                    <field name="in_browser" invisible="in_mode == 'manual' or not device_tracking_enabled"/>
-                                </group>
-                            </group>
-                            <group invisible="in_mode == 'manual' or not device_tracking_enabled">
-                                <field name="in_location"/>
-                                <label for="in_latitude" string="GPS Coordinates"/>
-                                <div>
-                                    <div class="o_row">
-                                        <span>
-                                            <field name="in_latitude"/>
-                                        </span>,
-                                        <span>
-                                            <field name="in_longitude" nolabel="1"/>
-                                        </span>
-                                    </div>
-                                    <button
-                                        name="action_in_attendance_maps"
-                                        type="object"
-                                        class="btn btn-link ps-0 pt-0 pb-2"
-                                        icon="oi-arrow-right"
-                                        string="View on Maps"
-                                        colspan="2"/>
-                                </div>
-                            </group>
-                        </group>
-                        <separator string="Check Out" name="check_out_separator" invisible="not check_out"/>
-                        <group colspan="2" name="check_out_group" invisible="not check_out">
-                            <group>
-                                <group>
-                                    <field name="out_mode" string="Mode"/>
-                                    <field name="out_ip_address" string="IP Address" invisible="in_mode == 'manual' or not device_tracking_enabled"/>
-                                    <field name="out_browser" string="Browser" invisible="in_mode == 'manual' or not device_tracking_enabled"/>
-                                </group>
-                            </group>
-                            <group invisible="out_mode == 'manual' or not device_tracking_enabled">
-                                <field name="out_location"/>
-                                <label for="out_latitude" string="GPS Coordinates"/>
-                                <div>
-                                    <div class="o_row">
-                                        <span>
-                                            <field name="out_latitude"/>
-                                        </span>,
-                                        <span>
-                                            <field name="out_longitude" nolabel="1"/>
-                                        </span>
-                                    </div>
-                                    <button
-                                        name="action_out_attendance_maps"
-                                        type="object"
-                                        class="btn btn-link ps-0 pt-0 pb-2"
-                                        icon="oi-arrow-right"
-                                        string="View on Maps"
-                                        colspan="2"/>
-                                </div>
-                            </group>
-                        </group>
-                    </group>
-                    <notebook invisible="not overtime_status">
-                        <page string="Overtime Details">
-                            <field name="linked_overtime_ids">
-                                <list editable="bottom">
-                                    <field name="rule_ids" widget="many2many_tags" readonly="1"/>
-                                    <field name="duration" widget="float_time" readonly="1"/>
-                                    <field name="manual_duration" widget="float_time" readonly="0"/>
-                                    <field name="amount_rate" widget="percentage"/>
-                                    <field name="status" widget="badge" readonly="1" decoration-warning="status == 'to_approve'" decoration-success="status == 'approved'" decoration-danger="status == 'refused'"/>
-                                    <button
-                                        class="oe_stat_button"
-                                        string="Approve"
-                                        invisible="not is_manager or status not in ['to_approve', 'refused']"
-                                        name="action_approve"
-                                        icon="fa-check"
-                                        type="object"
-                                        groups="hr_attendance.group_hr_attendance_officer"/>
-                                    <button
-                                        class="oe_stat_button"
-                                        string="Refuse"
-                                        invisible="not is_manager or status not in ['to_approve', 'approved']"
-                                        name="action_refuse"
-                                        icon="fa-times"
-                                        type="object"
-                                        groups="hr_attendance.group_hr_attendance_officer"/>
-                                </list>
-                            </field>
-                        </page>
-                    </notebook>
+                    </div>
                 </sheet>
                 <chatter/>
             </form>
@@ -465,9 +461,47 @@
 
     <!-- Menus -->
 
-    <menuitem id="menu_hr_attendance_root" name="Attendances" sequence="205" groups="hr_attendance.group_hr_attendance_officer" web_icon="hr_attendance,static/description/icon.png"/>
+    <menuitem id="menu_hr_attendance_root" 
+              name="Attendances" 
+              sequence="205" 
+              groups="hr_attendance.group_hr_attendance_officer"
+              web_icon="hr_attendance,static/description/icon.png"
+              description="Managed you're employee attendance."/>
+    
+    <menuitem id="menu_hr_attendance_overview" name="Overview" sequence="0" parent="menu_hr_attendance_root" groups="hr_attendance.group_hr_attendance_officer">
+        
+        <menuitem id="menu_hr_attendance_view_dashboard" 
+                  name="Attendance"
+                  action="hr_attendance_action"
+                  sequence="1"/>
+        
+        <menuitem id="menu_hr_attendance_employee" 
+                  name="Employees" 
+                  action="hr.open_view_employee_list_my" 
+                  groups="hr_attendance.group_hr_attendance_officer" 
+                  sequence="2"/>
+        
+        <menuitem id="menu_hr_attendance_view_attendances_management" 
+                  name="Management" 
+                  sequence="6" 
+                  groups="hr_attendance.group_hr_attendance_officer" action="hr_attendance_management_action"/>
+            
+    </menuitem>
 
-    <menuitem id="menu_action_open_form" name="Kiosk Mode" action="open_kiosk_url" parent="menu_hr_attendance_root" sequence="10" groups="hr_attendance.group_hr_attendance_user"/>
+    <menuitem id="menu_hr_attendance_interactive" name="Interactive" sequence="20" parent="menu_hr_attendance_root">
+        
+        <menuitem id="menu_action_open_form" 
+                  name="Self-Service Kiosk"
+                  action="open_kiosk_url"
+                  sequence="10"
+                  groups="hr_attendance.group_hr_attendance_user"/>
+
+        <menuitem id="menu_hr_attendance_onboarding"
+                  name="Onboarding" 
+                  action="action_try_kiosk" 
+                  sequence="100"/>
+
+    </menuitem>
 
     <menuitem
         id="menu_hr_attendance_reporting"
@@ -483,30 +517,6 @@
         parent="menu_hr_attendance_reporting"
         sequence="10"/>
 
-    <menuitem id="menu_hr_attendance_overview" name="Overview" parent="menu_hr_attendance_root" sequence="5" groups="hr_attendance.group_hr_attendance_officer"/>
-
-    <menuitem id="menu_hr_attendance_view_dashboard" name="Dashboard" action="hr_attendance_action" parent="menu_hr_attendance_overview" sequence="1"/>
-
-    <menuitem id="menu_hr_attendance_employee" name="Employees" parent="menu_hr_attendance_overview" action="hr.open_view_employee_list_my" groups="hr_attendance.group_hr_attendance_officer" sequence="2"/>
-
-    <menuitem id="menu_hr_attendance_view_attendances_management" name="Management" parent="menu_hr_attendance_root" sequence="6" groups="hr_attendance.group_hr_attendance_officer" action="hr_attendance_management_action"/>
-
     <menuitem id="menu_hr_attendance_configuration" name="Configuration" parent="menu_hr_attendance_root" sequence="99" groups="hr_attendance.group_hr_attendance_manager"/>
-
-    <menuitem id="menu_hr_attendance_onboarding" name="Onboarding" action="action_try_kiosk" parent="menu_hr_attendance_configuration" sequence="100"/>
-
-    <!-- Sidebar shortcut -->
-     <!-- <record id="hr_attendance.open_hr_attendance_root" model="ir.actions.act_url">
-        <field name="name">Attendances</field>
-        <field name="url">/inphms/attendances</field>
-        <field name="target">self</field>
-     </record>
-    <menuitem 
-        id="sidebar_hr_attendance"
-        action="hr_attendance.hr_attendance_action"
-        groups="hr_attendance.group_hr_attendance_officer"
-        parent="base.sidebar_root"
-        submenu_icon="hr_attendance,static/description/menu_icons/attendance.svg"
-        sequence="1"/> -->
 
 </inphms>
