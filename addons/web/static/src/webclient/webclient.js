@@ -1,4 +1,5 @@
 import { useOwnDebugContext } from "@web/core/debug/debug_context";
+import { Deferred } from "@web/core/utils/concurrency";
 import { DebugMenu } from "@web/core/debug/debug_menu";
 import { localization } from "@web/core/l10n/localization";
 import { MainComponentsContainer } from "@web/core/main_components_container";
@@ -7,7 +8,15 @@ import { useBus, useService } from "@web/core/utils/hooks";
 import { ActionContainer } from "./actions/action_container";
 import { NavBar } from "./navbar/navbar";
 
-import { Component, onMounted, onWillStart, useExternalListener, useState, useEffect, useRef } from "@inphms/owl";
+import {
+    Component,
+    onMounted,
+    onWillStart,
+    useExternalListener,
+    useState,
+    useEffect,
+    useRef,
+} from "@inphms/owl";
 import { router, routerBus } from "@web/core/browser/router";
 import { browser } from "@web/core/browser/browser";
 import { rpcBus } from "@web/core/network/rpc";
@@ -34,16 +43,16 @@ export class WebClient extends Component {
             { pct: 25, text: "Loading Leaf Neural Networks..." },
             { pct: 40, text: "Connecting to Plantation Sensors..." },
             { pct: 55, text: "Calibrating Harvest Models..." },
-            { pct: 70, text: "Authenticating User..."},
+            { pct: 70, text: "Authenticating User..." },
             { pct: 85, text: "Hydrating Dashboard..." },
-            { pct: 95, text: "System Ready."},
+            { pct: 95, text: "System Ready." },
             { pct: 100, text: "Welcome." },
         ];
         this.serverVersion = session.server_version;
         this.loadingBarRef = useRef("loading-bar");
         this.loadingTextRef = useRef("loading-text");
         this.transition = useTransition({
-            name: 'boot-loading',
+            name: "boot-loading",
             leaveDuration: 800,
         });
         let isFullyReady = false;
@@ -51,7 +60,7 @@ export class WebClient extends Component {
             (stage) => {
                 let nextValue = this.state.loadingProgress;
                 switch (stage) {
-                    case 'enter-active': {
+                    case "enter-active": {
                         const interval = setInterval(() => {
                             if (!isFullyReady) {
                                 const dst = 90 - nextValue;
@@ -67,20 +76,19 @@ export class WebClient extends Component {
                                 }
                             }
                             this.state.loadingProgress = nextValue;
-                            const currentStage = [...bootTexts].reverse().find(t => nextValue >= t.pct);
+                            const currentStage = [...bootTexts]
+                                .reverse()
+                                .find((t) => nextValue >= t.pct);
                             if (currentStage && this.state.loadingText !== currentStage.text) {
                                 this.state.loadingText = currentStage.text;
                             }
                         }, 50);
                         break;
                     }
-                    case 'leave': {
-
-                    }
                 }
             },
             () => [this.transition.stage]
-        )
+        );
 
         useOwnDebugContext({ categories: ["default"] });
         if (this.env.debug) {
@@ -96,7 +104,7 @@ export class WebClient extends Component {
         this.state = useState({
             fullscreen: false,
             loadingProgress: 0,
-            loadingText: "Initializing System..."
+            loadingText: "Initializing System...",
         });
         useBus(routerBus, "ROUTE_CHANGE", async () => {
             document.body.style.pointerEvents = "none";
@@ -124,9 +132,8 @@ export class WebClient extends Component {
             }, 1200);
         });
         useExternalListener(window, "click", this.onGlobalClick, { capture: true });
-        onWillStart(() => {
-            this.registerServiceWorker();
-        });
+        this.serviceWorkerActivatedDeferred = new Deferred();
+        onWillStart(this.registerServiceWorker);
     }
 
     async loadRouterState() {
@@ -143,9 +150,7 @@ export class WebClient extends Component {
 
             if (matchingMenus.length > 0) {
                 // Use sessionStorage context to determine the correct menu
-                menuId = matchingMenus.find(m => 
-                    m.appID === storedMenuId
-                )?.appID;
+                menuId = matchingMenus.find((m) => m.appID === storedMenuId)?.appID;
                 if (!menuId) {
                     menuId = matchingMenus[0]?.appID;
                 }
@@ -236,7 +241,17 @@ export class WebClient extends Component {
         if (navigator.serviceWorker) {
             navigator.serviceWorker
                 .register("/web/service-worker.js", { scope: "/inphms" })
-                .then(() => {
+                .then((regis) => {
+                    if (regis.active && regis.active.state === "activated") {
+                        this.serviceWorkerActivatedDeferred.resolve();
+                    } else {
+                        const sw = regis.installing || regis.waiting || regis.active;
+                        sw.addEventListener("statechange", (e) => {
+                            if (e.target.state === "activated") {
+                                this.serviceWorkerActivatedDeferred.resolve();
+                            }
+                        });
+                    }
                     navigator.serviceWorker.ready.then(() => {
                         if (!navigator.serviceWorker.controller) {
                             // https://stackoverflow.com/questions/51597231/register-service-worker-after-hard-refresh

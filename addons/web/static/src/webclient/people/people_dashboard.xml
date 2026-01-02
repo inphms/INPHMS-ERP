@@ -2,7 +2,7 @@
 <templates>
 
     <t t-name="web.PeopleDashboard">
-        <Dashboard kpis="state.peopleKpis">
+        <WebDashboard kpis="state.peopleKpis">
             <t t-set-slot="panelTitle">
                 <h1 class="fw-bolder">People Overview</h1>
                 <p class="text-muted mb-0" style="font-size:16px;">Understand who exists in your system and how they are connected.</p>
@@ -12,7 +12,7 @@
                 <button class="btn btn-secondary" t-on-click.prevent="() => this.onInviteUserClick()">Invite User</button>
             </t>
             
-        </Dashboard>
+        </WebDashboard>
     </t>
 
 </templates>

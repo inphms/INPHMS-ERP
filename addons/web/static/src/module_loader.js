@@ -246,5 +246,4 @@
         // remove debug mode if not explicitely set in url
         inphms.debug = "";
     }
-
 })((globalThis.inphms ||= {}));

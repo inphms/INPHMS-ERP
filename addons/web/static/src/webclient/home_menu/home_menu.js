@@ -30,6 +30,13 @@ class FooterComponent extends Component {
     }
 }
 
+/**
+ * Home menu
+ *
+ * This component handles the display and navigation between the different
+ * available applications and menus.
+ * @extends Component
+ */
 export class HomeMenu extends Component {
     static template = "web.HomeMenu";
     static components = {
@@ -68,22 +75,29 @@ export class HomeMenu extends Component {
                         ],
                         optional: true,
                     },
-                    webIconData: {
-                        type: String,
-                        optional: 1,
-                    },
-                    webIconDataWhite: {
-                        type: String,
-                        optional: 1,
-                    },
+                    webIconData: { type: String, optional: 1 },
                     xmlid: String,
                 },
             },
         },
-        reorderApps: {
-            type: Function,
-        },
+        reorderApps: { type: Function },
     };
+
+    /**
+     * @param {Object} props
+     * @param {Object[]} props.apps application icons
+     * @param {number} props.apps[].actionID
+     * @param {number} props.apps[].id
+     * @param {string} props.apps[].label
+     * @param {string} props.apps[].parents
+     * @param {(boolean|string|Object)} props.apps[].webIcon either:
+     *      - boolean: false (no webIcon)
+     *      - string: path to Inphms icon file
+     *      - Object: customized icon (background, class and color)
+     * @param {string} [props.apps[].webIconData]
+     * @param {string} props.apps[].xmlid
+     * @param {function} props.reorderApps
+     */
     setup() {
         this.command = useService("command");
         this.menus = useService("menu");
@@ -129,6 +143,7 @@ export class HomeMenu extends Component {
             }
         });
     }
+
     get displayedApps() {
         return this.props.apps;
     }
@@ -161,13 +176,6 @@ export class HomeMenu extends Component {
     labelHelpOrDescription(app) {
         return app.description ? markup(app.description) : "No Description";
     }
-    get hasAppCategory() {
-        return this.groupedApps.apps.length > 0;
-    }
-
-    get hasAdminCategory() {
-        return this.groupedApps.admin.length > 0;
-    }
 
     get maxIconNumber() {
         const w = window.innerWidth;
@@ -179,9 +187,25 @@ export class HomeMenu extends Component {
             return 6;
         }
     }
+
+    //--------------------------------------------------------------------------
+    // Private
+    //--------------------------------------------------------------------------
+
+    /**
+     * @private
+     * @param {Object} menu
+     * @returns {Promise}
+     */
     _openMenu(menu) {
         return this.menus.selectMenu(menu);
     }
+
+    /**
+     * Update this.state.focusedIndex if not null.
+     * @private
+     * @param {string} cmd
+     */
     _updateFocusedIndex(cmd) {
         const nbrApps = this.displayedApps.length;
         const lastIndex = nbrApps - 1;
@@ -254,6 +278,16 @@ export class HomeMenu extends Component {
     _enableAppsSorting() {
         return true;
     }
+
+    //--------------------------------------------------------------------------
+    // Handlers
+    //--------------------------------------------------------------------------
+
+    /**
+     * @param {Object} params
+     * @param {HTMLElement} params.element
+     * @param {HTMLElement} params.previous
+     */
     _sortAppDrop({ element, previous }) {
         const order = this.props.apps.map((app) => app.xmlid);
         const elementId = element.children[0].dataset.menuXmlid;

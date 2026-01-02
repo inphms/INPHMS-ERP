@@ -50,9 +50,6 @@ export function computeAppsAndMenuItems(menuTree) {
                     item.webIconData = "/web/static/img/default_icon_app.png";
                 }
             }
-            if (menuItem.webIconDataWhite) {
-                item.webIconDataWhite = menuItem.webIconDataWhite;
-            }
         } else {
             item.menuID = parents[1].id;
         }
