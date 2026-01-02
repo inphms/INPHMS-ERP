@@ -23,7 +23,29 @@
                     <field name="notification_status" widget="statusbar" statusbar_visible="ready,sent"/>
                 </header>
                 <sheet>
-                    <group>
+                    <div>
+                        <group class="mb-4 rounded border mx-0 i__group" string="Source">
+                            <group>
+                                <field name="mail_message_id"/>
+                                <field name="notification_type"/>
+                            </group>
+                            <group>
+                                <field name="mail_mail_id"/>
+                                <field name="res_partner_id"/>
+                            </group>
+                        </group>
+                        <group class="mb-4 rounded border mx-0 i__group" string="Status">
+                            <group>
+                                <field name="read_date"/>
+                                <field name="is_read"/>
+                            </group>
+                            <group>
+                                <field name="failure_type"/>
+                                <field name="failure_reason" class="o_text_overflow"/>
+                            </group>
+                        </group>
+                    </div>
+                    <!-- <group>
                         <group string="Source">
                             <field name="mail_message_id"/>
                             <field name="notification_type"/>
@@ -36,7 +58,7 @@
                             <field name="failure_type"/>
                             <field name="failure_reason" class="o_text_overflow"/>
                         </group>
-                    </group>
+                    </group> -->
                 </sheet>
             </form>
         </field>

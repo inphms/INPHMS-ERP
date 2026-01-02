@@ -7,14 +7,14 @@
 }
 
 .o-mail-DiscussContent-core {
-    // background-color: $body-bg;
-    @extend %i-inphms-blur-background;
+    background-color: $body-bg;
+    // @extend %i-inphms-blur-background;
     box-shadow: $box-shadow-inset;
 }
 
 .o-mail-DiscussContent-header {
-    // background-color: $white;
-    @extend %i-inphms-blur-background;
+    background-color: $white;
+    // @extend %i-inphms-blur-background;
 }
 
 .o-mail-DiscussContent-headerActions button {

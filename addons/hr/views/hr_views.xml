@@ -1,118 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <inphms>
     <data>
-        <!-- Sidebar -->
-
-        <!-- Employee Tab -->
-         <menuitem
-            id="menu_hr_employee_payroll"
-            name="Employees"
-            action="open_view_employee_list_my"
-            parent="base.menu_users"
-            groups="group_hr_user"
-            submenu_icon="hr,static/description/menu_icons/employee.svg"
-            sequence="3"/>
-        
+        <!-- Root -->
         <menuitem
-            id="menu_hr_department_kanban"
-            action="hr_department_kanban_action"
-            parent="base.menu_users"
-            groups="base.group_user"
-            submenu_icon="hr,static/description/menu_icons/departments.svg"/>
-
-        <!-- Human Resources Tab -->
-        <menuitem
-            id="sidebar_hr_resource"
+            id="menu_hr_root"
             name="Human Resources"
-            action="hr_employee_public_action"
             groups="group_hr_manager,group_hr_user,base.group_user"
-            submenu_icon="hr,static/description/menu_icons/hr.svg"
-            parent="base.sidebar_root"
-            sequence="0"/>
+            web_icon="hr,static/description/icon.png"
+            description="Centralize employee information"
+            sequence="185">
 
-            <menuitem
-                id="menu_hr_employee"
-                name="Directory"
-                action="hr_employee_public_action"
-                parent="sidebar_hr_resource"
-                sequence="4"/>
+            <menuitem id="menu_hr_overview" name="Overview" sequence="0">
+            
+                <menuitem
+                    id="menu_hr_employee_payroll"
+                    name="Employees"
+                    action="open_view_employee_list_my"
+                    groups="group_hr_user"
+                    submenu_icon="hr,static/description/menu_icons/employee.svg"
+                    sequence="3"/>
 
-            <menuitem
-                id="hr_menu_hr_reports"
-                name="Reporting"
-                parent="sidebar_hr_resource"
-                groups="group_hr_user"
-                sequence="95"/>
-            
-            <menuitem
-                id="menu_config_plan_plan"
-                name="Onboarding / Offboarding"
-                action="mail_activity_plan_action"
-                parent="sidebar_hr_resource"
-                groups="group_hr_manager"
-                submenu_icon="hr,static/description/menu_icons/onboard_offboard.svg"
-                sequence="1"/>
-            
-            <menuitem
-                id="menu_hr_work_location_tree"
-                action="hr_work_location_action"
-                parent="sidebar_hr_resource"
-                groups="group_hr_manager"
-                submenu_icon="hr,static/description/menu_icons/work_location.svg"
-                sequence="5"/>
+                <menuitem
+                    id="menu_hr_employee"
+                    name="Directory"
+                    action="hr_employee_public_action"
+                    sequence="4"/>
 
-            <menuitem
-                id="menu_resource_calendar_view"
-                action="resource.action_resource_calendar_form"
-                parent="sidebar_hr_resource"
-                name="Working Schedules"
-                groups="group_hr_manager"
-                submenu_icon="hr,static/description/menu_icons/work_schedule.svg"
-                sequence="6"/>
-            
-            <menuitem
-                id="menu_hr_departure_reason_tree"
-                action="hr_departure_reason_action"
-                parent="sidebar_hr_resource"
-                groups="group_hr_manager"
-                submenu_icon="hr,static/description/menu_icons/departure_reason.svg"
-                sequence="7"/>
-            
-            <menuitem
-                id="menu_view_employee_category_form"
-                name="Tags"
-                action="open_view_categ_form"
-                parent="sidebar_hr_resource"
-                groups="group_hr_manager,base.group_no_one"
-                submenu_icon="base,static/description/menu_icons/tags.svg"
-                sequence="10"/>
-            
-            <menuitem
-                id="menu_view_hr_job"
-                action="action_hr_job"
-                parent="sidebar_hr_resource"
-                groups="group_hr_manager"
-                submenu_icon="hr,static/description/menu_icons/job_position.svg"
-                sequence="1"/>
-            
-            <menuitem
-                id="menu_hr_employee_contract_templates"
-                name="Contract Templates"
-                action="action_hr_contract_templates"
-                parent="sidebar_hr_resource"
-                sequence="2"
-                submenu_icon="hr,static/description/menu_icons/contract_template.svg"
-                groups="group_hr_manager"/>
+                <menuitem
+                    id="hr_menu_hr_reports"
+                    name="Reporting"
+                    groups="group_hr_user"
+                    sequence="95"/>
 
-            <menuitem
-                id="menu_view_hr_contract_type"
-                action="hr_contract_type_action"
-                parent="sidebar_hr_resource"
-                sequence="3"
-                groups="group_hr_manager,group_hr_user"
-                active="0"/>
-        
-        <!-- End Sidebar -->
+                <menuitem
+                    id="menu_hr_department_kanban"
+                    action="hr_department_kanban_action"
+                    groups="base.group_user"
+                    submenu_icon="hr,static/description/menu_icons/departments.svg"/>
 
+            </menuitem>
+
+            <!-- Config -->
+            <menuitem id="menu_hr_actions" name="Actions" sequence="10" groups="group_hr_manager">
+                
+                <menuitem
+                    id="menu_config_plan_plan"
+                    name="Onboarding / Offboarding"
+                    action="mail_activity_plan_action"
+                    submenu_icon="hr,static/description/menu_icons/onboard_offboard.svg"
+                    sequence="1"/>
+
+                <menuitem
+                    id="menu_hr_work_location_tree"
+                    action="hr_work_location_action"
+                    submenu_icon="hr,static/description/menu_icons/work_location.svg"
+                    sequence="5"/>
+
+                <menuitem
+                    id="menu_resource_calendar_view"
+                    action="resource.action_resource_calendar_form"
+                    name="Working Schedules"
+                    submenu_icon="hr,static/description/menu_icons/work_schedule.svg"
+                    sequence="6"/>
+                
+                <menuitem
+                    id="menu_hr_departure_reason_tree"
+                    action="hr_departure_reason_action"
+                    submenu_icon="hr,static/description/menu_icons/departure_reason.svg"
+                    sequence="7"/>
+                
+                <menuitem
+                    id="menu_view_employee_category_form"
+                    name="Tags"
+                    action="open_view_categ_form"
+                    groups="base.group_no_one"
+                    submenu_icon="base,static/description/menu_icons/tags.svg"
+                    sequence="10"/>
+
+            </menuitem>
+
+            <!-- Recruitement -->
+            <menuitem
+                id="menu_config_recruitment"
+                name="Recruitment"
+                groups="group_hr_manager"
+                sequence="20">
+
+                <menuitem
+                    id="menu_view_hr_job"
+                    action="action_hr_job"
+                    submenu_icon="hr,static/description/menu_icons/job_position.svg"
+                    sequence="1"/>
+
+                <menuitem
+                    id="menu_hr_employee_contract_templates"
+                    name="Contract Templates"
+                    action="action_hr_contract_templates"
+                    sequence="2"
+                    submenu_icon="hr,static/description/menu_icons/contract_template.svg"
+                    groups="hr.group_hr_manager"/>
+
+                <menuitem
+                    id="menu_view_hr_contract_type"
+                    action="hr_contract_type_action"
+                    sequence="3"
+                    groups="group_hr_user"
+                    active="0"/>
+            </menuitem>
+            
+            <!-- Technical -->
+            <menuitem
+                id="menu_hr_technical"
+                name="Technical"
+                sequence="100"/>
+
+        </menuitem>
     </data>
 </inphms>

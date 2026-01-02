@@ -92,7 +92,7 @@ class ResUserGroupIdsField extends Component {
         const models = { main: { fields: this._fields } };
         const arch = `
             <t>
-                <group>
+                <group class="mx-0 px-0">
                     ${categories.map((category) => this.getCategoryArch(category)).join("")}
                 </group>
                 ${inphms.debug ? this.getExtraGroupsArch() : ""}
@@ -200,7 +200,7 @@ class ResUserGroupIdsField extends Component {
 
     getExtraGroupsArch() {
         return `
-            <group string="${this.extraCategory.name}" class="o_extra_rights_group">
+            <group string="${this.extraCategory.name}" class="o_extra_rights_group mx-0 px-0">
                 <group>
                     ${this.extraCategory.privileges
                         .filter((cat, index) => index % 2 === 0)
@@ -227,8 +227,10 @@ class ResUserGroupIdsField extends Component {
 
     getCategoryArch(category) {
         return `
-            <group string="${category.name}">
-                ${category.privileges.map((privilege) => this.getPrivilegeArch(privilege)).join("")}
+            <group class="mx-0 px-0" string="${category.name}">
+                <group colspan="2">
+                    ${category.privileges.map((privilege) => this.getPrivilegeArch(privilege)).join("")}
+                </group>            
             </group>`;
     }
 

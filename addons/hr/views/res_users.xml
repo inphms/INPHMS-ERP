@@ -45,7 +45,7 @@
                     <attribute name="delete">false</attribute>
                     <attribute name="js_class">hr_user_preferences_form</attribute>
                 </form>
-                <xpath expr="//field[@name='name']" position="attributes">
+                <xpath expr="//page[@name='preferences_page']//field[@name='name']" position="attributes">
                     <attribute name="placeholder">Employee's Name</attribute>
                     <attribute name="required">1</attribute>
                 </xpath>
@@ -53,11 +53,31 @@
                 <xpath expr="//div[@name='h5_email']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
+                <xpath expr="//label[@for='email']" position="attributes">
+                    <attribute name="for">work_email</attribute>
+                </xpath>
+                <xpath expr="//div[@name='h5_email']" position="after">
+                    <div name="h5_work_email">
+                        <field name="work_email" widget="email" placeholder="Work Email" string="Work Email" class=""/>
+                    </div>
+                </xpath>
                 <!-- Must be replaced by work_phone when the user has an employee_id. -->
                 <xpath expr="//div[@name='h5_phone']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
-                <xpath expr="//div[hasclass('oe_title')]" position="inside">
+                <xpath expr="//label[@for='phone']" position="attributes">
+                    <attribute name="for">work_phone</attribute>
+                </xpath>
+                <xpath expr="//div[@name='h5_phone']" position="after">
+                    <div name="h5_work_phone">
+                        <field name="work_phone" widget="phone" placeholder="Work Phone" string="Work Phone" class=""/>
+                    </div>
+                    <label for="mobile_phone"/>
+                    <div name="h5_work_mobile">
+                        <field name="mobile_phone" widget="phone" placeholder="Work Mobile" string="Work Mobile" class=""/>
+                    </div>
+                </xpath>
+                <!-- <xpath expr="//div[hasclass('oe_title')]" position="inside">
                     <h5 class="d-flex align-items-baseline mb-0">
                         <i class="fa fa-envelope fa-fw me-1 text-primary" title="Work Email"/>
                         <field name="work_email" widget="email" placeholder="Work Email" string="Work Email" class=""/>
@@ -70,7 +90,7 @@
                         <i class="fa fa-mobile fa-fw me-1 text-primary" title="Work Mobile"/>
                         <field name="mobile_phone" widget="phone" placeholder="Work Mobile" string="Work Mobile" class=""/>
                     </h5>
-                </xpath>
+                </xpath> -->
                 <xpath expr="//group[@name='other_preferences']" position="inside">
                     <field name="pin" string="Attendance PIN"/>
                 </xpath>
@@ -80,23 +100,27 @@
                 <xpath expr="//page[@name='calendar']" position="after">
                     <page name="private_information" string="Private">
                         <group>
-                            <group string="Private Information">
+                            <group class="mx-0 px-0" string="Private Information">
                                 <field name="employee_ids" invisible="1"/>
-                                <label for="private_street" string="Private Address"/>
-                                <div class="o_address_format">
-                                    <field name="private_street" placeholder="Street..." class="o_address_street"/>
-                                    <field name="private_street2" placeholder="Street 2..." class="o_address_street"/>
-                                    <field name="private_city" placeholder="City" class="o_address_city"/>
-                                    <field name="private_state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_create': True}" context="{'default_country_id': private_country_id}"/>
-                                    <field name="private_zip" placeholder="ZIP" class="o_address_zip"/>
-                                    <field name="private_country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
-                                </div>
-                                <field name="private_email" string="Private Email"/>
-                                <field name="private_phone" string="Private Phone" class="o_force_ltr"/>
+                                <group colspan="2">
+                                    <label for="private_street" string="Private Address"/>
+                                    <div class="o_address_format">
+                                        <field name="private_street" placeholder="Street..." class="o_address_street"/>
+                                        <field name="private_street2" placeholder="Street 2..." class="o_address_street"/>
+                                        <field name="private_city" placeholder="City" class="o_address_city"/>
+                                        <field name="private_state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_create': True}" context="{'default_country_id': private_country_id}"/>
+                                        <field name="private_zip" placeholder="ZIP" class="o_address_zip"/>
+                                        <field name="private_country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                                    </div>
+                                    <field name="private_email" string="Private Email"/>
+                                    <field name="private_phone" string="Private Phone" class="o_force_ltr"/>
+                                </group>
                             </group>
-                            <group string="Emergency Contact">
-                                <field name="emergency_contact" string="Contact Name" placeholder="e.g. John Doe"/>
-                                <field name="emergency_phone" string="Contact Phone" widget="phone"/>
+                            <group class="mx-0 px-0" string="Emergency Contact">
+                                <group colspan="2">
+                                    <field name="emergency_contact" string="Contact Name" placeholder="e.g. John Doe"/>
+                                    <field name="emergency_phone" string="Contact Phone" widget="phone"/>
+                                </group>
                             </group>
                         </group>
                     </page>
@@ -158,7 +182,10 @@
             <field name="inherit_id" ref="base.view_users_form"/>
             <field name="arch" type="xml">
 
-                <xpath expr="//header" position="inside">
+                <!-- <xpath expr="//header" position="inside">
+                    
+                </xpath> -->
+                <xpath expr="//div[@name='button_box_action']" position="inside">
                     <field name="share" invisible="1"/>
                     <field name="employee_ids" invisible="1"/>
                     <field name="employee_id" invisible="1"/>
@@ -166,10 +193,8 @@
                             type="object" name="action_create_employee"
                             invisible="not id or share or employee_id"/>
                             <!-- share is not correctly recomputed because it depends on fields of reified view => invisible before saving (id=False) -->
-                </xpath>
-                <xpath expr="//div[@name='button_box']" position="inside">
                     <button name="action_open_employees"
-                        class="oe_stat_button"
+                        class="oe_stat_button btn-outline-secondary rounded"
                         icon="fa-users order-first"
                         invisible="employee_count == 0"
                         context="{'active_test': False}"
@@ -177,7 +202,7 @@
                         <field name="employee_count" widget="statinfo" string="Employee"/>
                     </button>
                     <button name="action_related_contact"
-                        class="oe_stat_button"
+                        class="oe_stat_button btn-outline-secondary rounded"
                         icon="fa-address-card-o order-first"
                         type="object"
                         help="Related Contact">
@@ -192,22 +217,34 @@
                 </field>
                 <field name="image_1920" widget="contact_image" position="after">
                     <field name="image_1920" class="o_contact_image_large" invisible="not employee_id or work_email == login"
-                        widget="contact_image" options="{'preview_image': 'avatar_128', 'img_class': 'rounded-4'}"/>
+                        widget="contact_image" options="{'preview_image': 'avatar_128', 'img_class': 'rounded-pill'}"/>
                 </field>
                 <!-- Must be replaced by login when the user has an employee_id. -->
-                <xpath expr="//div[@name='h5_login']" position="attributes">
+                <xpath expr="//field[@name='login']" position="attributes">
                     <attribute name="invisible">employee_id</attribute>
+                </xpath>
+                <xpath expr="//field[@name='login']" position="after">
+                    <field name="login" placeholder="Login" class="" string="Login / Email" invisible="not employee_id and login != work_email"/>
+                    <field name="login" placeholder="Login" class="" string="Login" invisible="not employee_id and login == work_email"/>
                 </xpath>
                 <!-- Must be replaced by work_email when the user has an employee_id. -->
-                <xpath expr="//div[@name='h5_email']" position="attributes">
+                <xpath expr="//field[@name='email']" position="attributes">
                     <attribute name="invisible">employee_id</attribute>
+                </xpath>
+                <xpath expr="//field[@name='email']" position="after">
+                    <field name="email_domain_placeholder" invisible="1" />
+                    <field name="work_email" widget="email" string="Work Email" class="" options="{'placeholder_field': 'email_domain_placeholder'}" invisible="not employee_id or login == work_email"/>
                 </xpath>
                 <!-- Must be replaced by work_phone when the user has an employee_id. -->
-                <xpath expr="//div[@name='h5_phone']" position="attributes">
+                <xpath expr="//field[@name='phone']" position="attributes">
                     <attribute name="invisible">employee_id</attribute>
                 </xpath>
-                <xpath expr="//page[@name='general_information']/div/div[hasclass('oe_title')]" position="inside">
-                    <div name="h5_login" class="i_form_group w-md-50" invisible="not employee_id">
+                <xpath expr="//field[@name='phone']" position="after">
+                    <field name="work_phone" widget="phone" placeholder="Work Phone" string="Work Phone" class="" invisible="not employee_id"/>
+                    <field name="mobile_phone" widget="phone" placeholder="Work Mobile" string="Work Mobile" class="" invisible="not employee_id"/>
+                </xpath>
+                <!-- <xpath expr="//page[@name='general_information']/div/div[hasclass('oe_title')]" position="inside"> -->
+                    <!-- <div name="h5_login" class="i_form_group w-md-50" invisible="not employee_id">
                         <div class="small">
                             <span class="fw-bold me-2">Login</span>
                             <i class="fa fa-fw fa-envelope me-1 text-primary" title="Login / Email" invisible="login != work_email"/>
@@ -222,7 +259,7 @@
                         </div>
                         <field name="email_domain_placeholder" invisible="1" />
                         <field name="work_email" widget="email" string="Work Email" class="" options="{'placeholder_field': 'email_domain_placeholder'}" invisible="login == work_email"/>
-                    </div>
+                    </div> -->
                     <!-- <h5 class="d-flex flex-wrap align-items-baseline mb-0" invisible="not employee_id">
                         <div class="w-100">
                             <i class="fa fa-fw fa-envelope me-1 text-primary" title="Login / Email" invisible="login != work_email"/>
@@ -239,7 +276,7 @@
 
                         </div>
                     </div> -->
-                    <div class="i_form_group w-md-50" invisible="not employee_id">
+                    <!-- <div class="i_form_group w-md-50" invisible="not employee_id">
                         <div class="small">
                             <span class="fw-bold me-2">Work Phone</span>
                             <i class="fa fa-phone fa-fw text-primary" title="Work Phone"/>
@@ -252,15 +289,15 @@
                             <i class="fa fa-mobile fa-fw text-primary" title="Work Mobile"/>
                         </div>
                         <field name="mobile_phone" widget="phone" placeholder="Work Mobile" string="Work Mobile" class=""/>
-                    </div>
-                </xpath>
+                    </div> -->
+                <!-- </xpath> -->
                 <xpath expr="//group[@name='other_preferences']" position="inside">
                     <field name="pin" string="Attendance PIN" invisible="not employee_id"/>
                 </xpath>
                 <xpath expr="//group[@name='other_calendar_preferences']" position="inside">
                     <field name="work_location_id" string="Main Work Location" invisible="not employee_id or share"/>
                 </xpath>
-                <xpath expr="//page[@name='calendar']" position="attributes">
+                <xpath expr="//group[@name='calendar']" position="attributes">
                     <attribute name="groups">hr.group_hr_user</attribute>
                 </xpath>
             </field>

@@ -5,14 +5,78 @@
             <field name="model">ir.mail_server</field>
             <field name="arch" type="xml">
                 <form string="Outgoing Mail Servers">
-                    <header>
+                    <!-- <header>
                         <button string="Test Connection" type="object"
                             name="test_smtp_connection" class="btn-primary"/>
-                    </header>
+                    </header> -->
                     <sheet>
                         <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
                             invisible="active"/>
-                        <group>
+                        <div>
+                            <group string="Mail Server" class="rounded border mb-4 mx-0 i__group">
+                                <group>
+                                    <field name="name" placeholder="e.g. My Outgoing Server"/>
+                                    <field name="from_filter" placeholder="e.g. email@domain.com, domain.com"/>
+                                </group>
+                                <group>
+                                    <div class="mb-3">
+                                        <label for="sequence"/>
+                                        <field name="sequence"/>
+                                    </div>
+                                    <div colspan="2">
+                                        <label for="max_email_size" string="Convert attachments to links for emails over"/>
+                                        <field name="max_email_size" class="oe_inline mx-1"/><span class="o_form_label">MB</span>
+                                    </div>
+                                </group>
+                                <group colspan="2" class="mt-3 mx-0 px-0">
+                                    <group>
+                                        <field name="smtp_authentication" widget="radio"/>
+                                    </group>
+                                    <group>
+                                        <div class="small text-muted fst-italic" role="alert" colspan="2" invisible="not smtp_authentication_info">
+                                            <field name="smtp_authentication_info"/>
+                                        </div>
+                                    </group>
+                                </group>
+                            </group>
+                            <group string="Connection" class="rounded border mb-4 mx-0 i__group">
+                                <group>
+                                    <group colspan="2">
+                                        <field name="smtp_encryption" widget="radio"/>
+                                        <field name="smtp_debug" groups="base.group_no_one"/>
+                                    </group>
+                                    <group colspan="2" class="mt-3">
+                                        <field name="smtp_host" required="smtp_authentication != 'cli'"/>
+                                        <field name="smtp_port" options="{'format': false}" required="smtp_authentication != 'cli'"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group colspan="2">
+                                        <label for="smtp_user" string="Username" invisible="smtp_authentication == 'certificate'"/>
+                                        <field name="smtp_user" invisible="smtp_authentication == 'certificate'" force_save="1" nolabel="1"/>
+                                        <field name="smtp_pass" invisible="smtp_authentication != 'login'" password="True" force_save="1"/>
+                                    </group>
+                                    <group colspan="2" class="mt-3">
+                                        <field name="smtp_ssl_certificate" invisible="smtp_authentication != 'certificate'" force_save="1"/>
+                                        <field name="smtp_ssl_private_key" invisible="smtp_authentication != 'certificate'" force_save="1"/>
+                                    </group>
+                                </group>
+                            </group>
+                        </div>
+                        <sidepanel>
+                            <div class="o_inner_group border rounded mb-4 i__group" name="quick_actions">
+                                <div class="o_horizontal_separator mt-4 mb-3 text-uppercase fw-bolder small">
+                                    Quick Actions
+                                </div>
+                                <div class="action_button o-form-buttonbox list-group gap-2">
+                                    <button string="Test Connection" type="object" name="test_smtp_connection" class="btn-primary"/>
+                                    <button class="btn btn-outline-secondary" type="object" name="action_retrieve_max_email_size">
+                                        <i class="fa fa-gear"/> Detect Max Limit
+                                    </button>
+                                </div>
+                            </div>
+                        </sidepanel>
+                        <!-- <group>
                             <group>
                                 <field name="name" placeholder="e.g. My Outgoing Server"/>
                                 <field name="from_filter" placeholder="e.g. email@domain.com, domain.com"/>
@@ -64,7 +128,7 @@
                                     </group>
                                 </group>
                             </page>
-                        </notebook>
+                        </notebook> -->
                     </sheet>
                 </form>
             </field>
@@ -117,5 +181,5 @@
             </field>
         </record>
 
-        <menuitem id="menu_mail_servers" parent="menu_email" action="action_ir_mail_server_list" sequence="5" groups="base.group_no_one"/>
+        <!-- <menuitem id="menu_mail_servers" parent="menu_email" action="action_ir_mail_server_list" sequence="5" groups="base.group_no_one"/> -->
 </inphms>

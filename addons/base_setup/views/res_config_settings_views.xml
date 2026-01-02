@@ -253,10 +253,189 @@
 
                         </block>
                     </app>
+                    <app data-string="Email" string="Email" name="email_settings" logo="/base/static/description/email.svg">
+                        <div id="email">
+                            <block title="Email" groups="base.group_no_one" icon="fa-fw fa-file-text">
+                                <setting name="email_menu_items" string="Email" help="Define the email mailing configuration">
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <button name="%(base.action_ir_mail_server_list)d" string="Outgoing Mail Servers" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                    </div>
+                                </setting>
+                            </block>
+                        </div>
+                    </app>
+                    <app data-string="Reporting" string="Reporting" name="reporting_settings" logo="/base/static/description/report.svg">
+                        <div id="reporting">
+                            <block title="Reporting" groups="base.group_no_one" icon="fa-fw fa-file-text">
+                                <setting name="reporting_menu_items" string="Reporting" help="Define how the entries should be reported">
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <button name="%(base.paper_format_action)d" string="Paper Format" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(base.reports_action)d" string="Reports" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                    </div>
+                                </setting>
+                            </block>
+                        </div>
+                    </app> 
+                    <app data-string="Functions" string="Functions" name="function_settings" logo="/base/static/description/actions.svg">
+                        <div id="action">
+                            <block title="Actions" groups="base.group_no_one" icon="fa-fw fa-microchip">
+                                <setting name="actions_menu_items" string="Actions" help="Define Actions">
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <button name="%(base.ir_sequence_actions)d" string="Actions" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(base.ir_action_report)d" string="Reports" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(base.ir_action_window)d" string="Window Actions" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(base.ir_client_actions_report)d" string="Client Actions" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(base.action_server_action)d" string="Server Actions" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(base.ir_embedded_action)d" string="Embedded Actions" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(base.act_ir_actions_todo_form)d" string="Configuration Wizards" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(base.ir_default_menu_action)d" string="User-defined Defaults" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                    </div>
+                                </setting>
+                                <setting name="automation_menu_items" string="Automation" help="Define Automation">
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <button name="%(base.ir_cron_act)d" string="Scheduled Actions" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(base.ir_cron_trigger_action)d" string="Scheduled Actions Triggers" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                    </div>
+                                </setting>
+                            </block>
+                        </div>
+                    </app>
+                    <app data-string="Security" string="Security" name="security_settings" logo="/base/static/description/security.svg">
+                        <div id="security">
+                            <block title="Security" groups="base.group_no_one" icon="fa-fw fa-lock">
+                                <setting name="access_rule_menu_items" string="Access &amp; Rules" help="Define security and access rights granted across INPHMS wide.">
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <button name="%(base.action_rule)d" string="Record Rules" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(base.ir_access_act)d" string="Access Rights" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                    </div>
+                                </setting>
+                                <setting name="device_menu_items" string="Devices" help="Record list of User Access device logs">
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <button name="%(base.action_user_device)d" string="User Devices" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                    </div>
+                                </setting>
+                            </block>
+                        </div>
+                    </app>
                     <app data-string="Developer Utilities" string="Developer Utilities" name="dev_tools_setting" logo="/base/static/description/technical.svg">
+                        <div id="user_interface">
+                            <block title="User Interface" groups="base.group_no_one" name="user_interface" icon="fa-fw fa-window-maximize">
+                                <setting name="user_interface_menu_items" string="User Interface" help="Define how the user interface would look like">
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <button name="%(base.grant_menu_access)d" string="Menu Items" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(base.action_ui_view)d" string="Views" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(base.action_ui_view_custom)d" string="Customized Views" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(base.actions_ir_filters_view)d" string="User-defined Filters" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                    </div>
+                                </setting>
+                            </block>
+                        </div>
+                        <div id="database_structure">
+                            <block title="Database Structure" groups="base.group_no_one" name="database_structure" icon="fa-fw fa-database">
+                                <setting name="database_structure_menu_items" string="Database Structure" help="Define how the database structure is">
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <button name="%(base.action_decimal_precision_form)d" string="Decimal Accuracy" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(base.action_asset)d" string="Assets" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+
+                                        <div class="list-group-item">
+                                            <button name="%(base.action_model_model)d" string="Models" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(base.action_model_fields)d" string="Fields" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(base.action_model_fields_selection)d" string="Fields Selection" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+
+                                        <div class="list-group-item">
+                                            <button name="%(base.action_model_constraint)d" string="Model Constraints" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(base.action_model_relation)d" string="ManyToMany Relations" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+
+                                        <div class="list-group-item">
+                                            <button name="%(base.action_attachment)d" string="Attachments" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(base.ir_logging_all_act)d" string="Logging" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                    </div>
+                                </setting>
+                            </block>
+                        </div>
+                        <div id="parameters">
+                            <block title="Parameters" groups="base.group_no_one" name="parameters" icon="fa-fw fa-tasks">
+                                <setting id="parameters_menu_items" string="Parameters" help="Define system parameters that being used across INPHMS wide ERP">
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <button name="%(base.action_model_data)d" string="External Identifiers" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(base.ir_sequence_form)d" string="Sequences" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+
+                                        <div class="list-group-item">
+                                            <button name="%(base.ir_config_list_action)d" string="System Parameters" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                    </div>
+                                </setting>
+                            </block>
+                        </div>
                         <!-- <widget name='res_config_dev_tool'/> -->
                         <div id="profiling">
                             <block title="Performance" groups="base.group_no_one" name="performance" icon="fa-fw fa-rocket">
+                                <setting id="profiling_menu_items" string="Profiling" help="Record list of profiling entries">
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <button name="%(base.action_menu_ir_profile)d" string="Profiling" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                    </div>
+                                </setting>
                                 <setting id="profiling_enabled_until" help="Enable the profiling tool. Profiling may impact performance while being active.">
                                     <field name="profiling_enabled_until" class="w-100"/>
                                 </setting>
@@ -278,7 +457,7 @@
         <menuitem
             id="menu_config"
             name="System Setup"
-            parent="base.menu_administration"
+            parent="base.menu_system_overview"
             sequence="0"
             action="action_general_configuration"
             groups="base.group_system"/>
@@ -287,7 +466,7 @@
         <!-- <record id="base.sidebar_administration" model="ir.ui.menu">
             <field name="action">base_setup.action_general_configuration</field>
         </record> -->
-        <menuitem
+        <!-- <menuitem
             id="sidebar_administration" 
             name="System"
             sequence="550"
@@ -304,5 +483,5 @@
         </record>
         <record model="ir.ui.menu" id="base.menu_users">
             <field name="parent_id" ref="base.sidebar_root"/>
-        </record>
+        </record> -->
 </inphms>

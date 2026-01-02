@@ -247,6 +247,12 @@ class configmanager:
                          metavar='PATH,...',
                          my_default=[],
                          help="specify an additional upgrade path.")
+        group.add_option("--pre-upgrade-scripts",
+                         dest="pre_upgrade_scripts",
+                         type="pre_upgrade_scripts",
+                         metavar='PATH,...',
+                         my_default=[],
+                         help="Run specific upgrade scripts before loading any module when -u is provided.")
         group.add_option("-D", '--data-dir',
                          dest="data_dir",
                          type="path",

@@ -63,7 +63,8 @@
     <!-- Technical Menu -->
     <menuitem id="phone_menu_main"
         name="Phone / SMS"
-        parent="base.menu_custom"
+        parent="base.menu_administration"
+        groups="base.group_no_one"
         sequence="3"/>
 
     <menuitem id="phone_blacklist_menu"

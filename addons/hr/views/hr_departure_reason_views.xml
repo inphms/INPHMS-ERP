@@ -16,7 +16,7 @@
             <field name="model">hr.departure.reason</field>
             <field name="arch" type="xml">
                 <form>
-                    <group>
+                    <group string="Definition" class="border rounded mb-4 mx-0 i__group">
                         <group>
                             <field name="sequence"/>
                             <field name="name"/>

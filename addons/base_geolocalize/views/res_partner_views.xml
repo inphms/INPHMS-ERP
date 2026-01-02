@@ -5,32 +5,44 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//page[@name='internal_notes']" position="before">
-                    <page string="Partner Assignment" name="geo_location">
-                        <group>
-                            <group string="Geolocation">
-                                <label for="date_localization" string="Geo Location"/>
-                                <div>
-                                    <span>Lat : <field name="partner_latitude" nolabel="1" class="oe_inline"/></span>
-                                    <br/>
-                                    <span>Long: <field name="partner_longitude" nolabel="1" class="oe_inline"/></span>
-                                    <br/>
-                                    <span invisible="not date_localization">Updated on:
-                                        <field name="date_localization" nolabel="1" readonly="1" class="oe_inline"/>
-                                        <br/>
-                                    </span>
-                                    <div name="geo_localize_button">
-                                        <button invisible="partner_latitude != 0 or partner_longitude != 0"
-                                                icon="fa-gear" string="Compute based on address" title="Compute Localization"
-                                                name="geo_localize" type="object" class="btn btn-link p-0"/>
-                                        <button invisible="partner_latitude == 0 and partner_longitude == 0"
-                                                icon="fa-refresh" string="Refresh" title="Refresh Localization"
-                                                name="geo_localize" type="object" class="btn btn-link p-0"/>
-                                    </div>
-                                </div>
+                <xpath expr="//group[@name='internal_notes']" position="before">
+                    <group class="border rounded mx-0 mb-4 i__group" string="Partner Assignment" name="geo_location">
+                        <group string="Geolocation" class="mx-0 px-0" colspan="2">
+                            <group colspan="2">
+                                <field name="partner_latitude" string="Lat" class=""/>
+                                <field name="partner_longitude" string="Long" class=""/>
+                                <field name="date_localization" readonly="1" invisible="not date_localization" string="Updated on:" class=""/>
                             </group>
+                            <div name="geo_localize_button" class="d-flex mt-3" colspan="2">
+                                <button invisible="partner_latitude != 0 or partner_longitude != 0"
+                                        icon="fa-gear" string="Compute based on address" title="Compute Localization"
+                                        name="geo_localize" type="object" class="btn btn-outline-secondary flex-grow-1"/>
+                                <button invisible="partner_latitude == 0 and partner_longitude == 0"
+                                        icon="fa-refresh" string="Refresh" title="Refresh Localization"
+                                        name="geo_localize" type="object" class="btn btn-outline-primary flex-grow-1"/>
+                            </div>
+
+                            <!-- <label for="date_localization" string="Geo Location"/>
+                            <div>
+                                <span>Lat : <field name="partner_latitude" nolabel="1" class="oe_inline"/></span>
+                                <br/>
+                                <span>Long: <field name="partner_longitude" nolabel="1" class="oe_inline"/></span>
+                                <br/>
+                                <span invisible="not date_localization">Updated on:
+                                    <field name="date_localization" nolabel="1" readonly="1" class="oe_inline"/>
+                                    <br/>
+                                </span>
+                                <div name="geo_localize_button">
+                                    <button invisible="partner_latitude != 0 or partner_longitude != 0"
+                                            icon="fa-gear" string="Compute based on address" title="Compute Localization"
+                                            name="geo_localize" type="object" class="btn btn-link p-0"/>
+                                    <button invisible="partner_latitude == 0 and partner_longitude == 0"
+                                            icon="fa-refresh" string="Refresh" title="Refresh Localization"
+                                            name="geo_localize" type="object" class="btn btn-link p-0"/>
+                                </div>
+                            </div> -->
                         </group>
-                    </page>
+                    </group>
                 </xpath>
             </field>
         </record>

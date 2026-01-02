@@ -1,5 +1,6 @@
 {
     'name': 'Mobile',
+    "summary": "Extension module for advanced Mobile App that is not available in base or web module.",
     'category': 'Hidden',
     'description': """
 Inphms Mobile Core module.

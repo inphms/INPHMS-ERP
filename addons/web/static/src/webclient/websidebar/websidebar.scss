@@ -1,0 +1,100 @@
+.o_web_client {
+    &:has(.i_web_sidebar) {
+        > .o_action_manager {
+            display: flex;
+            // background: #{$o-white};
+            // margin-left: map-get($spacers, 2);
+            // margin-right: map-get($spacers, 2);
+            
+            & > {
+            overflow: auto;
+            flex: 1 0 auto;
+            }
+            & > *:last-child {
+                flex: 1 1 100%;
+                background: #{$gray-100};
+                margin-right: map-get($spacers, 2);
+                margin-top: map-get($spacers, 2);
+                // @extend %i-inphms-blur-background;
+                // margin-left: map-get($spacers, 2);
+                border-radius: #{$border-radius};
+            }
+        }
+        .o_main_navbar {
+            // background: $o-navbar-background;
+        }
+    }
+}
+
+%i-scrollbar-style {
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+    // &::-webkit-scrollbar-track {
+    //     background-color: transparent;
+    //     border-radius: 10px;
+    // }
+    &::-webkit-scrollbar-thumb {
+        background: hsla(#{$i-system-color-light-hsl}, .3);
+        border-radius: $border-radius-pill;
+        
+        &:hover {
+            background: hsla(#{$i-system-color-light-hsl}, .6);
+        }
+    }
+}
+
+.i_web_sidebar {
+    width: var(--SearchPanel-width, #{$o-search-panel-width});
+    font-size: var(--SearchPanel-fontSize, #{$o-search-panel-font-size});
+    @extend %i-scrollbar-style;
+    // @extend %i-inphms-blur-background;
+    // background: $o-white;
+    // border-radius: #{$border-radius-sm};
+
+    &.i-sidebar-compact {
+        --SearchPanel-width: 40px;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        overflow-x: hidden !important;
+    }
+
+    .list-group {
+        --list-group-bg: transparent;
+        --list-group-color: #{$o-white};
+        --list-group-action-hover-bg: hsla(#{$i-system-color-light-hsl}, .1);
+        --list-group-action-hover-color: #{$o-white};
+        --list-group-active-bg: hsla(#{$i-system-color-light-hsl}, .2);
+        --list-group-active-color: #{$o-white};
+        --list-group-action-active-bg: hsla(#{$i-system-color-light-hsl}, .1);
+        --list-group-action-active-color: #{$o-white};
+
+        .sidebar_action {
+            height: 40px;
+            display: flex;
+            align-items: center;
+        }
+    }
+    .list-group-item {
+        .list-group-item.list-group-item-action {
+            border-radius: 0;
+        }
+        .active {
+            box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.3),
+                        inset 0 -2px 3px rgba(0, 0, 0, 0.2),
+                        0 8px 20px rgba(0, 0, 0, 0.2),
+                        inset 2px 0 0 $o-component-active-border;
+        }
+    }
+
+    .i_sidebar_search_bar {
+        background: hsla(#{$i-system-color-light-hsl}, .1);
+        .form-control {
+            color: #{$input-placeholder-color};
+        }
+    }
+}
+
+.i_sidebar_resize {
+    @extend .o_search_panel_resize;
+}

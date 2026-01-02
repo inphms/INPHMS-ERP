@@ -1,7 +1,7 @@
 
 {
     'name': 'Web Routing',
-    'summary': 'Web Routing',
+    'summary': 'Extension module for advanced HTTP routing that is not available in base or web module.',
     'sequence': 9100,
     'category': 'Hidden',
     'description': """

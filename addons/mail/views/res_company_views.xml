@@ -5,12 +5,24 @@
         <field name="model">res.company</field>
         <field name="inherit_id" ref="base.view_company_form"/>
         <field name="arch" type="xml">
-            <field name="parent_id" position="after">
+            <group name="social_media" position="before">
+                <group class="mx-0 px-0" name="mailing" string="Mailing" colspan="2">
+                    <group>
+                        <field name="alias_domain_id"/>
+                    </group>
+                    <group>
+                        <field name="bounce_formatted" groups="base.group_no_one"/>
+                        <field name="catchall_formatted" groups="base.group_no_one"/>
+                        <field name="default_from_email" groups="base.group_no_one"/>
+                    </group>
+                </group>
+            </group>
+            <!-- <field name="parent_id" position="after">
                 <field name="alias_domain_id"/>
                 <field name="bounce_formatted" groups="base.group_no_one"/>
                 <field name="catchall_formatted" groups="base.group_no_one"/>
                 <field name="default_from_email" groups="base.group_no_one"/>
-            </field>
+            </field> -->
         </field>
     </record>
 </inphms>

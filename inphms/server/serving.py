@@ -14,6 +14,10 @@ from inphms.server import root, ThreadedServer
 from inphms.server.utils import strip_sys_argv, server_phoenix
 from inphms.tools import osutils, gc
 
+if os.name == 'posix':
+    pass
+else:
+    signal.SIGHUP = -1
 
 _logger = logging.getLogger(__name__)
 

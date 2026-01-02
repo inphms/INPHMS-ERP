@@ -9,7 +9,6 @@
     height: 100%;
     display: flex;
     flex-flow: column nowrap;
-    gap: map-get($spacers, 2);
 
     @media (display-mode: browser) {
       overflow: hidden;
@@ -25,24 +24,6 @@
       height: 100%;
       overflow: hidden;
       position: relative;
-
-      &:has(> .i_action_sidebar) {
-        display: flex;
-        // background: #{$o-white};
-        margin-left: map-get($spacers, 2);
-        margin-right: map-get($spacers, 2);
-        
-        & > {
-          overflow: auto;
-          flex: 1 0 auto;
-        }
-        & > *:last-child {
-          flex: 1 1 100%;
-          @extend %i-inphms-blur-background;
-          margin-left: map-get($spacers, 2);
-          border-radius: #{$border-radius-sm};
-        }
-      }
 
       > .o_action {
         height: 100%;

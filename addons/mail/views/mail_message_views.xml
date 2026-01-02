@@ -25,7 +25,81 @@
             <field name="arch" type="xml">
                 <form string="Message" duplicate="0">
                     <sheet>
-                        <div class="oe_button_box" name="button_box">
+                        <div>
+                            <group string="Definition" class="rounded border mb-4 mx-0 i__group">
+                                <group>
+                                    <field name="subject"/>
+                                    <field name="date"/>
+                                    <field name="email_from"/>
+                                    <field name="author_id"/>
+                                    <field name="message_type"/>
+                                    <field name="subtype_id"/>
+                                    <field name="is_internal"/>
+                                </group>
+                                <group>
+                                    <field name="model"/>
+                                    <field name="res_id"/>
+                                    <field name="record_name"/>
+                                    <field name="parent_id"/>
+                                </group>
+                            </group>
+                            <group string="Body" name="body" class="rounded border mb-4 i__group">
+                                <field name="body" nolabel="1" colspan="2" widget="html_mail"/>
+                            </group>
+                            <group string="Gateway" name="gateway" class="rounded border mb-4 mx-0 i__group">
+                                <group>
+                                    <field name="reply_to"/>
+                                    <field name="reply_to_force_new"/>
+                                </group>
+                                <group>
+                                    <field name="message_id"/>
+                                    <field name="mail_server_id"/>
+                                </group>
+                            </group>
+                            <group string="Recipients" name="recipients" class="rounded border mb-4 mx-0 i__group">
+                                <group colspan="2" class="mb-3">
+                                    <group>
+                                        <field name="partner_ids" widget="many2many_tags"/>
+                                        <field name="incoming_email_cc"/>
+                                        <field name="incoming_email_to"/>
+                                    </group>
+                                    <group>
+                                        <field name="notified_partner_ids" widget="many2many_tags"/>
+                                        <field name="starred_partner_ids" widget="many2many_tags"/>
+                                    </group>
+                                </group>
+                                <group colspan="2">
+                                    <field name="notification_ids">
+                                        <list>
+                                            <field name="res_partner_id"/>
+                                            <field name="is_read"/>
+                                            <field name="notification_type"/>
+                                            <field name="notification_status"/>
+                                        </list>
+                                    </field>
+                                </group>
+                            </group>
+                            <group string="Tracking" name="page_tracking" class="rounded border mb-4 i__group">
+                                <field name="tracking_value_ids"/>
+                            </group>
+                        </div>
+                        <sidepanel>
+                            <div class="o_inner_group border rounded mb-4 i__group" name="quick_actions">
+                                <div class="o_horizontal_separator mt-4 mb-3 text-uppercase fw-bolder small">
+                                    Quick Actions
+                                </div>
+                                <div class="action_button o-form-buttonbox list-group gap-2">
+                                    <button name="action_open_document"
+                                        type="object" class="oe_stat_button btn-outline-secondary rounded" icon="fa-file-text-o"
+                                        invisible="not model or res_id == 0">
+                                        <div class="o_field_widget o_stat_info">
+                                            <span class="o_stat_text">Open Document</span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </sidepanel>
+                        <!-- <div class="oe_button_box" name="button_box">
                             <button name="action_open_document"
                                 type="object" class="oe_link" icon="fa-file-text-o"
                                 invisible="not model or res_id == 0">
@@ -93,7 +167,7 @@
                             <page string="Tracking" name="page_tracking">
                                 <field name="tracking_value_ids"/>
                             </page>
-                        </notebook>
+                        </notebook> -->
                     </sheet>
                 </form>
             </field>

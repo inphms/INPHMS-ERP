@@ -5,7 +5,7 @@
 .o_home_menu_background {
 
     &:not(.o_home_menu_background_custom):not(.o_in_studio) .o_main_navbar {
-        // --NavBar-entry-color: #212529;
+        --NavBar-entry-color: $o-black;
         --NavBar-entry-color--hover: $o-black;
     }
     

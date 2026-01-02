@@ -6,7 +6,89 @@
             <field name="arch" type="xml">
                 <form string="Sequences">
                   <sheet>
-                    <group>
+                    <div>
+                        <group string="Definition" class="border mx-0 mb-4 rounded i__group">
+                            <group>
+                                <field name="name"/>
+                                <field name="implementation"/>
+                            </group>
+                            <group>
+                                <field name="code"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="active" widget="boolean_toggle"/>
+                            </group>
+                        </group>
+                        <group class="border rounded mx-0 mb-4 i__group" string="Sequence">
+                            <group>
+                                <field name="prefix"/>
+                                <field name="suffix"/>
+                                <field name="use_date_range"/>
+                            </group>
+                            <group>
+                                <field name="padding"/>
+                                <field name="number_increment"/>
+                                <field name="number_next_actual" string="Next Number" invisible="use_date_range"/>
+                            </group>
+                            <field name="date_range_ids" invisible="not use_date_range">
+                                <list string="Sequences" editable="top">
+                                    <field name="date_from"/>
+                                    <field name="date_to"/>
+                                    <field name="number_next_actual" string="Next Number"/>
+                                </list>
+                            </field>
+                        </group>
+                    </div>
+                    <sidepanel>
+                        <group string="Legend (for prefix, suffix)" class="border mx-0 rounded mb-4 i__group">
+                            <group class="smaller text-muted px-0 mx-0" colspan="2">
+                                <group colspan="2" class="px-0 mx-0">
+                                    <group colspan="2">
+                                        <span>Current Year with Century: %%(year)s</span>
+                                        <span>Current Year without Century: %%(y)s</span>
+                                    </group>
+                                    <group colspan="2">
+                                        <span>Month: %%(month)s</span>
+                                        <span>Day: %%(day)s</span>
+                                    </group>
+                                </group>
+                                <group colspan="2" class="mt-2 px-0 mx-0">
+                                    <group colspan="2">
+                                        <span>Day of the Year: %%(doy)s</span>
+                                        <span>Week of the Year: %%(woy)s</span>
+                                    </group>
+                                    <group colspan="2">
+                                        <span>Day of the Week (0:Monday): %%(weekday)s</span>
+                                    </group>
+                                </group>
+                                <group colspan="2" class="mt-2 px-0 mx-0">
+                                    <group colspan="2">
+                                        <span>Hour 00->24: %%(h24)s</span>
+                                        <span>Hour 00->12: %%(h12)s</span>
+                                    </group>
+                                    <group colspan="2">
+                                        <span>Minute: %%(min)s</span>
+                                        <span>Second: %%(sec)s</span>
+                                    </group>
+                                </group>
+                                <group colspan="2" class="mt-2 px-0 mx-0">
+                                    <group colspan="2">
+                                        <span>ISO 8601 Week Year with Century: %%(isoyear)s</span>
+                                        <span>ISO 8601 Week Year without Century: %%(isoy)s</span>
+                                    </group>
+                                    <group colspan="2">
+                                        <span>ISO 8601 Week Number: %%(isoweek)s</span>
+                                    </group>
+                                </group>
+                                <group invisible="not use_date_range" class="mt-3" colspan="2">
+                                    <div colspan="2">
+                                        When subsequences per date range are used, you can prefix variables with 'range_'
+                                        to use the beginning of the range instead of the current date, e.g. %%(range_year)s instead of %%(year)s.
+                                    </div>
+                                </group>
+                            </group>
+                        </group>
+                    </sidepanel>
+                    <!-- <group>
                       <group>
                         <field name="name"/>
                         <field name="implementation"/>
@@ -69,7 +151,7 @@
                             </div>
                         </group>
                     </page>
-                    </notebook>
+                    </notebook> -->
                    </sheet>
                 </form>
             </field>
@@ -111,6 +193,6 @@
             <field name="context">{'active_test': False}</field>
         </record>
 
-        <menuitem action="ir_sequence_form" id="menu_ir_sequence_form" parent="next_id_5"/>
+        <!-- <menuitem action="ir_sequence_form" id="menu_ir_sequence_form" parent="next_id_5"/> -->
 
 </inphms>

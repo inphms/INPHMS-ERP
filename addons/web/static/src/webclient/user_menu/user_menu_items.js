@@ -137,6 +137,7 @@ export function logOutItem(env) {
         id: "logout",
         description: _t("Log out"),
         icon: "fa fa-sign-out",
+        className: "text-danger",
         href: `${browser.location.origin}${route}`,
         callback: () => {
             browser.navigator.serviceWorker?.controller?.postMessage("user_logout");

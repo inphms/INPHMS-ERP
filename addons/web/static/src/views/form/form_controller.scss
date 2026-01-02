@@ -26,7 +26,7 @@
             line-height: $o-label-font-size-factor;
         }
 
-        .o_field_widget {
+        :not(.o_address_format) > .o_field_widget {
             &:not(.o_field_boolean){
                 width: 100%;
             }
@@ -1124,6 +1124,86 @@
         flex-direction: column;
         flex: 2 1 $o-form-sheet-min-width; // Side chatter is disabled if this has to shrink but this was added for safety
     }
+}
+
+// Inphms group New
+.o_form_view:has(.i__group) {
+    // Sheet
+    .o_form_sheet {
+        background-color: transparent;
+        border: none;
+        @include media-breakpoint-up(md) {
+            --formView-sheet-padding-x: var(--formView-sheet-padding-x-lg, 0);
+        }
+
+        @include media-breakpoint-up(lg) {
+            --formView-sheet-padding-x: var(--formView-sheet-padding-x-lg, 0);
+        }
+
+        &:has(.i_form_sheet_sidepanel) {
+            display: grid;
+            @include media-breakpoint-up(xl) {
+                grid-template-columns: 1fr 320px;
+                .i_form_sheet_sidepanel {
+                    margin-top: 0 !important;
+                    margin-left: 16px;
+                }
+            }
+            .i_form_sheet_sidepanel {
+                margin-top: 24px;
+            }
+
+            .o_form_header {
+                grid-column: 1 / 3;
+            }
+        }
+    }
+}
+.i__group {
+    background-color: $o-white;
+    box-shadow: $box-shadow-sm;
+    &.o_group {
+        padding: 24px 8px;
+    }
+    &.o_inner_group {
+        padding: 24px;
+    }
+}
+.o_group, .o_inner_group {
+    &.i__group, &.i_group {
+        .o_inner_group {
+            @include form-break-table;
+            margin-bottom: 0;
+            --inner-group-row-gap: 0;
+
+            > :nth-child(2n):not(:last-child) {
+                margin-bottom: 16px !important;
+            }
+
+            // Fix kanban widget
+            .o_field_widget.o_field_handle {
+                width: auto !important;
+            }
+        }
+        .o_form_label:not(.form-check-label) {
+            font-size: $o-label-font-size-factor * $o-font-size-base-touch;
+            font-weight: $font-weight-normal;
+            color: $o-brand-secondary;
+        }
+
+        .o_horizontal_separator {
+            text-transform: none !important;
+            margin: 0 0 16px !important;
+            font-size: $o-font-size-base-touch;
+            box-shadow: none;
+        }
+        .o_group {
+            .o_horizontal_separator {
+                margin: 24px 0 16px !important;
+            }
+        }
+    }
+    
 }
 
 .o_form_view.o_xxs_form_view {

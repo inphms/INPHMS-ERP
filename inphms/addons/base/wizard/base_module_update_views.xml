@@ -36,13 +36,12 @@
             <field name="target">new</field>
         </record>
 
-        <menuitem
+        <!-- <menuitem
             name="Refresh Apps"
             action="action_view_base_module_update"
             id="menu_view_base_module_update"
             groups="base.group_no_one"
             parent="menu_management"
-            sequence="40"/>
-
+            sequence="40"/> -->
     </data>
 </inphms>

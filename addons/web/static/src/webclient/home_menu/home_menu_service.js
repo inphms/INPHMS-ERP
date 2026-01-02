@@ -37,9 +37,7 @@ export const homeMenuService = {
             }
             get homeMenuProps() {
                 const homemenuConfig = JSON.parse(user.settings?.homemenu_config || "null");
-                const appsList = reactive(computeAppsAndMenuItems(this.menus.getMenuAsTree("root")).apps);
-                const sidebar = appsList.filter(item => item.xmlid === 'base.sidebar_root');
-                const apps = appsList.filter(item => item.xmlid !== 'base.sidebar_root');
+                const apps = reactive(computeAppsAndMenuItems(this.menus.getMenuAsTree("root")).apps);
 
                 if (homemenuConfig) {
                     reorderApps(apps, homemenuConfig);

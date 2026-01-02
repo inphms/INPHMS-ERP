@@ -131,14 +131,19 @@
     }
 
     &.o_open {
-        border-color: #{$o-gray-400};
+        // border-color: #{$o-gray-400};
         background-color: #{$o-gray-300};
         animation: var(--TourPointer__reveal-animation);
+
+        border-radius: #{$border-radius};
+        border-color: #{$border-color};
+        box-shadow: #{$box-shadow};
 
         .o_tour_pointer_tip {
             width: var(--TourPointer__arrow-size);
             height: var(--TourPointer__arrow-size);
-            border-color: #{$o-gray-400};
+            // border-color: #{$o-gray-400};
+            border-color: #{$border-color};
             border-radius: 0;
             background: $light;
             box-shadow: none;

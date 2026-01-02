@@ -14,6 +14,7 @@
 
     .o_kanban_record {
         border-radius: $border-radius;
-        box-shadow: $box-shadow-sm;
+        // box-shadow: $box-shadow-sm;
+        box-shadow: $i-bubble-box-shadow;
     }
 }

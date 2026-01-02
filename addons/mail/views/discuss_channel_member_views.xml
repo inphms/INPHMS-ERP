@@ -23,21 +23,29 @@
         <field name="arch" type="xml">
             <form string="Channel Member">
                 <sheet>
-                    <group>
-                        <field name="channel_id" readonly="id"/>
-                        <field name="partner_id" readonly="id or guest_id" required="not guest_id"/>
-                        <field name="guest_id" readonly="id or partner_id" required="not partner_id"/>
-                        <field name="custom_channel_name"/>
-                        <field name="fetched_message_id"/>
-                        <field name="seen_message_id"/>
-                        <field name="new_message_separator"/>
-                        <field name="message_unread_counter"/>
-                        <field name="custom_notifications"/>
-                        <field name="mute_until_dt"/>
-                        <field name="is_pinned"/>
-                        <field name="last_interest_dt"/>
-                        <field name="last_seen_dt"/>
-                        <field name="rtc_inviting_session_id"/>
+                    <group string="Defintion" class="border rounded mb-4 mx-0 i__group">
+                        <group>
+                            <field name="channel_id" readonly="id"/>
+                            <field name="partner_id" readonly="id or guest_id" required="not guest_id"/>
+                            <field name="guest_id" readonly="id or partner_id" required="not partner_id"/>
+                        </group>
+                        <group>
+                            <field name="custom_channel_name"/>
+                            <field name="fetched_message_id"/>
+                            <field name="seen_message_id"/>
+                            <field name="new_message_separator"/>
+                            <field name="message_unread_counter"/>
+                        </group>
+                        <group class="mt-3">
+                            <field name="custom_notifications"/>
+                            <field name="mute_until_dt"/>
+                            <field name="is_pinned"/>
+                        </group>
+                        <group class="mt-3">
+                            <field name="last_interest_dt"/>
+                            <field name="last_seen_dt"/>
+                            <field name="rtc_inviting_session_id"/>
+                        </group>
                     </group>
                 </sheet>
             </form>

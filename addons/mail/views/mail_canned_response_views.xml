@@ -40,10 +40,14 @@
             <field name="arch" type="xml">
                 <form string="Canned response">
                     <sheet>
-                        <group>
-                            <field name="source" widget="shortcut" readonly="not is_editable"/>
-                            <field name="substitution" placeholder="e.g. Hello, how may I help you?" readonly="not is_editable"/>
-                            <field name="group_ids" widget="many2many_tags" readonly="not is_editable"/>
+                        <group string="Definition" class="border rounded mb-4 mx-0 i__group">
+                            <group>
+                                <field name="source" widget="shortcut" readonly="not is_editable"/>
+                                <field name="substitution" placeholder="e.g. Hello, how may I help you?" readonly="not is_editable"/>
+                            </group>
+                            <group>
+                                <field name="group_ids" widget="many2many_tags" readonly="not is_editable"/>
+                            </group>
                             <field name="is_editable" invisible="True"/>
                         </group>
                     </sheet>

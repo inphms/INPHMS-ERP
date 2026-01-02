@@ -5,17 +5,31 @@
         <field name="model">mail.message.schedule</field>
         <field name="arch" type="xml">
             <form string="Scheduled Message" duplicate="0">
-                <header>
+                <!-- <header>
                     <button name="force_send" string="Force Send" type="object"/>
-                </header>
+                </header> -->
                 <sheet>
-                    <group>
-                        <field name="mail_message_id"/>
-                        <field name="scheduled_datetime"/>
-                    </group>
-                    <group>
-                        <field name="notification_parameters"/>
-                    </group>
+                    <div>
+                        <group class="border rounded mb-4 mx-0 i__group" string="Definition">
+                            <group>
+                                <field name="mail_message_id"/>
+                                <field name="scheduled_datetime"/>
+                            </group>
+                            <group>
+                                <field name="notification_parameters"/>
+                            </group>
+                        </group>
+                    </div>
+                    <sidepanel>
+                        <div class="o_inner_group border rounded mb-4 i__group" name="quick_actions">
+                            <div class="o_horizontal_separator mt-4 mb-3 text-uppercase fw-bolder small">
+                                Quick Actions
+                            </div>
+                            <div class="action_button o-form-buttonbox list-group gap-2">
+                                <button name="force_send" string="Force Send" type="object"/>
+                            </div>
+                        </div>
+                    </sidepanel>
                 </sheet>
             </form>
         </field>

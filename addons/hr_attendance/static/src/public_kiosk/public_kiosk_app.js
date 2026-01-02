@@ -1,6 +1,6 @@
 import { App, whenReady, Component, useState } from "@inphms/owl";
 import { CardLayout } from "@hr_attendance/components/card_layout/card_layout";
-import { KioskManualSelection } from "@hr_attendance/components/manual_selection/manual_selection";
+import { KioskManualSelection, KioskSmallManualSelection } from "@hr_attendance/components/manual_selection/manual_selection";
 import { makeEnv, startServices } from "@web/env";
 import { getTemplate } from "@web/core/templates";
 import { _t, appTranslateFn } from "@web/core/l10n/translation";
@@ -33,6 +33,7 @@ class kioskAttendanceApp extends Component{
         KioskBarcodeScanner,
         CardLayout,
         KioskManualSelection,
+        KioskSmallManualSelection,
         KioskGreetings,
         KioskPinCode,
         MainComponentsContainer,
@@ -50,6 +51,7 @@ class kioskAttendanceApp extends Component{
         this.state = useState({
             active_display: "settings",
             displayDemoMessage: browser.localStorage.getItem("hr_attendance.ShowDemoMessage") !== "false",
+            smallManual: false,
         });
         this.lockScanner = false;
         if (this.props.kioskMode === 'settings' || this.props.fromTrialMode){
@@ -75,6 +77,10 @@ class kioskAttendanceApp extends Component{
         }
     }
 
+    switchSmallManual() {
+        this.state.smallManual = !this.state.smallManual;
+    }
+
     newSetUp() {
         this.dialogService.add(NewEmployeeDialog, { 'token': this.props.token });
     }
@@ -97,11 +103,13 @@ class kioskAttendanceApp extends Component{
     }
 
     async kioskConfirm(employeeId){
+        this.ui.block();
         const employee = await rpc('attendance_employee_data',
             {
                 'token': this.props.token,
                 'employee_id': employeeId
-            })
+            });
+        this.ui.unblock();
         if (employee && employee.employee_name){
             if (employee.use_pin){
                 this.employeeData = employee
@@ -161,12 +169,14 @@ class kioskAttendanceApp extends Component{
     }
 
     async onManualSelection(employeeId, enteredPin) {
+        this.ui.block();
         const result = await this.makeRpcWithGeolocation('manual_selection',
             {
                 'token': this.props.token,
                 'employee_id': employeeId,
                 'pin_code': enteredPin
-            })
+            });
+        this.ui.unblock();
         if (result && result.attendance) {
             this.employeeData = result
             this.switchDisplay('greet')

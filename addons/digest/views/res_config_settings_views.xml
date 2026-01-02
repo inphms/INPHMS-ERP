@@ -19,6 +19,18 @@
                     </div>
                 </setting>
             </xpath>
+            <setting name="email_menu_items" position="after">
+                <setting id="digest_settings" string="KPI Digest" groups="base.group_erp_manager" help="Personalized Your KPI Digest.">
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            <button name="%(digest.digest_digest_action)d" string="Digest Emails" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                        </div>
+                        <div class="list-group-item">
+                            <button name="%(digest.digest_tip_action)d" string="Digest Tips" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                        </div>
+                    </div>
+                </setting>
+            </setting>
         </field>
     </record>
 </inphms>

@@ -1,7 +1,10 @@
 
 {
     'name': 'Partners Geolocation',
-    'version': '2.1',
+    'summary': """
+Extension module for Advanced Geolocation of Contact addreses that is not available in base or web module.
+    """,
+    'version': '1.0',
     'category': 'Sales/Sales',
     'description': """
 Partners Geolocation

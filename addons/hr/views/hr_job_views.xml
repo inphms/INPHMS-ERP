@@ -12,12 +12,15 @@
                     <sheet>
                         <div class="oe_button_box" name="button_box"/>
                         <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
-                        <div class="oe_title">
+                        <group string="Definition" class="mb-4 rounded border i__group">
+                            <field name="name" options="{'line_breaks': False}" widget="text" placeholder="e.g. Sales Manager"/>
+                        </group>
+                        <!-- <div class="oe_title">
                             <label for="name"/>
                             <h1>
                                 <field name="name" options="{'line_breaks': False}" widget="text" placeholder="e.g. Sales Manager"/>
                             </h1>
-                        </div>
+                        </div> -->
                         <notebook>
                             <page string="Details" name="recruitment_page" invisible="1" groups="hr.group_hr_user">
                                 <group>

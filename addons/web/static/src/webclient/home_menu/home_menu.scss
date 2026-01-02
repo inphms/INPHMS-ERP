@@ -10,8 +10,10 @@
         // background: hsla(#{$i-system-color-light-hsl}, .3);
         
         border-bottom-color: transparent;
-        --NavBar-entry-color: #212529;
-        --NavBar-entry-color--hover: #000;
+        // --NavBar-entry-color: #212529;
+        --NavBar-entry-color: #{$o-white};
+        --NavBar-entry-color--hover: #{$o-white};
+        // --NavBar-entry-color--hover: #000;
 
         .o_dropdown_active,
         > ul > li.show > a {
@@ -45,11 +47,97 @@
         border-radius: $border-radius-pill;
     }
 
-    .container {
-        @include media-breakpoint-up(md) {
-            max-width: $o-home-menu-container-size !important;
+    // Header
+    .i_home_menu_header {
+        text-shadow: $o-home-menu-caption-shadow;
+        .i_home_menu_header_title {
+            color: var(--homeMenuCaption-color, #{$o-home-menu-caption-color});
+        }
+        .i_home_menu_header_subtitle {
+            color: var(--homeMenuCaption-color, #{$o-home-menu-caption-color});
         }
     }
+
+    // Utils
+    .i_muted {
+        color: #{$i-home-menu-muted-color};
+    }
+    
+    // Content
+    .i_menu_sections_wrapper {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 32px;
+
+        @include media-breakpoint-up(md) {
+            grid-template-columns: 2fr 1fr;
+        }
+
+        .i_group_title {
+            letter-spacing: 0.14em;
+            margin-bottom: 14px;
+        }
+        
+        .i_apps_grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 22px;
+            
+            .i_app {
+                background: var(--AppSwitcherIcon-background, #{$o-home-menu-app-icon-background-color});
+                border-radius: $border-radius;
+                box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.3),
+                            inset 0 -2px 3px rgba(0, 0, 0, 0.2),
+                            0 8px 20px rgba(0, 0, 0, 0.2);
+                border-color: #{$i-home-menu-app-icon-border-color} !important;
+                position: relative;
+                overflow: hidden;
+                &::before {
+                    content: "";
+                    @include o-position-absolute(0, 0, 0, -50%);
+                    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+                    transform: skewX(-25deg);
+                    transition: 0.5s;
+                    opacity: 0;
+                }
+                &:hover {
+                    &::before {
+                        opacity: 1;
+                        left: 150%;
+                    }
+                }
+
+                .i_app_icon_image {
+                    max-width: 50px;
+                    max-height: 50px;
+                }
+                
+                .i_app_wrapper {
+                    color: var(--homeMenuCaption-color, #{$o-home-menu-caption-color});
+                }
+                &.i_focused {
+                    background: #{$i-home-menu-app-focus-bg};
+                    outline: 1px solid $o-action;
+                }
+
+                .i_app_title {
+                    font-size: 16px;
+                }
+
+                .i_app_description {
+                    * {
+                        margin-bottom: 0 !important;
+                    }
+                }
+            }
+        }
+    }
+
+    // .container {
+    //     @include media-breakpoint-up(md) {
+    //         max-width: $o-home-menu-container-size !important;
+    //     }
+    // }
 
     .o_app {
         .o_app_icon {
@@ -146,6 +234,8 @@
             font-weight: $font-weight-bold;
         }
     }
+
+    
 }
 
 .o_home_menu_background_custom {

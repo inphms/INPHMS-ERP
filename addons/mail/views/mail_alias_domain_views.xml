@@ -7,28 +7,19 @@
         <field name="arch" type="xml">
             <form string="Alias Domain" duplicate="false">
                 <sheet>
-                    <group>
+                    <group string="Definition" class="mb-4 mx-0 border rounded i__group">
                         <group>
                             <label for="name"/>
-                            <div>
+                            <div class="align-items-center d-flex">
                                 <span class="me-1 oe_inline">@</span>
-                                <field name="name" string="Domain"
-                                       class="oe_inline"
-                                       placeholder='e.g. "mycompany.com"'/>
+                                <field name="name" string="Domain" class="flex-grow-1" placeholder="e.g. &quot;mycompany.com&quot;"/>
                             </div>
-                            <field name="company_ids" widget="many2many_tags"
-                                   string="Used In"
-                                   readonly="True"
-                                   groups="base.group_multi_company"
-                                   placeholder="Visible to all"/>
+                            <field name="company_ids" widget="many2many_tags" string="Used In" readonly="True" groups="base.group_multi_company" placeholder="Visible to all"/>
                         </group>
                         <group>
-                            <field name="bounce_alias" groups="base.group_no_one"
-                                   placeholder='e.g. "bounce"'/>
-                            <field name="catchall_alias" groups="base.group_no_one"
-                                   placeholder='e.g. "catchall"'/>
-                            <field name="default_from" groups="base.group_no_one"
-                                   placeholder='e.g. "notifications"'/>
+                            <field name="bounce_alias" groups="base.group_no_one" placeholder="e.g. &quot;bounce&quot;"/>
+                            <field name="catchall_alias" groups="base.group_no_one" placeholder="e.g. &quot;catchall&quot;"/>
+                            <field name="default_from" groups="base.group_no_one" placeholder="e.g. &quot;notifications&quot;"/>
                         </group>
                     </group>
                 </sheet>

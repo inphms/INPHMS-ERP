@@ -5,7 +5,23 @@
         <field name="arch" type="xml">
             <form string="Assets">
                 <sheet>
-                    <group>
+                    <div>
+                        <group string="Definition"
+                            class="i__group rounded mx-0 border mb-4">
+                            <group>
+                                <field name="name"/>
+                                <field name="bundle"/>
+                                <field name="directive"/>
+                                <field name="sequence"/>
+                                <field name="active" widget="boolean_toggle"/>
+                            </group>
+                            <group>
+                                <field name="target" invisible="directive not in ('after', 'before', 'replace')"/>
+                                <field name="path"/>
+                            </group>
+                        </group>
+                    </div>
+                    <!-- <group>
                         <group>
                             <field name="name"/>
                             <field name="bundle"/>
@@ -17,7 +33,7 @@
                             <field name="target" invisible="directive not in ('after', 'before', 'replace')"/>
                             <field name="path"/>
                         </group>
-                    </group>
+                    </group> -->
                 </sheet>
             </form>
         </field>
@@ -56,5 +72,5 @@
         <field name="context">{'search_default_active': 1}</field>
     </record>
 
-    <menuitem action="action_asset" id="menu_action_asset" parent="base.next_id_9"/>
+    <!-- <menuitem action="action_asset" id="menu_action_asset" parent="base.next_id_9"/> -->
 </inphms>

@@ -23,7 +23,7 @@
             <field name="arch" type="xml">
                 <form string="System Parameters">
                   <sheet>
-                    <group>
+                    <group string="Definition" class="i__group rounded border mb-4">
                         <field name="key"/>
                         <field name="value"/>
                     </group>
@@ -36,5 +36,5 @@
             <field name="res_model">ir.config_parameter</field>
             <field name="path">system-parameters</field>
         </record>
-        <menuitem id="ir_config_menu" name="System Parameters" parent="menu_ir_property" action="ir_config_list_action"/>
+        <!-- <menuitem id="ir_config_menu" name="System Parameters" parent="menu_ir_property" action="ir_config_list_action"/> -->
 </inphms>

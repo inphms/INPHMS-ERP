@@ -4,13 +4,56 @@
         <field name="model">web_tour.tour</field>
         <field name="arch" type="xml">
             <form create="0">
-                <header>
+                <!-- <header>
                     <div>
                         <field name="name" widget="tour_start_widget"/>
                     </div>
-                </header>
+                </header> -->
                 <sheet>
-                    <div class="oe_title">
+                    <div>
+                        <group string="Definition" class="border rounded mb-4 mx-0 i__group">
+                            <group colspan="2" class="mb-3">
+                                <field class="text-break" options="{'line_breaks': False}" name="name" placeholder="e.g. My_Tour"/>
+                            </group>
+                            <group>
+                                <field name="sequence"/>
+                                <field name="url"/>
+                            </group>
+                            <group>
+                                <field name="sharing_url" widget="CopyClipboardURL"/>
+                                <field name="custom" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Steps" name="steps" class="border rounded mb-4 i__group">
+                            <field name="step_ids">
+                                <list>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="trigger"/>
+                                    <field name="run"/>
+                                    <field name="tooltip_position"/>
+                                    <field name="content"/>
+                                </list>
+                            </field>
+                        </group>
+                        <group string="Rainbow Message" name="message" class="border rounded mb-4 i__group">
+                            <field colspan="2" options="{'height': 100}" name="rainbow_man_message" placeholder="Rainbow Man Message..."/>
+                        </group>
+                    </div>
+                    <sidepanel>
+                        <group string="Status" class="border rounded mb-4 i__group">
+                            <field name="create_date" widget="date" options="{'show_time': false}" readonly="1" class="fw-bold"/>
+                            <field name="write_date" readonly="1" class="fw-bold"/>
+                        </group>
+                        <div class="o_inner_group border rounded mb-4 i__group" name="quick_actions">
+                            <div class="o_horizontal_separator mt-4 mb-3 text-uppercase fw-bolder small">
+                                Quick Actions
+                            </div>
+                            <div class="action_button o-form-buttonbox list-group gap-2">
+                                <field name="name" widget="tour_start_widget"/>
+                            </div>
+                        </div>
+                    </sidepanel>
+                    <!-- <div class="oe_title">
                         <h1><field class="text-break" options="{'line_breaks': False}" widget="text" name="name" placeholder="e.g. My_Tour"/></h1>
                     </div>
                     <group>
@@ -36,7 +79,7 @@
                             </page>
                         </notebook>
                         <field colspan="2" name="rainbow_man_message" placeholder="Rainbow Man Message..."/>
-                    </group>
+                    </group> -->
                 </sheet>
             </form>
         </field>
@@ -72,7 +115,7 @@
         <field name="view_id" ref="tour_list"/>
         <field name="search_view_id" ref="tour_search"/>
     </record>
-    <menuitem action="tour_action" id="menu_tour_action" parent="base.next_id_2" sequence="5"/>
+    <!-- <menuitem action="tour_action" id="menu_tour_action" parent="base.next_id_2" sequence="5"/> -->
 
 
     <record id="tour_export_js_action" model="ir.actions.server">

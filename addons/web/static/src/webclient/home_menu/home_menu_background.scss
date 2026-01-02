@@ -4,8 +4,13 @@
         size: cover;
         attachment: fixed;
         color: var(--homeMenu-bg-color, #{$o-gray-200});
-        image: var(--homeMenu-bg-image, url("/web/static/img/background-light.svg"));
+        image: var(--homeMenu-bg-image, url("/web/static/img/background-light.jpg"));
         position: 50%;
     }
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(8px) brightness(0.9);
+    &::before {
+        @include o-position-absolute(0, 0, 0, 0);
+        content: "";
+        background: radial-gradient(circle at 50% 50%, #0000 50%, #00000052);
+    }
 }

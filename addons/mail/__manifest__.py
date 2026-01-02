@@ -88,7 +88,7 @@ For more specific needs, you may also assign custom-defined actions
         'views/mail_activity_views.xml',
         'views/mail_activity_plan_views.xml',
         'views/mail_activity_plan_template_views.xml',
-        'views/res_config_settings_views.xml',
+        
         'data/ir_config_parameter_data.xml',
         'data/res_partner_data.xml',
         'data/mail_message_subtype_data.xml',
@@ -124,6 +124,8 @@ For more specific needs, you may also assign custom-defined actions
         "data/mail_canned_response_data.xml",
         'data/mail_templates_invite.xml',
         'data/web_tour_tour.xml',
+        
+        'views/res_config_settings_views.xml',
     ],
     'installable': True,
     'application': True,

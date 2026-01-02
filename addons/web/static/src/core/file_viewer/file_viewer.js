@@ -2,8 +2,6 @@ import { Component, useEffect, useRef, useState } from "@inphms/owl";
 import { useAutofocus, useService } from "@web/core/utils/hooks";
 import { hidePDFJSButtons } from "@web/core/utils/pdfjs";
 
-import {useBackButton} from "@web_mobile/js/core/hooks";
-
 /**
  * @typedef {Object} File
  * @property {string} name
@@ -70,7 +68,6 @@ export class FileViewer extends Component {
             },
             () => [this.iframeViewerPdfRef.el]
         );
-        useBackButton( () => this.close());
     }
 
     onImageLoaded() {

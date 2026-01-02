@@ -7,12 +7,20 @@
             <field name="model">ir.module.category</field>
             <field name="arch" type="xml">
                 <form string="Module Category">
-                    <group col="4">
+                    <group class="i_group">
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="parent_id"/>
+                            <field name="sequence"/>
+                        </group>
+                        <field name="description"/>
+                    </group>
+                    <!-- <group col="4">
                         <field name="name"/>
                         <field name="parent_id"/>
                         <field name="sequence"/>
                     </group>
-                    <field name="description"/>
+                    <field name="description"/> -->
                 </form>
             </field>
         </record>
@@ -51,7 +59,92 @@
                 <form create="0" edit="0" string="Module" class="o_module_form">
                     <link rel="stylesheet" href="/base/static/src/css/description.css"></link>
                     <sheet>
-                    <field name="icon_image" widget="image" class="oe_avatar"/>
+                        <div>
+                            <group class="i__group rounded border mb-4">
+                                <div>
+                                    <field name="icon_image" widget="image" options="{'img_class':'border-0 o_image_64_max'}" class="oe_avatar"/>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h1 class="mb-0">
+                                            <field class="fw-bolder mb-0" name="shortdesc" placeholder="Module Name"/>
+                                        </h1>
+                                        <div class="small">
+                                            <field class="text-muted" name="summary" invisible="not summary"/>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-end flex-column">
+                                        <h6 class="badge text-bg-warning rounded-pill" invisible="not has_iap">Contains In-App Purchases</h6>
+                                        <div>
+                                            <button name="button_immediate_install" string="Activate" invisible="to_buy or state != 'uninstalled'" type="object" class="btn btn-primary me-1" groups="base.group_system"/>
+                                            <a href="https://inphms.com/pricing?utm_source=db&amp;utm_medium=module#hosting=on_premise" target="_blank" class="btn btn-primary me-1" invisible="not to_buy or state not in ('uninstalled', 'uninstallable')" role="button">Upgrade</a>
+                                            <button name="button_immediate_upgrade" invisible="state != 'installed'" string="Upgrade" type="object" class="btn btn-primary me-1" groups="base.group_system"/>
+                                            <button name="button_uninstall_wizard" invisible="state != 'installed'" string="Uninstall" type="object" class="btn btn-secondary me-1" groups="base.group_system"/>
+                                            <button invisible="state != 'to remove'" class="btn btn-secondary me-1" groups="base.group_system" disabled="1">Removing</button>
+                                            <button invisible="state != 'to upgrade'" class="btn btn-secondary me-1" groups="base.group_system" disabled="1">Upgrading</button>
+                                            <button invisible="state != 'to install'" class="btn btn-secondary me-1" groups="base.group_system" disabled="1">Installing</button>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </group>
+                            <group class="i__group rounded border mb-4 mx-0">
+                                <div groups="base.group_no_one" class="o_horizontal_separator mt-4 mb-3 text-uppercase fw-bolder small" colspan="2">
+                                    Information
+                                </div>
+                                <group groups="base.group_no_one">
+                                    <field name="name"/>
+                                    <field name="author" class="oe_Inline" placeholder="Author Name"/>
+                                    <field name="website" widget="url" invisible="not website"/>
+                                </group>
+                                <group groups="base.group_no_one">
+                                    <field name="category_id" options="{'no_open': True, 'no_create': True}"/>
+                                    <field name="license"/>
+                                    <field name="installed_version"/>
+                                </group>
+                                
+                                <group string="What this enables" class="mt-3" colspan="2">
+                                    <field class="smaller oe_styling_v8" name="description_html" nolabel="1"></field>
+                                </group>
+                            </group>
+                            <group groups="base.group_no_one" name="techincal_data" string="Technical Detailes" class="rounded border mx-0 mb-4 i__group">
+                                <group colspan="2">
+                                    <field name="demo"/>
+                                    <field name="application"/>
+                                    <field name="state"/>
+                                </group>
+                                <group colspan="2">
+                                    <group string="Dependencies">
+                                        <field name="dependencies_id" nolabel="1" colspan="2">
+                                            <list string="Dependencies">
+                                                <field name="name"/>
+                                                <field name="state"/>
+                                            </list>
+                                        </field>
+                                    </group>
+                                    <group string="Exclusions">
+                                        <field name="exclusion_ids" nolabel="1" colspan="2">
+                                            <list string="Exclusions">
+                                                <field name="name"/>
+                                                <field name="state"/>
+                                            </list>
+                                        </field>
+                                    </group>
+                                </group>
+                            </group>
+                            <group groups="base.group_no_one" name="installed_features" string="Installed Scope" invisible="state != 'installed'" class="rounded border mx-0 mb-4 i__group">
+                                <group string="Created Menus">
+                                    <field name="menus_by_module" nolabel="1"/>
+                                </group>
+                                <group string="Created Views">
+                                    <field name="views_by_module" nolabel="1"/>
+                                </group>
+                                <group string="Defined Reports">
+                                    <field name="reports_by_module" nolabel="1"/>
+                                </group>
+                            </group>
+                        </div>
+                    <!-- <field name="icon_image" widget="image" class="oe_avatar"/>
                     <div class="mb32">
                         <h1 class="d-flex flex-column">
                             <field name="shortdesc" placeholder="Module Name"/>
@@ -120,7 +213,7 @@
                             <field name="reports_by_module"/>
                         </page>
                     </notebook>
-                    <field name="description_html" class='oe_styling_v8' invisible="not description_html"/>
+                    <field name="description_html" class='oe_styling_v8' invisible="not description_html"/> -->
                     </sheet>
                 </form>
             </field>
@@ -150,7 +243,7 @@
             <field name="name">Apps Kanban</field>
             <field name="model">ir.module.module</field>
             <field name="arch" type="xml">
-                <kanban create="false" can_open="0" class="o_modules_kanban">
+                <kanban create="false" can_open="0" class="o_modules_kanban" js_class="apps_kanban">
                   <field name="to_buy"/>
                   <field name="name"/>
                   <field name="state"/>
@@ -166,12 +259,38 @@
                         <a t-if="installed" name="button_uninstall_wizard" type="object" role="menuitem" class="dropdown-item" groups="base.group_system">Uninstall…</a>
                     </t>
                     <t t-name="card" class="flex-row align-items-center">
-                        <aside>
+                        <!-- <aside>
                             <field name="icon" widget="image_url" options="{'size': [50, 50]}" alt="Icon"/>
                             <field t-if="record.icon_flag" name="icon_flag" class="oe_module_flag"/>
-                        </aside>
-                        <main class="me-4" t-att-title="record.shortdesc.value">
-                            <field class="fw-bold fs-5" name="shortdesc"/>
+                        </aside> -->
+                        <main class="me-4 gap-2" t-att-title="record.shortdesc.value">
+                            
+                            <div class="d-flex gap-3 align-items-center">
+                                <field name="icon" widget="image_url" options="{'size': [40, 40]}" alt="Icon"/>
+                                <field t-if="record.icon_flag" name="icon_flag" class="oe_module_flag"/>
+                                <div>
+                                    <field class="fw-bold fs-5" name="shortdesc"/>
+                                    <p class="text-muted small my-0 lh-sm">
+                                        <field name="name"/>
+                                    </p>
+                                </div>
+                            </div>
+                            <p class="text-muted small my-0 lh-sm">
+                                <field name="summary"/>
+                            </p>
+                            <footer class="w-100">
+                                <button type="object" class="btn btn-primary btn-sm" name="button_immediate_install" invisible="state != 'uninstalled'" t-if="! record.to_buy.raw_value" groups="base.group_system">Activate</button>
+                                <button t-if="installed" class="d-flex align-items-center text-muted float-start">Installed</button>
+                                <button invisible="not state == 'installed'" class="btn btn-sm btn-success float-start">Installed</button>
+                                <a t-att-href="record.website.raw_value" target="_blank" invisible="website in (False, '')" class="btn btn-sm btn-secondary float-end o-hidden-ios" role="button">Learn More</a>
+                                <a type="open" class="btn btn-secondary btn-sm float-end" id="module_info" role="button" invisible="website != ''">Module Info</a>
+                                <a href="https://inphms.com/pricing?utm_source=db&amp;utm_medium=module#hosting=on_premise" target="_blank" class="btn btn-info btn-sm" invisible="state not in ('uninstalled', 'uninstallable')" t-if="record.to_buy.raw_value" role="button" groups="base.group_system">Upgrade</a>
+                                <button invisible="state != 'to remove'" class="btn btn-sm btn-secondary" groups="base.group_system" disabled="1">Removing</button>
+                                <button invisible="state != 'to upgrade'" class="btn btn-sm btn-secondary" groups="base.group_system" disabled="1">Upgrading</button>
+                                <button invisible="state != 'to install'" class="btn btn-sm btn-secondary" groups="base.group_system" disabled="1">Installing</button>
+                            </footer>
+
+                            <!-- <field class="fw-bold fs-5" name="shortdesc"/>
                             <p class="text-muted small my-0 lh-sm">
                                 <field groups="!base.group_no_one" name="summary"/>
                                 <code groups="base.group_no_one"><field name="name"/></code>
@@ -185,7 +304,7 @@
                                 <button invisible="state != 'to remove'" class="btn btn-sm btn-secondary" groups="base.group_system" disabled="1">Removing</button>
                                 <button invisible="state != 'to upgrade'" class="btn btn-sm btn-secondary" groups="base.group_system" disabled="1">Upgrading</button>
                                 <button invisible="state != 'to install'" class="btn btn-sm btn-secondary" groups="base.group_system" disabled="1">Installing</button>
-                            </footer>
+                            </footer> -->
                         </main>
                     </t>
                   </templates>
@@ -209,24 +328,30 @@
         </record>
 
         <!--top menu -->
-        <menuitem id="menu_apps" name="Apps" parent="menu_management" sequence="5" action="open_module_tree"/>
-
+        <menuitem 
+            id="menu_apps"
+            name="Apps"
+            parent="menu_management_overview"
+            sequence="5"
+            action="open_module_tree"
+            submenu_icon="base,static/description/menu_icons/home.svg"/>
+            
         <!--submenu -->
         <!-- <menuitem id="menu_module_tree" parent="menu_apps" name="Main Apps" sequence="5" action="open_module_tree" />
 
         <menuitem id="theme_store" parent="menu_apps" name="Theme Store" sequence="15"/> -->
 
         <!--link to stores-->
-        <record model='ir.actions.act_url' id='action_third_party'>
+        <!-- <record model='ir.actions.act_url' id='action_third_party'>
             <field name='name'>Third-Party Apps</field>
             <field name='url'>https://apps.inphms.com/apps/modules</field>
-        </record>
+        </record> -->
         <!-- <menuitem id="menu_third_party" parent="menu_apps" name="Third-Party Apps" sequence="20" action="action_third_party"/> -->
 
-        <record model='ir.actions.act_url' id='action_theme_store'>
+        <!-- <record model='ir.actions.act_url' id='action_theme_store'>
             <field name='name'>Theme Store</field>
             <field name='url'>https://apps.inphms.com/apps/themes</field>
-        </record>
+        </record> -->
         <!-- <menuitem id="menu_theme_store" parent="menu_apps" name="Theme Store" sequence="10" action="action_theme_store"/> -->
 
     </data>

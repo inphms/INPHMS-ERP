@@ -22,7 +22,7 @@
                 <field name="attendance_state" invisible="1"/>
                 <field name="hours_last_month" groups="hr_attendance.group_hr_attendance_officer" invisible="1"/>
                 <button name="action_open_last_month_attendances"
-                        class="oe_stat_button"
+                        class="oe_stat_button btn-outline-secondary rounded"
                         icon="fa-clock-o"
                         type="object"
                         groups="hr_attendance.group_hr_attendance_officer"
@@ -43,7 +43,7 @@
                     </div>
                 </button>
             </button>
-            <xpath expr="//group[@name='managers']" position="inside">
+            <xpath expr="//group[@name='managers']/group" position="inside">
                 <field name="attendance_manager_id" string="Attendance" widget="many2one_avatar_user" groups="hr_attendance.group_hr_attendance_user"/>
             </xpath>
             <xpath expr="//field[@name='barcode']" position="attributes">
@@ -53,12 +53,12 @@
                 <button name="open_barcode_scanner" string="Read a badge" type="object" class="btn btn-link" invisible="barcode"/>
             </xpath>
             <!-- identification_group -->
-            <group name="identification_group" position="inside">
+            <xpath expr="//group[@name='identification_group']/group" position="inside">
                 <field 
                     name="ruleset_id" string="Overtime Ruleset"
                     placeholder="Select a ruleset to manage overtime."
                     />
-            </group>
+            </xpath>
         </field>
     </record>
 

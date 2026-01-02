@@ -7,16 +7,84 @@
             <field name="arch" type="xml">
                 <form string="Email message" duplicate="0">
                     <header>
-                        <field name="message_type" invisible="1"/>
+                        <!-- <field name="message_type" invisible="1"/>
                         <button name="action_send_and_close" string="Send &amp; Close" type="object" class="oe_highlight" invisible="state != 'outgoing' or message_type == 'user_notification'"/>
                         <button name="mark_outgoing" string="Retry" type="object" invisible="state not in ('exception', 'cancel')"/>
-                        <button name="cancel" string="Cancel" type="object" invisible="state != 'outgoing'"/>
+                        <button name="cancel" string="Cancel" type="object" invisible="state != 'outgoing'"/> -->
                         <field name="state" widget="statusbar" statusbar_visible="outgoing,sent,received,exception,cancel"/>
                     </header>
                     <sheet>
                         <field name="model" invisible="1"/>
                         <field name="res_id" invisible="1"/>
-                        <div class="oe_button_box" name="button_box">
+                        <field name="mail_message_id_int" required="0" invisible="1"/>
+
+                        <div>
+                            <group string="Definition" class="border rounded mb-4 i__group">
+                                <field name="subject"/>
+                                <field name="author_id" class="oe_inline" string="User"/>
+                                <div class="">
+                                    on <field name="date" readonly="1" class="oe_inline"/>
+                                </div>
+                                <button name="%(action_email_compose_message_wizard)d" string="Reply" type="action" icon="fa-reply text-warning"
+                                    context="{'default_composition_mode':'comment', 'default_parent_id': mail_message_id_int}" invisible="state not in ('received', 'sent', 'exception', 'cancel')"/>
+                            </group>
+                            <group class="rounded border mb-4 i__group" string="Information">
+                                <field name="email_from"/>
+                                <field name="email_to"/>
+                                <field name="recipient_ids" widget="many2many_tags" domain="[('active', '=', True)]"/>
+                                <field name="email_cc"/>
+                                <field name="reply_to"/>
+                                <field name="scheduled_date" placeholder="YYYY-MM-DD HH:MM:SS"/>
+                            </group>
+                            <group string='Body' name="body" class="rounded border mb-4 i__group">
+                                <field nolabel="1" colspan="2" name="body_content"/>
+                            </group>
+                            <group class="rounded border mb-4 mx-0 i__group" string="Advanced" name="advanced" groups="base.group_no_one">
+                                <group string="Status">
+                                    <group colspan="2">
+                                        <field name="message_type"/>
+                                        <field name="mail_server_id"/>
+                                        <field name="model"/>
+                                        <field name="res_id"/>
+                                        <field name="auto_delete" invisible="state != 'outgoing' and state != 'exception'"/>
+                                        <field name="is_notification"/>
+                                    </group>
+                                </group>
+                                <group string="Headers">
+                                    <group colspan="2">
+                                        <field name="message_id"/>
+                                        <field name="references"/>
+                                        <field name="fetchmail_server_id"/>
+                                        <field name="headers"/>
+                                    </group>
+                                </group>
+                            </group>
+                            <group string='Attachments' name="attachments" class="rounded border mb-4 i__group">
+                                <div colspan="2" class="alert alert-warning" role="alert" invisible="restricted_attachment_count == 0">
+                                    You do not have access to <field name="restricted_attachment_count"/>
+                                    attachment(s) of this email.
+                                </div>
+                                <field name="unrestricted_attachment_ids" domain="[('res_field','=', False)]"/>
+                            </group>
+                            <group string='Failure Reason' name="failure_reason" invisible="state != 'exception'" class="rounded border mb-4 i__group">
+                                <field name="failure_reason"/>
+                            </group>
+                        </div>
+                        <sidepanel>
+                            <div class="o_inner_group border rounded mb-4 i__group" name="quick_actions">
+                                <div class="o_horizontal_separator mt-4 mb-3 text-uppercase fw-bolder small">
+                                    Quick Actions
+                                </div>
+                                <div class="action_button o-form-buttonbox list-group gap-2">
+                                    <field name="message_type" invisible="1"/>
+                                    <button name="action_send_and_close" string="Send &amp; Close" type="object" class="oe_highlight" invisible="state != 'outgoing' or message_type == 'user_notification'"/>
+                                    <button name="mark_outgoing" string="Retry" type="object" invisible="state not in ('exception', 'cancel')"/>
+                                    <button name="cancel" string="Cancel" type="object" invisible="state != 'outgoing'"/>
+                                </div>
+                            </div>
+                        </sidepanel>
+
+                        <!-- <div class="oe_button_box" name="button_box">
                             <button name="action_open_document"
                                     type="object" class="oe_link" icon="fa-file-text-o"
                                     invisible="not model or res_id == 0">
@@ -24,9 +92,9 @@
                                         <span class="o_stat_text">Open Document</span>
                                     </div>
                             </button>
-                        </div>
-                        <field name="mail_message_id_int" required="0" invisible="1"/>
-                        <div class="oe_title">
+                        </div> -->
+                        
+                        <!-- <div class="oe_title">
                             <label for="subject" class="oe_edit_only"/>
                             <h2><field name="subject"/></h2>
                         </div>
@@ -79,7 +147,7 @@
                             <page string="Failure Reason" name="failure_reason" invisible="state != 'exception'">
                                 <field name="failure_reason"/>
                             </page>
-                        </notebook>
+                        </notebook> -->
                     </sheet>
                 </form>
             </field>

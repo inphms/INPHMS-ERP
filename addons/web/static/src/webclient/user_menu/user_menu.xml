@@ -20,7 +20,8 @@
                                 <t t-if="element.type === 'component'" t-component="element.contentComponent"/>
                                 <DropdownItem
                                     t-if="element.type == 'item' || element.type == 'switch'"
-                                    attrs="{ href: element.href, 'data-menu': element.id }"
+                                    attrs="{ href: element.href, 'data-menu': element.id}"
+                                    class="element.className"
                                     onSelected="element.callback"
                                 >
                                 <div class="d-flex justify-content-between p-0 w-100">

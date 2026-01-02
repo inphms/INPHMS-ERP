@@ -34,10 +34,13 @@
         <field name="arch" type="xml">
             <form string="RTC Session">
                 <sheet>
-                    <div class="oe_title">
+                    <!-- <div class="oe_title">
                         <h1><field name="channel_member_id"/></h1>
-                    </div>
-                    <group>
+                    </div> -->
+                    <group string="Definition" class="border rounded mb-4 mx-0 i__group">
+                        <group colspan="2" class="mb-3">
+                            <field name="channel_member_id"/>
+                        </group>
                         <group string="Identity">
                             <field name="channel_id"/>
                             <field name="partner_id"/>

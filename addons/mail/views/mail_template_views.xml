@@ -6,7 +6,7 @@
             <field name="model">mail.template</field>
             <field name="arch" type="xml">
                 <form string="Templates" class="o_mail_template_form_view">
-                    <header>
+                    <!-- <header>
                         <field name="ref_ir_act_window" invisible="1"/>
                         <field name="template_fs" invisible="1"/>
                         <field name="is_template_editor" invisible="1"/>
@@ -30,9 +30,87 @@
                                     invisible="not ref_ir_act_window"
                                     help="Remove the contextual action to use this template on related documents"/>
                         </t>
-                    </header>
+                    </header> -->
                     <sheet>
-                        <div class="oe_title">
+                        <div>
+                            <group string="Definition" class="border rounded mx-0 mb-4 i__group">
+                                <group class="mb-3" colspan='2'>
+                                    <field name="name" class="w-100" string="Template Name" required="1" placeholder="e.g. &quot;Welcome email&quot;"/>
+                                </group>
+                                <group>
+                                    <field name="model_id" groups="!base.group_no_one" invisible="context.get('default_model')" placeholder="e.g. Contact" required="1" options="{'no_create': True}"/>
+                                    <field name="model_id" groups="base.group_no_one" placeholder="e.g. Contact" required="1" options="{'no_create': True}"/>
+                                    <field name="subject" options="{'dynamic_placeholder': true}" placeholder="e.g. &quot;Welcome to MyCompany&quot; or &quot;Nice to meet you, {{ object.name }}&quot;"/>
+                                    <field name="model" invisible="1"/>
+                                </group>
+                            </group>
+                            <group string="Body" name="content" class="border rounded mb-4 i__group">
+                                <field name="can_write" invisible="1"/>
+                                <field colspan="2" name="body_html" nolabel="1" widget="html_mail" class="oe-bordered-editor" placeholder="Write your message here..." options="{'codeview': true, 'dynamic_placeholder': true, 'allowCommandVideo': false}" readonly="not can_write and id"/>
+                                <div colspan="2" invisible="not can_write" class="fst-italic text-muted">Tip: Write /field to insert dynamic content!</div>
+                            </group>
+                            <group string="Settings" name="email_configuration" class="border rounded mx-0 mb-4 i__group">
+                                <group>
+                                    <field name="email_from" placeholder="Sender's email"/>
+                                    <field name="email_to" invisible="use_default_to" placeholder="Comma-separated recipient addresses"/>
+                                    <field name="partner_to" invisible="use_default_to" placeholder="Comma-separated ids of recipient partners"/>
+                                    <field name="email_cc" invisible="use_default_to" placeholder="Comma-separated carbon copy of recipients addresses"/>
+                                    <field name="reply_to" placeholder="Capture replies in the chatter"/>
+                                    <field name="use_default_to"/>
+                                </group>
+                                <group>
+                                    <field name="lang" placeholder="Main partner's language" options="{'dynamic_placeholder': true}"/>
+                                    <field name="has_mail_server" invisible="1"/>
+                                    <field name="mail_server_id" invisible="not has_mail_server" placeholder="By order of server priority"/>
+                                    <field name="scheduled_date" string="Scheduled Send Date" placeholder="Send Instantly" options="{'dynamic_placeholder': true}"/>
+                                    <field name="auto_delete"/>
+                                </group>
+                            </group>
+                            <group string="Options" name="email_settings" class="border rounded mb-4 mx-0 i__group">
+                               <group>
+                                    <field name="has_dynamic_reports" invisible="1"/>
+                                    <field name="attachment_ids" widget="many2many_binary"/>
+                                    <field name="report_template_ids" widget="many2many_tags" domain="[('model','=',model)]" invisible="not has_dynamic_reports" options="{'no_create': True}" placeholder="None"/>
+                                </group>
+                                <group>
+                                    <field name="user_id" widget="many2one_avatar_user" readonly="not is_template_editor" invisible="not is_template_editor" placeholder="Shared with all users"/>
+                                    <field name="description" placeholder="Describe when this template should be used"/>
+                                </group>
+                            </group>
+                        </div>
+                        <sidepanel>
+                            <div class="o_inner_group border rounded mb-4 i__group" name="quick_actions">
+                                <div class="o_horizontal_separator mt-4 mb-3 text-uppercase fw-bolder small">
+                                    Quick Actions
+                                </div>
+                                <div class="action_button o-form-buttonbox list-group gap-2">
+                                    <field name="ref_ir_act_window" invisible="1"/>
+                                    <field name="template_fs" invisible="1"/>
+                                    <field name="is_template_editor" invisible="1"/>
+                                    <button string="Preview"
+                                            name="action_open_mail_preview" type="object"
+                                            class="btn-primary" target="new"/>
+                                    <button string="Reset Template"
+                                            name="%(mail_template_reset_action)d" type="action"
+                                            groups="mail.group_mail_template_editor"
+                                            invisible="not template_fs"/>
+                                    <t groups="base.group_no_one">
+                                        <button string="Add Context Action"
+                                                class="btn btn-secondary"
+                                                name="create_action" type="object"
+                                                groups="base.group_system"
+                                                invisible="ref_ir_act_window"
+                                                help="Display an option on related documents to open a composition wizard with this template"/>
+                                        <button string="Remove Context Action"
+                                                class="btn btn-secondary"
+                                                name="unlink_action" type="object"
+                                                invisible="not ref_ir_act_window"
+                                                help="Remove the contextual action to use this template on related documents"/>
+                                    </t>
+                                </div>
+                            </div>
+                        </sidepanel>
+                        <!-- <div class="oe_title">
                             <label for="name"/>
                             <h1><field name="name" class="w-100" string="Template Name"
                                 required="1" placeholder='e.g. "Welcome email"'/></h1>
@@ -97,7 +175,7 @@
                                     </group>
                                 </group>
                             </page>
-                        </notebook>
+                        </notebook> -->
                     </sheet>
                 </form>
             </field>

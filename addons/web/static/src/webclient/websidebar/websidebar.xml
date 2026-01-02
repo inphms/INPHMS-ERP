@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="web.WebSidebar">
+        <div 
+            t-ref="root" 
+            t-if="!env.isSmall" 
+            class="i_web_sidebar flex-grow-0 flex-shrink-0 h-100 pb-5 overflow-auto position-relative px-3"
+            t-att-class="{'i-sidebar-compact': state.isSidebarCompact,}">
+            <div class="d-flex pt-4 pb-2" 
+                 t-att-class="{'flex-column-reverse': state.isSidebarCompact,}">
+                <div class="cursor-pointer flex-grow-1 input-group rounded-1 i_sidebar_search_bar"
+                     t-att-class="{'justify-content-center': state.isSidebarCompact}"
+                     t-on-click.prevent="() => this.searchApp()">
+                    <span class="btn border-0 text-white"
+                          t-att-class="{'pe-0': !state.isSidebarCompact}">
+                        <i class="fa fa-fw fa-search"></i>
+                    </span>
+                    <span t-if="!state.isSidebarCompact" class="form-control border-0">Search app...</span>
+                </div>
+                <button t-on-click="toggleSidebar" class="btn btn-link text-white">
+                    <i
+                      class="fa fa-fw" 
+                      t-att-class="{
+                        'fa-chevron-left': !state.isSidebarCompact,
+                        'fa-chevron-right': state.isSidebarCompact,
+                      }"></i>
+                </button>
+            </div>
+            <t t-set="sections" t-value="currentAppSections"/>
+            <t t-foreach="sections" t-as="section" t-key="section.id">
+                <ul class="list-group d-block px-2 px-md-0">
+                    <t t-call="web.WebSidebar.Item">
+                        <t t-set="section" t-value="section"/>
+                    </t>
+                </ul>
+            </t>
+        </div>
+        <div class="h-100" t-if="!env.isSmall">
+            <span class="i_sidebar_resize"  t-on-click.stop.prevent="" t-on-pointerdown.stop.prevent="_onStartResize"></span>
+        </div>
+    </t>
+
+    <t t-name="web.WebSidebar.Item">
+        <li class="list-group-item border-0 p-0">
+            <header
+                class="list-group-item py-1 border-0"
+                t-att-class="{
+                    'list-group-item-action cursor-pointer sidebar_action': !section.childrenTree.length,
+                    'pt-4 pb-2 px-0': section.childrenTree.length,
+                    'active fw-bold': state.activeMenu === section.actionID,
+                    'justify-content-center px-0': state.isSidebarCompact and !section.childrenTree.length,
+                }"
+                t-on-click="() => this._onSectionClick(section)"
+            >
+                <div class="text-truncate" t-att-data-tooltip="section.name">
+                    <div class="d-flex align-items-center gap-2"
+                        t-att-class="{
+                            'smaller fw-semibold text-uppercase text-light': section.childrenTree.length
+                        }">
+                        <t t-if="section.submenuIcon" t-out="section.submenuIcon"/>
+                        <t t-if="!section.submenuIcon and !section.childrenTree.length and state.isSidebarCompact">
+                            <t t-set="sectionIcon" t-value="section.name[0] + section.name[1]"/>
+                            <span class="fw-bold text-uppercase" t-esc="sectionIcon"></span>
+                        </t>
+                        <span t-if="!state.isSidebarCompact" class="text-truncate" t-esc="section.name"></span>
+                    </div>
+                </div>
+            </header>
+            <ul 
+              class="list-group d-block"
+              t-att-class="{
+                'mx-n3': !state.isSidebarCompact,
+              }"
+              t-if="section.childrenTree.length">
+                <t t-foreach="section.childrenTree" t-as="sectionChild" t-key="sectionChild_index">
+                    <t t-call="web.WebSidebar.Item">
+                        <t t-set="section" t-value="sectionChild"/>
+                        <t t-set="isChildList" t-value="true"></t>
+                    </t>
+                </t>
+            </ul>
+        </li>
+        
+        <!-- <li class="list-group-item p-0 border-0"
+            t-att-class="{
+                'cursor-pointer': !section.childrenTree.length
+            }">
+            <header class="list-group-item d-flex align-items-center px-0 py-lg-1 border-0"
+                t-att-class="{
+                    'list-group-item-action': !section.childrenTree.length,
+                }"
+            >
+                <div class="d-flex align-items-center overflow-hidden w-100 cursor-pointer mb-0"
+                     t-att-data-tooltip="section.name">
+                    <div class="d-flex align-items-center gap-2">
+                    this is
+                        <i t-if="sideItem.submenuIcon" class="fa-fw" t-att-class="value.submenuIcon"></i>
+                        <t t-if="section.submenuIcon" t-out="section.submenuIcon"/>
+                        <span class="text-truncate" t-esc="section.name"></span>
+                    </div>
+                </div>
+            </header>
+            <ul t-if="section.childrenTree.length"
+                class="list-group d-block">
+                <t t-foreach="section.childrenTree" t-as="sectionChild" t-key="sectionChild_index">
+                    <t t-call="web.DashboardSidebar.Item">
+                        <t t-set="section" t-value="sectionChild"/>
+                        <t t-set="isChildList" t-value="true"></t>
+                    </t>
+                </t>
+            </ul>
+        </li> -->
+    </t>
+
+</templates>

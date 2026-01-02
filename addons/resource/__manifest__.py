@@ -1,6 +1,10 @@
 
 {
     'name': 'Resource',
+    'summary': """
+Extension module, resource represent something that can be scheduled. 
+This module manages calender that associates with every resource.
+    """,
     'version': '1.1',
     'category': 'Hidden',
     'description': """

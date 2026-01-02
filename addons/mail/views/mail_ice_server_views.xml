@@ -29,13 +29,17 @@
         <field name="arch" type="xml">
             <form string="ICE Server Configuration">
                 <sheet>
-                    <group>
-                        <field name="server_type" class="oe_inline"/>
-                        <field name="uri" placeholder="stun:stun.google.com:19302 or turn:turn.example.com:3478"/>
-                    </group>
-                    <group string="Authentication">
-                        <field name="username"/>
-                        <field name="credential"/>
+                    <group string="Definition" class="mb-4 rounded border mx-0 i__group">
+                        <group>
+                            <field name="server_type" class=""/>
+                            <field name="uri" placeholder="stun:stun.google.com:19302 or turn:turn.example.com:3478"/>
+                        </group>
+                        <group colspan="2" class="mt-3 px-0 mx-0" string="Authentication">
+                            <group>
+                                <field name="username"/>
+                                <field name="credential"/>
+                            </group>
+                        </group>
                     </group>
                 </sheet>
             </form>

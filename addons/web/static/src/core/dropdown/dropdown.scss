@@ -72,15 +72,18 @@
     margin-top: var(--Dropdown_menu-margin-y, #{map-get($spacers, 1)});
     margin-bottom: var(--Dropdown_menu-margin-y, #{map-get($spacers, 1)});
 
-    --additional-box-shadow: 0 0 0 0 white;
-    user-select: none;
-    background-color: hsla(#{$i-system-color-light-hsl}, .3);
-    backdrop-filter: blur(25px);
-    width: max-content;
-    min-width: 16rem;
-    box-shadow: #0000004d 0px 0px 11px 0px, var(--additional-box-shadow);
-    border-radius: $border-radius;
-    padding: #{map-get($spacers, 2)};
+    &:not(.o_bottom_sheet_body) {
+        --additional-box-shadow: #{$i-bubble-box-shadow};
+        user-select: none;
+        background-color: hsla(#{$i-system-color-light-hsl}, .3);
+        backdrop-filter: blur(25px);
+        width: max-content;
+        min-width: 16rem;
+        box-shadow: #0000004d 0px 0px 11px 0px, var(--additional-box-shadow);
+        border-radius: $border-radius;
+        padding: #{map-get($spacers, 2)};
+    }
+    
 
     .dropdown-toggle:focus,
     .dropdown-item:focus {

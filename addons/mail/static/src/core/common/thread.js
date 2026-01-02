@@ -516,7 +516,8 @@ export class Thread extends Component {
 
     getMessageClassName(message) {
         return !message.isNotification && this.messageHighlight?.highlightedMessageId === message.id
-            ? "o-highlighted bg-view shadow-lg pb-1"
+            // ? "o-highlighted bg-view shadow-lg pb-1"
+            ? "bg-secondary overflow-hidden"
             : "";
     }
 

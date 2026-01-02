@@ -22,7 +22,7 @@
             <field name="arch" type="xml">
                 <form string="Followers Form">
                     <sheet>
-                        <group>
+                        <group string="Definition" class="border rounded mb-4 mx-0 i__group">
                             <group>
                                 <field name="res_model"/>
                                 <field name="partner_id"/>

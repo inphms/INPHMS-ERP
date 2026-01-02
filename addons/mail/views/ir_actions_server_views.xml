@@ -10,9 +10,9 @@
                 <xpath expr="//form" position="inside">
                     <chatter/>
                 </xpath>
-                <xpath expr="//t[@name='action_content']//notebook" position="before">
+                <xpath expr="//group[@name='action_content']//notebook" position="before">
                     <!-- Create next activity -->
-                    <group invisible="state != 'next_activity'">
+                    <group colspan="2" invisible="state != 'next_activity'">
                         <group>
                             <field name="activity_type_id" options="{'no_create': True, 'no_open': True}"
                                 required="state == 'next_activity'"/>
@@ -37,7 +37,7 @@
                         </group>
                     </group>
                     <!-- Add/Remove Followers -->
-                    <group invisible="state not in ['followers', 'remove_followers']">
+                    <group colspan="2" invisible="state not in ['followers', 'remove_followers']">
                         <group>
                             <field name="followers_type"
                                 required="state in ['followers', 'remove_followers']"/>
@@ -56,7 +56,7 @@
                         </group>
                     </group>
                     <!-- Send Email -->
-                    <group invisible="state != 'mail_post'">
+                    <group colspan="2" invisible="state != 'mail_post'">
                         <group>
                             <field name="template_id"
                                 placeholder="Choose a template..."

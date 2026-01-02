@@ -189,9 +189,9 @@ $btn-border-radius-lg: $border-radius !default;
 
 $btn-transition: none !default;
 
-$btn-box-shadow: 0 !default;
-$btn-active-box-shadow: 0 !default;
-$btn-focus-box-shadow: 0 !default;
+$btn-box-shadow: $i-bubble-box-shadow !default;
+$btn-active-box-shadow: $i-bubble-box-shadow !default;
+$btn-focus-box-shadow: $i-bubble-box-shadow !default;
 
 // Dropdowns
 //

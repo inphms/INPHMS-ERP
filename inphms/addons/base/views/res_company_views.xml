@@ -15,12 +15,67 @@
                                 icon="fa-sitemap order-first"
                                 string="Branches"/>
                     </div>
-                    <div class="oe_title" invisible="not name">
-                        <h1>
-                            <field name="name" readonly="1"></field>
-                        </h1>
+                    <!-- Content -->
+                    <div>
+                        <group invisible="not name" class="border rounded mb-4 i__group">
+                            <div>
+                                <field name="logo" widget="contact_image" class="w-auto oe_avatar text-start float-none" nolabel="1" options="{'size': [100,100], 'img_class': 'rounded-4'}"/>
+                            </div>
+                            <div>
+                                <h2 class="mb-0">
+                                    <field name="name" readonly="1"/>
+                                </h2>
+                                <div class="smaller">
+                                    <field name="partner_id" string="Contact" readonly="1" required="0" groups="base.group_no_one"/>
+                                </div>
+                            </div>
+                        </group>
+                        <group string="Company Information" class="border rounded mx-0 mb-4 i__group">
+                            <group>
+                                <field id="company_name" name="name" placeholder="e.g. My Company"/>
+                                <field name="email"/>
+                            </group>
+                            <group>
+                                <field name="phone" class="o_force_ltr"/>
+                                <field name="website" string="Website" widget="url" placeholder="e.g. https://www.inphms.com"/>
+                            </group>
+                            <group class="col-lg-12 mx-0 px-0 mt-3">
+                                <group>
+                                    <field name="vat"/>
+                                    <field name="company_registry_placeholder" invisible="1"/> <!-- Needed for the placeholder widget -->
+                                    <field name="company_registry" options="{'placeholder_field': 'company_registry_placeholder'}"/>
+                                    <field name="currency_id" options="{'no_create': True, 'no_open': True}" id="company_currency" context="{'active_test': False}"/>
+                                    <field name="parent_id" groups="base.group_no_one"/>
+                                    <field name="color" widget="color_picker"/>
+                                </group>
+                                <group>
+                                    <label for="street" string="Address"/>
+                                    <div class="o_address_format">
+                                        <field name="street" placeholder="Street..." class="o_address_street"/>
+                                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                        <field name="city" placeholder="City" class="o_address_city"/>
+                                        <field name="state_id" class="o_address_state" placeholder="State" options="{&quot;no_open&quot;: True}"/>
+                                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                        <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                    </div>
+                                </group>
+                            </group>
+                            <group name="social_media"/>
+                        </group>
+                        <group string="Branches" class="border rounded mx-0 i__group">
+                            <group class="col-lg-12 mx-0 px-0">
+                                <field name="child_ids" nolabel="1" context="{'default_parent_id': id}"/>
+                            </group>
+                        </group>
                     </div>
-                    <notebook colspan="4">
+                    <sidepanel>
+                        <group string="Status" invisible="not name" class="border rounded mb-4 i__group">
+                            <field name="create_date" widget="date" options="{'show_time': false}" readonly="1" class="fw-bold"/>
+                            <field name="write_date" readonly="1" class="fw-bold"/>
+                        </group>
+                    </sidepanel>
+
+                    <!-- <notebook colspan="4">
                         <page string="General Information" name="general_info">
                             <group>
                                 <div class="w-100">
@@ -57,7 +112,7 @@
                         <page string="Additional Information" name="additional_info">
                             <group>
                                 <field name="vat"/>
-                                <field name="company_registry_placeholder" invisible="1"/> <!-- Needed for the placeholder widget -->
+                                <field name="company_registry_placeholder" invisible="1"/> Needed for the placeholder widget 
                                 <field name="company_registry" options="{'placeholder_field': 'company_registry_placeholder'}"/>
                                 <field name="currency_id" options="{'no_create': True, 'no_open': True}" id="company_currency" context="{'active_test': False}"/>
                             </group>
@@ -65,7 +120,7 @@
                         <page string="Branches" name="branches">
                             <field name="child_ids" nolabel="1" context="{'default_parent_id': id}"/>
                         </page>
-                    </notebook>
+                    </notebook> -->
                     </sheet>
                 </form>
             </field>
@@ -139,5 +194,9 @@
         </record>
         <menuitem action="action_res_company_form" id="menu_action_res_company_form" parent="base.menu_users"
                   submenu_icon="base,static/description/menu_icons/companies.svg"/>
+        <!-- add to menu people -->
+        <menuitem action="action_res_company_form" id="menu_people_action_res_company_form"
+                parent="base.menu_people_people_views" sequence="20"
+                submenu_icon="base,static/description/menu_icons/companies.svg"/>
     </data>
 </inphms>

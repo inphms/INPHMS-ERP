@@ -31,6 +31,7 @@ export function computeAppsAndMenuItems(menuTree) {
                 .map((p) => p.name)
                 .join(" / "),
             label: menuItem.name,
+            description: menuItem.description, // add description into menuitem
             id: menuItem.id,
             xmlid: menuItem.xmlid,
             actionID: menuItem.actionID,
@@ -48,9 +49,6 @@ export function computeAppsAndMenuItems(menuTree) {
                 } else {
                     item.webIconData = "/web/static/img/default_icon_app.png";
                 }
-            }
-            if (menuItem.webIconDataWhite) {
-                item.webIconDataWhite = menuItem.webIconDataWhite;
             }
         } else {
             item.menuID = parents[1].id;

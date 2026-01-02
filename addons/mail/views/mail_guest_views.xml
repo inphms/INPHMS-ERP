@@ -22,7 +22,7 @@
         <field name="arch" type="xml">
             <form string="Guest">
                 <sheet>
-                    <group>
+                    <group string="Definition" class="mb-4 mx-0 border rounded i__group">
                         <group>
                             <field name="name"/>
                             <field name="country_id"/>

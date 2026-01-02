@@ -17,6 +17,15 @@
     }
 }
 
+%i-btn-close-wrapper {
+    padding: map-get($spacers, 1);
+    margin-right: 0;
+    transition: $i-action-transition;
+    position: relative;
+    background: unset;
+    @include i-dialog-button-wrapper($btn-close-bg, var(--btnClose-bg, #{$danger}));
+}
+
 .modal.o_technical_modal {
     .modal-content {
         .modal-header {
@@ -28,12 +37,7 @@
                 font-size: 14px;
             }
             .i_btn_close_wrapper .btn-close {
-                padding: map-get($spacers, 1);
-                margin-right: 0;
-                transition: $i-action-transition;
-                position: relative;
-                background: unset;
-                @include i-dialog-button-wrapper($btn-close-bg, $danger)
+                @extend %i-btn-close-wrapper;
             }
             .i_btn_expand_wrapper {
                 margin-right: map-get($spacers, 1);
@@ -52,7 +56,7 @@
 
     .modal-footer {
         text-align: left;
-        padding: map-get($spacers, 2);
+        // padding: map-get($spacers, 2);
 
         button {
             margin: 0; // Reset boostrap.

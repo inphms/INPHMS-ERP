@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <form string="Cron Trigger">
                 <sheet>
-                    <group>
+                    <group string="Definition" class="i__group border rounded mb-4">
                         <field name="cron_id"/>
                         <field name="call_at"/>
                     </group>
@@ -43,9 +43,9 @@
         <field name="view_mode">list,form</field>
     </record>
 
-    <menuitem id="ir_cron_trigger_menu"
+    <!-- <menuitem id="ir_cron_trigger_menu"
         action="ir_cron_trigger_action"
         parent="base.menu_automation"
-        sequence="3"/>
+        sequence="3"/> -->
 
 </inphms>

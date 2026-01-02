@@ -93,6 +93,8 @@
                 </form>
             </field>
         </record>
+        
+        <!-- New Form -->
         <record id="view_users_form" model="ir.ui.view">
             <field name="name">res.users.form</field>
             <field name="model">res.users</field>
@@ -101,7 +103,7 @@
                     <header>
                     </header>
                     <sheet>
-                        <div class="oe_button_box" name="button_box">
+                        <!-- <div class="oe_button_box" name="button_box">
                             <button name="action_show_groups" type="object" groups="base.group_no_one" class="oe_stat_button" icon="fa-users order-first" help="Groups that apply to the current user">
                                 <field string="Groups" name="groups_count" widget="statinfo"/>
                             </button>
@@ -111,7 +113,7 @@
                             <button name="action_show_rules" type="object" groups="base.group_no_one" class="oe_stat_button" icon="fa-lock order-first">
                                 <field string="Record Rules" name="rules_count" widget="statinfo"/>
                             </button>
-                        </div>
+                        </div> -->
                         <widget name="web_ribbon" title="External user" bg_color="text-bg-warning" invisible="not share"/>
                         <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
                         <div class="alert alert-info text-center o_form_header"
@@ -125,16 +127,151 @@
                             <field name="partner_id" required="0" readonly="1"/>
                           </div>
                         </div>
-                        <div class="oe_title" invisible="not name">
-                            <h1>
-                                <field name="name" readonly="1"></field>
-                            </h1>
+                        <!-- Content -->
+                        <div>
+                            <group invisible="not name" class="border rounded mb-4 i__group">
+                                <div>
+                                    <field name="image_1920" widget="contact_image" options="{'preview_image': 'avatar_128', 'img_class': 'rounded-pill'}"/>
+                                    <field name="avatar_128" invisible="1"/> <!-- Needed in contact_image widget -->
+                                </div>
+                                <div>
+                                    <h2 class="mb-0">
+                                        <field name="name" readonly="1"></field>
+                                    </h2>
+                                    <div class="smaller">
+                                        <field name="partner_id" groups="base.group_no_one"
+                                            readonly="1"
+                                            required="0"
+                                            invisible="not id"/>
+                                        <field name="role" readonly="1" widget="badge"
+                                            decoration-info="role == 'group_user'"
+                                            decoration-warning="role == 'group_system'"></field>
+                                    </div>
+                                </div>
+                            </group>
+                            <group string="User Information" class="border rounded mx-0 mb-4 i__group">
+                                <group>
+                                    <field name="name" placeholder="e.g. John Doe" required="1"/>
+                                    <field name="login" placeholder="Login" class=""/>
+                                </group>
+                                <group>
+                                    <field name="email" placeholder="Email" class="" invisible="login == email"/>
+                                    <field name="phone" placeholder="Phone" class=""/>
+                                </group>
+                            </group>
+                            <group string="Preferences" class="border rounded mx-0 mb-4 i__group">
+                                <group>
+                                    <label for="lang" />
+                                    <div class="o_row">
+                                        <field name="lang" required="1"/>
+                                        <button
+                                            type="action"
+                                            name="%(base.action_view_base_language_install)d"
+                                            class="oe_edit_only btn-sm btn-link mb4 fa fa-globe"
+                                            groups="base.group_system"
+                                            aria-label="Add a language"
+                                            title="Add a language"/>
+                                    </div>
+                                    <field name="signature" options="{'codeview': true, 'height': 112, 'resizable': true}" class="border border-secondary"/>
+                                </group>
+                                <!-- This group is meant to be used in overrides -->
+                                <group name="other_preferences">
+                                    
+                                </group>
+                                <group name="calendar" string="Calendar" class="mx-0 px-0" colspan="2">
+                                    <group name="calendar_preferences">
+                                        <field name="tz" widget="timezone_mismatch" options="{'tz_offset_field': 'tz_offset'}" readonly="0" invisible="share"/>
+                                        <field name="tz_offset" invisible="1"/> <!-- needed for the timezone_mismatch widget -->
+                                    </group>
+                                    <group name="other_calendar_preferences"/>
+                                </group>
+                            </group>
+                            <group string="Security &amp; Auth" class="border rounded mx-0 mb-4 i__group">
+                                <group class="col-lg-12">
+                                    <div name="auth" class="d-flex">
+                                        <div class="col-7 col-sm-6 col-lg-3 d-flex flex-column">
+                                            <span class="o_form_label mb-0 text-dark">
+                                                Change Password
+                                            </span>
+                                            <span class="smaller text-muted">
+                                                Update if compromised.
+                                            </span>
+                                        </div>
+                                        <button invisible="id != uid" name="preference_change_password" type="object"
+                                            string="Change password" class="btn btn-secondary h-100 my-auto"/>
+                                        <button invisible="id == uid" name="action_change_password_wizard" type="object"
+                                            string="Change password" class="btn btn-secondary h-100 my-auto"/>
+                                    </div>
+                                    <div name="api_keys" invisible="id != uid" class="d-md-flex mt-3">
+                                        <div class="col-md-6 col-lg-3 d-flex flex-column">
+                                            <label for="api_key_wizard" string="API Keys" class="o_form_label mb-0 text-dark"/>
+                                            <span class="smaller text-muted">
+                                                Connect external services.
+                                            </span>
+                                        </div>
+                                        <div class="w-md-50 w-lg-75 d-flex flex-column my-auto">
+                                            <field name="api_key_ids" mode="kanban" invisible="not api_key_ids" class="w-sm-75 w-md-100 w-lg-75 w-xl-50 o_base_api_keys_kanban_view"/>
+                                            <div>
+                                                <button name="api_key_wizard" string="Add API Key" type="object" class="btn btn-secondary h-100"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div invisible="id != uid" class="d-md-flex">
+                                        <div class="w-md-50 w-lg-25  d-flex flex-column">
+                                            <label for="action_revoke_all_devices" string="Devices" class="o_form_label mb-0 text-dark"/>
+                                            <span class="smaller text-muted">
+                                                Check if they are yours.
+                                            </span>
+                                        </div>
+                                        <div class="w-md-50 w-lg-75 d-flex flex-column my-auto">
+                                            <field name="device_ids" mode="kanban" class="w-sm-75 w-md-100 w-lg-75 o_base_devices_kanban_view"/>
+                                            <div style="margin-top:5px;">
+                                                <button name="action_revoke_all_devices" type="object" string="Log out from all devices" class="btn btn-secondary h-100"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </group>
+                            </group>
+                            <group string="Access &amp; Privilege" class="border rounded mx-0 mb-4 i__group">
+                                <group invisible="share and companies_count &lt;= 1">
+                                    <field name="role" invisible="share"/>
+                                    <field string="Default Company" name="company_id" invisible="companies_count &lt;= 1" context="{'user_preference': 0}"/>
+                                </group>
+                                <group>
+                                    <field string="Companies" name="company_ids" invisible="companies_count &lt;= 1" widget="many2many_tags" options="{'no_create': True, 'color_field': 'color'}"/>
+                                </group>
+                                <field name="group_ids" class="mx-0 px-0" widget="res_user_group_ids" nolabel="1" colspan="2" groups="base.group_no_one"/>
+                                <field name="group_ids" class="mx-0 px-0" widget="res_user_group_ids" nolabel="1" colspan="2" groups="!base.group_no_one" invisible="share"/>
+                            </group>
                         </div>
-                        <notebook colspan="4">
+                        <sidepanel>
+                            <group string="Status" invisible="not name" class="border rounded mb-4 i__group">
+                                <field name="company_type" string="Record Type" readonly="1" class="fw-bold"/>
+                                <field name="create_date" widget="date" options="{'show_time': false}" readonly="1" class="fw-bold"/>
+                                <field name="write_date" readonly="1" class="fw-bold"/>
+                            </group>
+                            <div class="o_inner_group border rounded mb-4 i__group" name="quick_actions">
+                                <div class="o_horizontal_separator mt-4 mb-3 text-uppercase fw-bolder small">
+                                    Quick Actions
+                                </div>
+                                <div name="button_box_action" class="action_button o-form-buttonbox list-group gap-2">
+                                    <button name="action_show_groups" type="object" groups="base.group_no_one" class="oe_stat_button btn-outline-secondary rounded" icon="fa-users order-first" help="Groups that apply to the current user">
+                                        <field string="Groups" name="groups_count" widget="statinfo"/>
+                                    </button>
+                                    <button name="action_show_accesses" type="object" groups="base.group_no_one" class="oe_stat_button btn-outline-secondary rounded" icon="fa-lock order-first">
+                                        <field string="Access Rights" name="accesses_count" widget="statinfo"/>
+                                    </button>
+                                    <button name="action_show_rules" type="object" groups="base.group_no_one" class="oe_stat_button btn-outline-secondary rounded" icon="fa-lock order-first">
+                                        <field string="Record Rules" name="rules_count" widget="statinfo"/>
+                                    </button>
+                                </div>
+                            </div>
+                        </sidepanel>
+                        <!-- <notebook colspan="4">
                             <page name="general_information" string="General Information">
                                 <div class="d-flex flex-wrap gap-3">
                                     <field name="image_1920" widget="contact_image" options="{'preview_image': 'avatar_128', 'img_class': 'rounded-4'}"/>
-                                    <field name="avatar_128" invisible="1"/> <!-- Needed in contact_image widget -->
+                                    <field name="avatar_128" invisible="1"/> Needed in contact_image widget
                                     <div class="oe_title d-flex flex-column gap-2 flex-grow-1">
                                         <div class="i_form_group w-md-50">
                                             <div class="small"><span class="fw-bold">Display Name</span></div>
@@ -196,7 +333,7 @@
                                         </div>
                                         <field name="signature" options="{'codeview': true, 'height': 112, 'resizable': true}" class="border border-secondary"/>
                                     </group>
-                                    <!-- This group is meant to be used in overrides -->
+                                    This group is meant to be used in overrides
                                     <group name="other_preferences">
                                         
                                     </group>
@@ -206,9 +343,9 @@
                                 <group>
                                     <group name="calendar_preferences">
                                         <field name="tz" widget="timezone_mismatch" options="{'tz_offset_field': 'tz_offset'}" readonly="0" invisible="share"/>
-                                        <field name="tz_offset" invisible="1"/> <!-- needed for the timezone_mismatch widget -->
+                                        <field name="tz_offset" invisible="1"/> needed for the timezone_mismatch widget
                                     </group>
-                                    <!-- This group is meant to be used in overrides -->
+                                    This group is meant to be used in overrides
                                     <group name="other_calendar_preferences"/>
                                 </group>
                             </page>
@@ -256,7 +393,7 @@
                                     </div>
                                 </div>
                             </page>
-                        </notebook>
+                        </notebook> -->
                     </sheet>
                 </form>
             </field>
@@ -356,6 +493,11 @@
         <menuitem action="action_res_users" id="menu_action_res_users"
                   parent="base.menu_users" sequence="0"
                   submenu_icon="base,static/description/menu_icons/users.svg"/>
+        <!-- add to menu people -->
+        <menuitem action="action_res_users" id="menu_people_action_res_users"
+                parent="base.menu_people_people_views" sequence="10"
+                submenu_icon="base,static/description/menu_icons/users.svg"/>
+
 
         <record id="action_res_users_keys_description" model="ir.actions.act_window">
             <field name="name">API Key: description input wizard</field>
@@ -438,10 +580,108 @@
                 <form string="Users" edit="1">
                     <sheet>
                         <widget name="notification_alert"/>
-                        <div class="d-flex align-items-center flex-wrap gap-2">
+                        <group class="i_group">
+                            <div class="p-4 d-flex flex-column gap-3 text-center">
+                                <field name="image_1920" widget="contact_image" options="{'preview_image': 'avatar_128', 'img_class':'rounded-pill'}"/>
+                                <field name="avatar_128" invisible="1"/> <!-- Needed in contact_image widget -->
+                                <div>
+                                    <field name="name" class="fw-bold" readonly="1"/>
+                                    <div class="badge text-muted" invisible="share">Internal Users</div>
+                                    <div class="badge text-muted" invisible="not share">Portal Users</div>
+                                </div>
+                            </div>
+                            <notebook>
+                                <page string="Preferences" name="preferences_page">
+                                    <group>
+                                        <group>
+                                            
+                                            <field name="name"/>
+                                            <label for="email"/>
+                                            <div name="h5_email">
+                                                <field name="email" placeholder="Email" class=""/>
+                                            </div>
+                                            <label for="phone"/>
+                                            <div name="h5_phone">
+                                                <field name="phone" placeholder="Phone" class=""/>
+                                            </div>
+                                            
+                                            <label for="lang"/>
+                                            <div class="o_row">
+                                                <field name="lang" required="1" readonly="0"/>
+                                                <button
+                                                    type="action"
+                                                    name="%(base.action_view_base_language_install)d"
+                                                    class="oe_edit_only btn-sm btn-link mb4 fa fa-globe"
+                                                    aria-label="Add a language"
+                                                    groups="base.group_system"
+                                                    title="Add a language"
+                                                />
+                                            </div>
+                                            <field name="signature" readonly="0" options="{'codeview': true, 'height': 112, 'resizable': true}" class="border border-secondary"/>
+                                        </group>
+                                        <!-- This group is meant to be used in overrides -->
+                                        <group name="other_preferences">
+                                            
+                                        </group>
+                                    </group>
+                                </page>
+                                <page name="calendar" string="Calendar">
+                                    <group>
+                                        <group name="calendar_preferences">
+                                            <field name="tz" widget="timezone_mismatch" options="{'tz_offset_field': 'tz_offset'}" readonly="0"/>
+                                            <field name="tz_offset" invisible="1"/> <!-- needed for the timezone_mismatch widget -->
+                                        </group>
+                                        <!-- This group is meant to be used in overrides -->
+                                        <group name="other_calendar_preferences"/>
+                                    </group>
+                                </page>
+                                <page string="Security" name="page_security">
+                                    <div name="auth" class="d-flex">
+                                        <div class="col-7 col-sm-6 col-lg-3 d-flex flex-column">
+                                            <span class="o_form_label">
+                                                Change Password
+                                            </span>
+                                            <span class="text-muted">
+                                                Update if compromised.
+                                            </span>
+                                        </div>
+                                        <button name="preference_change_password" type="object" string="Change password" class="btn btn-secondary h-100 my-auto"/>
+                                    </div>
+                                    <div name="api_keys" class="d-lg-flex mt-3">
+                                        <div class="col-lg-3 d-flex flex-column">
+                                            <label for="api_key_wizard" string="API Keys" class="o_form_label"/>
+                                            <span class="text-muted">
+                                                Connect external services.
+                                            </span>
+                                        </div>
+                                        <div class="w-lg-75 d-flex flex-column my-auto">
+                                            <field name="api_key_ids" mode="kanban" invisible="not api_key_ids" class="w-lg-75 o_base_api_keys_kanban_view"/>
+                                            <div>
+                                                <button name="api_key_wizard" string="Add API Key" type="object" class="btn btn-secondary h-100"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-lg-flex mt-3">
+                                        <div class="col-lg-3 d-flex flex-column">
+                                            <label for="action_revoke_all_devices" string="Devices" class="o_form_label"/>
+                                            <span class="text-muted">
+                                                Check if they are yours.
+                                            </span>
+                                        </div>
+                                        <div class="w-lg-75 d-flex flex-column my-auto">
+                                            <field name="device_ids" mode="kanban" class="w-lg-75 o_base_devices_kanban_view"/>
+                                            <div>
+                                                <button name="action_revoke_all_devices" type="object" string="Log out from all devices" class="btn btn-secondary h-100"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </page>
+                            </notebook>
+                        </group>
+                        <!-- <div class="d-flex align-items-center flex-wrap gap-2">
                             <div>
                                 <field name="image_1920" widget="contact_image" options="{'preview_image': 'avatar_128'}"/>
-                                <field name="avatar_128" invisible="1"/> <!-- Needed in contact_image widget -->
+                                <field name="avatar_128" invisible="1"/> Needed in contact_image widget
                             </div>
                             <div class="oe_title flex-fill d-flex flex-column gap-2">
                                 <div class="i_form_group w-md-50">
@@ -482,7 +722,7 @@
                                         </div>
                                         <field name="signature" readonly="0" options="{'codeview': true, 'height': 112, 'resizable': true}" class="border border-secondary" />
                                     </group>
-                                    <!-- This group is meant to be used in overrides -->
+                                    This group is meant to be used in overrides
                                     <group name="other_preferences">
                                         
                                     </group>
@@ -492,9 +732,9 @@
                                 <group>
                                     <group name="calendar_preferences">
                                         <field name="tz" widget="timezone_mismatch" options="{'tz_offset_field': 'tz_offset'}" readonly="0"/>
-                                        <field name="tz_offset" invisible="1"/> <!-- needed for the timezone_mismatch widget -->
+                                        <field name="tz_offset" invisible="1"/> needed for the timezone_mismatch widget
                                     </group>
-                                    <!-- This group is meant to be used in overrides -->
+                                    This group is meant to be used in overrides
                                     <group name="other_calendar_preferences"/>
                                 </group>
                             </page>
@@ -540,10 +780,13 @@
                                     </div>
                                 </div>
                             </page>
-                        </notebook>
+                        </notebook> -->
                         <footer>
-                            <button name="preference_save" type="object" string="Update Preferences" class="btn-primary" data-hotkey="q"/>
+                            <div class="smaller text-muted smaller text-muted me-md-auto w-sm-100 w-md-auto text-sm-center">
+                                Changes apply immediately to your account
+                            </div>
                             <button name="preference_cancel" string="Discard" special="cancel" data-hotkey="x" class="btn-secondary"/>
+                            <button name="preference_save" type="object" string="Update Preferences" class="btn-primary" data-hotkey="q"/>
                         </footer>
                     </sheet>
                 </form>

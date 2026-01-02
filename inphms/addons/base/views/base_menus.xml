@@ -6,28 +6,40 @@
         id="menu_administration"
         web_icon="base,static/description/settings.png"
         sequence="550"
+        description="System configuration and platform controls"
         groups="base.group_erp_manager">
         <menuitem id="menu_administration_shortcut" name="Custom Shortcuts" sequence="50"/>
+
+        <menuitem id="menu_system_overview" name="Overview" sequence="0">
+            <menuitem id="menu_config" name="System Setup" sequence='3'/>
+        </menuitem>
+
         <!-- FYI The group no_one on 'User & Companies' and 'Translations' is a FP/APR request -->
-        <menuitem id="menu_users" name="Data Master" sequence="330"/>
+        <menuitem id="menu_users" name="Data Master" sequence="1"/>
         <!-- <menuitem id="menu_translation" name="Language Settings" sequence="2" groups="base.group_no_one">
             <menuitem id="menu_translation_app" name="Application Terms" sequence="4" groups="base.group_no_one"/>
             <menuitem id="menu_translation_export" name="Import / Export" sequence="3" groups="base.group_no_one"/>
         </menuitem> -->
 
-        <menuitem id="menu_config" name="System Setup" sequence='3'/>
-
-        <menuitem id="menu_custom" name="Developer Tools" sequence="110" groups="base.group_no_one">
-            <menuitem id="next_id_2" name="User Interface"/>
-            <menuitem id="menu_email" name="Email" sequence="1"/>
-            <menuitem id="next_id_9" name="Database Structure"/>
-            <menuitem id="menu_automation" name="Automation"/>
-            <menuitem id="menu_security" name="Security" sequence="25"/>
-            <menuitem id="menu_ir_property" name="Parameters" sequence="24"/>
-        </menuitem>
+        <!-- <menuitem id="menu_custom" name="Developer Tools" sequence="110" groups="base.group_no_one"> -->
+            <!-- <menuitem id="next_id_2" name="User Interface" groups="base.group_no_one"/> -->
+            <!-- <menuitem id="menu_email" name="Email" sequence="1" groups="base.group_no_one"/> -->
+            <!-- <menuitem id="next_id_9" name="Database Structure" groups="base.group_no_one"/> -->
+            <!-- <menuitem id="menu_automation" name="Automation" groups="base.group_no_one"/> -->
+            <!-- <menuitem id="menu_security" name="Security" sequence="25" groups="base.group_no_one"/> -->
+            <!-- <menuitem id="menu_ir_property" name="Parameters" sequence="24" groups="base.group_no_one"/> -->
+        <!-- </menuitem> -->
     </menuitem>
 
-    <menuitem id="menu_management" name="Apps" sequence="500" web_icon="base,static/description/modules.png" groups="base.group_system"/>
+    <menuitem
+        id="menu_management"
+        name="Apps"
+        description="Manage system capabilities and installed modules"
+        sequence="500"
+        web_icon="base,static/description/modules.png" groups="base.group_system"
+    >
+        <menuitem id="menu_management_overview" name="Overview" sequence="0"/>
+    </menuitem>
     <menuitem id="base.menu_tests" name="Tests" sequence="1000" web_icon="base,static/description/exception.png"/>
 
     <record model="ir.ui.menu" id="base.menu_administration">
@@ -51,14 +63,30 @@
         <field name="url">/web</field>
     </record>
 
-    <menuitem id="sidebar_root" name="Home" sequence="10" web_icon="base,static/description/settings.png">
-        <!-- <menuitem id="data_master" name="Data Master"/> -->
-        
-    </menuitem>
+    <!-- <menuitem id="sidebar_root" name="Home" sequence="10" web_icon="base,static/description/settings.png"/> -->
 
-    <!-- Need to be define manually, cannot be combined in nested menuitems -->
-    <record id="menu_users" model="ir.ui.menu">
-        <field name="submenu_icon">base,static/description/menu_icons/folder.svg</field>
+
+    <!-- People -->
+    <record id="ir_action_people_views" model="ir.actions.client">
+        <field name="name">People</field>
+        <field name="path">people</field>
+        <field name="tag">action_people_dashboard</field>
     </record>
+    <!-- TODO: add group -->
+    <menuitem 
+        id="menu_people_root" 
+        name="Contacts"
+        sequence="10"
+        action="ir_action_people_views"
+        web_icon="base,static/description/people.png"
+        description="Users, Access, and People Management"
+        groups="base.group_erp_manager"
+    >
+        <menuitem id="menu_people_overview" name="Overview" sequence="0">
+            <menuitem id="menu_people_dashboard" name="Dashboard" sequence="0" action="ir_action_people_views" submenu_icon="base,static/description/menu_icons/home.svg"/>
+        </menuitem>
+        <menuitem id="menu_people_people_views" name="Directory" sequence="10"/>
+        <menuitem id="menu_people_administrator" name="Administrations" sequence="100"/>
+    </menuitem>
     
 </inphms>

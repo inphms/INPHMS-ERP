@@ -9,6 +9,7 @@ export class KioskBarcodeScanner extends BarcodeScanner {
         token: String,
         kioskMode: String,
         fromTrialMode: Boolean,
+        switchSmallManual: Function,
     };
     static template = "hr_attendance.BarcodeScanner";
     setup() {

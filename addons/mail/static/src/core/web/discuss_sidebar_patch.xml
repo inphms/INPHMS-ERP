@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-inherit="mail.DiscussSidebar" t-inherit-mode="extension">
+        <xpath expr="//h1[hasclass('i-mail-DiscussSidebar-Title')]" position="after">
+            <div class="" t-if="!store.discuss.isSidebarCompact">
+                <button
+                    class="btn i-mail-DiscussSidebar-headerButton"
+                    t-att-class="{
+                        'active': mailboxHeader?.eq(store.discuss.thread),
+                    }"
+                    t-att-data-mailbox-id="mailboxHeader?.id"
+                    t-att-data-tooltip="mailboxHeader?.display_name"
+                    t-on-click="(ev) => this.openThreadHeader(ev)"
+                >
+                    <i class="fa fa-fw fa-lg fa-star-o"/>
+                        <t t-if="mailboxHeader?.counter > 0" t-call="mail.discuss_badge">
+                        <t t-set="counter" t-value="mailboxHeader?.counter"/>
+                        <t t-set="badgeClass" t-value="'o-mail-DiscussSidebar-badge position-absolute o-compact'"/>
+                        <t t-set="counterClass" t-value="(mailboxHeader?.id === 'starred' ? 'o-muted' : '')"/>
+                        <t t-set="floating" t-value="1"/>
+                    </t>
+                </button>
+            </div>
+        </xpath>
+    </t>
+
+</templates>

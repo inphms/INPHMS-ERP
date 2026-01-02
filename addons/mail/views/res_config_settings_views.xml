@@ -12,61 +12,9 @@
                 </div>
                 <app name="general_settings" position="after">
                     <app data-string="Talks" string="Talks" logo="/mail/static/description/icon.png" name="talks_settings">
-                        <block title="Emails" id="emails">
-                            <setting id="email_servers_setting" title="Using your own email server is required to send/receive emails in Community and Enterprise versions. Online users already benefit from a ready-to-use email server (@mycompany.inphms.com)."
-                                     documentation="/applications/general/email_communication/email_servers.html" help="Configure your own email servers">
-                                <field name="external_email_server_default"/>
-                                <div class="content-group" invisible="not external_email_server_default">
-                                    <div class="">
-                                        <button type="action"
-                                        name="%(action_email_server_tree)d"
-                                        string="Incoming Email Servers" icon="fa-hand-o-right" class="btn-link"/>
-                                    </div>
-                                    <div class="">
-                                        <button type="action"
-                                        name="%(base.action_ir_mail_server_list)d"
-                                        string="Outgoing Email Servers" icon="fa-hand-o-right" class="btn-link"/>
-                                    </div>
-                                </div>
-                            </setting>
-                            <setting id="email-alias-setting" string="Alias Domain"
-                                    help="Use different domains for your mail aliases"
-                                    company_dependent="1"
-                                    documentation="/applications/general/email_communication/email_domain.html#be-spf-compliant">
-                                <div class="">
-                                    <div class="input-group">
-                                        <span class="input-group-text">@</span>
-                                        <field name="alias_domain_id" placeholder="e.g. mycompany.com"
-                                            options="{'no_create_edit': True}"
-                                            class="flex-grow-1"/>
-                                    </div>
-                                </div>
-                            </setting>
-                            <!-- <setting string="Use a Gmail Server"
-                                    help="Send and receive emails through your Gmail account."
-                                    documentation="https://console.developers.google.com/"
-                                    invisible="not external_email_server_default">
-                                <field name="module_google_gmail"/>
-                                <div class="content-group" invisible="not module_google_gmail" id="msg_module_google_gmail">
-                                    <div class="mt16 text-warning"><strong>Save</strong> this page and come back here to set up the feature.</div>
-                                </div>
-                            </setting>
-                            <setting id="email-outlook-setting" string="Use an Outlook Server"
-                                    help="Send and receive emails through your Outlook account."
-                                    documentation="https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app"
-                                    invisible="not external_email_server_default">
-                                <field name="module_microsoft_outlook"/>
-                                <div class="content-group" id="msg_module_microsoft_outlook"
-                                    invisible="not module_microsoft_outlook">
-                                    <div class="mt16 text-warning">
-                                        <strong>Save</strong> this page and come back here to set up the feature.
-                                    </div>
-                                </div>
-                            </setting> -->
-                            <setting id="restrict_template_rendering_setting" help="Restrict mail templates edition and QWEB placeholders usage.">
-                                <field name="restrict_template_rendering"/>
-                            </setting>
-                        </block>
+                        <!-- <block title="Emails" id="emails">
+                            
+                        </block> -->
                         <block title="Talks" id="discuss">
                             <setting id="activities_setting" string="Activities" help="Configure your activity types">
                                 <div class="content-group">
@@ -123,10 +71,81 @@
                             <setting string="Message Translation" help="Google Translate Integration" id="message_translation_setting" documentation="https://cloud.google.com/translate/docs/setup">
                                 <field name="google_translate_api_key" placeholder="Paste your API key" class="w-100"/>
                             </setting>
+                            <setting name="talks_menu_items" string="Talks" help="Quick list of talks menu">
+                                <div class="list-group">
+                                    <div class="list-group-item">
+                                        <button name="%(mail.action_view_mail_message)d" string="Messages" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <button name="%(mail.mail_message_schedule_action)d" string="Scheduled Messages" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <button name="%(mail.action_view_message_subtype)d" string="Subtypes" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <button name="%(mail.action_view_mail_tracking_value)d" string="Tracking Values" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                    </div>
+
+                                    <div class="list-group-item" groups="base.group_no_one">
+                                        <button name="%(mail.mail_notification_action)d" string="Notifications" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                    </div>
+                                    <div class="list-group-item" groups="base.group_no_one">
+                                        <button name="%(mail.action_view_followers)d" string="Followers" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <button name="%(mail.mail_blacklist_action)d" string="Email Blacklist" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                    </div>
+
+                                    <div class="list-group-item">
+                                        <button name="%(mail.res_users_settings_action)d" string="User Settings" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <button name="%(mail.mail_guest_action)d" string="Guests" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <button name="%(mail.discuss_channel_rtc_session_action)d" string="RTC sessions" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <button name="%(mail.action_ice_servers)d" string="ICE Servers" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <button name="%(mail.mail_message_reaction_action)d" string="Message Reactions" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <button name="%(mail.mail_link_preview_action)d" string="Link Previews" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <button name="%(mail.discuss_gif_favorite_action)d" string="GIF favorite" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                    </div>
+                                </div>
+                            </setting>
                         </block>
                     </app>
                 </app>
-                <setting id="document_layout_setting" position="after">
+                <app name="email_settings" position="before">
+                    <app data-string="Activities" string="Activities" name="activities_settings" logo="/mail/static/description/activity.svg">
+                        <div id="activities">
+                            <block title="Activities" groups="base.group_no_one" icon="fa-fw fa-clock-o">
+                                <setting name="activities_menu_items" string="Activities" help="Quick menu list of activities">
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <button name="%(mail.mail_activity_action)d" string="Activity Overview" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(mail.mail_activity_type_action)d" string="Activity Types" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                        <div class="list-group-item">
+                                            <button name="%(mail.mail_activity_plan_action)d" string="Activity Plans" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                                        </div>
+                                    </div>
+                                </setting>
+                            </block>
+                        </div>
+                    </app>
+                </app>
+
+                <!-- Converting every menus into system menus -->
+                <setting name="email_menu_items" position="before">
                     <setting string="Email Templates" help="Personalize your automated messages — adjust colors, buttons, and layouts so every email feels like your brand." id="mail_templates_setting" groups="mail.group_mail_template_editor,base.group_system" company_dependent="1">
                         <div class="i_setting_right_pane_grouping mt-3 mt-md-0">
                             <div class="list-group">
@@ -153,7 +172,89 @@
                             </div>
                         </div>
                     </setting>
+                    <setting id="email_servers_setting" title="Using your own email server is required to send/receive emails in Community and Enterprise versions. Online users already benefit from a ready-to-use email server (@mycompany.inphms.com)."
+                                documentation="/applications/general/email_communication/email_servers.html" help="Configure your own email servers">
+                        <field name="external_email_server_default"/>
+                        <div class="content-group" invisible="not external_email_server_default">
+                            <div class="">
+                                <button type="action"
+                                name="%(action_email_server_tree)d"
+                                string="Incoming Email Servers" icon="fa-hand-o-right" class="btn-link"/>
+                            </div>
+                            <div class="">
+                                <button type="action"
+                                name="%(base.action_ir_mail_server_list)d"
+                                string="Outgoing Email Servers" icon="fa-hand-o-right" class="btn-link"/>
+                            </div>
+                        </div>
+                    </setting>
+                    <setting id="email-alias-setting" string="Alias Domain"
+                            help="Use different domains for your mail aliases"
+                            company_dependent="1"
+                            documentation="/applications/general/email_communication/email_domain.html#be-spf-compliant">
+                        <div class="">
+                            <div class="input-group">
+                                <span class="input-group-text">@</span>
+                                <field name="alias_domain_id" placeholder="e.g. mycompany.com"
+                                    options="{'no_create_edit': True}"
+                                    class="flex-grow-1"/>
+                            </div>
+                        </div>
+                    </setting>
+                    <!-- <setting string="Use a Gmail Server"
+                            help="Send and receive emails through your Gmail account."
+                            documentation="https://console.developers.google.com/"
+                            invisible="not external_email_server_default">
+                        <field name="module_google_gmail"/>
+                        <div class="content-group" invisible="not module_google_gmail" id="msg_module_google_gmail">
+                            <div class="mt16 text-warning"><strong>Save</strong> this page and come back here to set up the feature.</div>
+                        </div>
+                    </setting>
+                    <setting id="email-outlook-setting" string="Use an Outlook Server"
+                            help="Send and receive emails through your Outlook account."
+                            documentation="https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app"
+                            invisible="not external_email_server_default">
+                        <field name="module_microsoft_outlook"/>
+                        <div class="content-group" id="msg_module_microsoft_outlook"
+                            invisible="not module_microsoft_outlook">
+                            <div class="mt16 text-warning">
+                                <strong>Save</strong> this page and come back here to set up the feature.
+                            </div>
+                        </div>
+                    </setting> -->
+                    <setting id="restrict_template_rendering_setting" help="Restrict mail templates edition and QWEB placeholders usage.">
+                        <field name="restrict_template_rendering"/>
+                    </setting>
                 </setting>
+                <xpath expr="//setting[@name='email_menu_items']/div/*[1]" position="before">
+                    <div class="list-group-item">
+                        <button name="%(mail.action_view_mail_mail)d" string="Emails" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                    </div>
+                </xpath>
+                <xpath expr="//setting[@name='email_menu_items']/div" position="inside">
+                    <div class="list-group-item">
+                        <button name="%(mail.action_email_server_tree)d" string="Incoming Mail Servers" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                    </div>
+
+                    <div class="list-group-item">
+                        <button name="%(mail.action_email_template_tree_all)d" string="Email Templates" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                    </div>
+                    <div class="list-group-item">
+                        <button name="%(mail.mail_alias_action)d" string="Aliases" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                    </div>
+                    <div class="list-group-item">
+                        <button name="%(mail.mail_alias_domain_action)d" string="Alias Domains" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                    </div>
+                    <div class="list-group-item">
+                        <button name="%(mail.discuss_channel_action_view)d" string="Channels" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                    </div>
+                    <div class="list-group-item">
+                        <button name="%(mail.discuss_channel_member_action)d" string="Channels/Members" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                    </div>
+                    <div class="list-group-item">
+                        <button name="%(mail.mail_gateway_allowed_action)d" string="Mail Gateway Allowed" icon="fa-hand-o-right" type="action" class="btn-link d-flex w-100 align-items-center justify-content-between"/>
+                    </div>
+                </xpath>
             </field>
         </record>
     </data>

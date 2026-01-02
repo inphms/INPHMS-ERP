@@ -45,6 +45,7 @@ class IrUiMenu(models.Model):
     web_icon_data = fields.Binary(string='Web Icon Image', attachment=True)
 
     submenu_icon = fields.Char(string="Submenu Icon")
+    description = fields.Text("Description", help="Optional description for the menu item, must be used on root app.")
 
     @api.depends('name', 'parent_id.complete_name')
     def _compute_complete_name(self):
@@ -302,6 +303,7 @@ class IrUiMenu(models.Model):
             menus_dict[menu_id] = {
                 'id': menu_id,
                 'name': menu.name,
+                'description': menu.description,
                 'app_id': app_info[menu_id],
                 'action_model': action_model,
                 'action_id': action_id,

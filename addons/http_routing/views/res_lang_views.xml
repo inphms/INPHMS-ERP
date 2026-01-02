@@ -5,9 +5,17 @@
         <field name="model">res.lang</field>
         <field name="inherit_id" ref="base.res_lang_form"/>
         <field name="arch" type="xml">
-            <field name="iso_code" position="after">
+            <!-- <field name="iso_code" position="after">
                 <field name="url_code" required="0"/>
-            </field>
+            </field> -->
+            
+            <xpath expr="//div[hasclass('smaller')]/field[@name='iso_code']" position="after">
+                <label for="url_code"></label>
+                <field name="url_code" readonly="1"/>
+            </xpath>
+            <xpath expr="//group/field[@name='iso_code']" position="after">
+                <field name="url_code" required="0"/>
+            </xpath>
         </field>
     </record>
 
