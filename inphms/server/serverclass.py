@@ -255,8 +255,6 @@ class ThreadedServer(CommonServer):
     # Engine processing  #
     ######################
     def reload(self):
-        # from .serving import restart
-        # restart()
         os.kill(self.pid, signal.SIGHUP)
     
     def start(self, stop=False):
@@ -321,7 +319,6 @@ class ThreadedServer(CommonServer):
     def signal_handler(self, sig, frame):
         if sig in [signal.SIGINT, signal.SIGTERM]:
             # -INTERUPT OR -TERIMINATE
-            print("sig is in term or int")
             self.quit_signal_count += 1
             if self.quit_signal_count > 1:
                 # logging already is shutdown probably
