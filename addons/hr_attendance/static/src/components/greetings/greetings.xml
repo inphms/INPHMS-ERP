@@ -13,10 +13,10 @@
     <t t-name="hr_attendance.public_kiosk_greetings">
         <t t-if="this.attendance">
             <div class="o_hr_kiosk_mode_main d-flex flex-grow-1 justify-content-center align-items-center">
-                <div class="o_hr_attendance_kiosk_card card rounded-3">
-                    <div class="card-body rounded-3">
+                <div class="i_hr_attendance_kiosk_bg">
+                    <div class="">
                         <div class="o_hr_attendance_kiosk_card_wrapper d-flex flex-column align-items-center justify-content-center">
-                            <div class="o_hr_attendance_kiosk_card_main p-3 mx-3 mx-xl-0 text-center">
+                            <div class="o_hr_attendance_kiosk_card_main text-center">
                                 <t t-call="hr_attendance.EmployeeBadge">
                                     <t t-set="employeeAvatar" t-value="this.employeeAvatar"/>
                                 </t>
@@ -26,7 +26,7 @@
                                 </h5>
                                 <h2><t t-esc="this.employeeName"/></h2>
                             </div>
-                            <div class="o_hr_attendance_kiosk_card_bottom d-flex flex-column w-100">
+                            <div class="o_hr_attendance_kiosk_card_bottom small d-flex flex-column w-100">
                                 <div class="alert alert-info text-center p-3" role="status">
                                     <t t-if="attendance.check_out">
                                         Checked out at <strong><t t-esc="this.check_out_time"/></strong>
@@ -69,7 +69,9 @@
                 </div>
             </div>
             <div class="o_hr_kiosk_mode_bottom my-4 mx-auto">
-                <button class="btn btn-primary btn-lg rounded-pill px-5" t-on-click="this.props.kioskReturn">
+                <button class="btn btn-primary btn-lg rounded-pill px-5"
+                        style="box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.3), inset 0 -2px 3px rgba(0, 0, 0, 0.2), 0 8px 20px rgba(0, 0, 0, 0.2);border: 0;"
+                        t-on-click="this.props.kioskReturn">
                     OK
                 </button>
             </div>

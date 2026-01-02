@@ -4,18 +4,20 @@
 <t t-name="hr_attendance.KioskPinConfirm">
     <t t-if="this.props.employeeData">
         <div class="o_hr_kiosk_mode_main d-flex flex-grow-1 justify-content-center align-items-center">
-            <div class="card rounded-3">
-                <div class="card-body rounded-3 text-center">
-                    <t t-call="hr_attendance.EmployeeBadge">
-                        <t t-set="employeeAvatar" t-value="this.props.employeeData.employee_avatar"/>
-                        <t t-set="employeeAvatarHeight" t-value="'60'"/>
-                    </t>
-                    <h3 class="mt-2 mb-1"><t t-esc="this.props.employeeData.employee_name"/></h3>
-                    <h5 class="text-muted my-0">
+            <div class="i_hr_attendance_kiosk_bg">
+                <div class="text-center">
+                    <h3 class="mb-0 d-flex align-items-center justify-content-center lh-1 gap-2">
+                        <t t-call="hr_attendance.EmployeeBadge">
+                            <t t-set="employeeAvatar" t-value="this.props.employeeData.employee_avatar"/>
+                            <t t-set="employeeAvatarHeight" t-value="'25'"/>
+                        </t>
+                        <t t-esc="this.props.employeeData.employee_name"/>
+                    </h3>
+                    <div class="text-muted my-0 smaller">
                         Please enter your PIN to
                         <t t-if="checkedIn">check out</t>
                         <t t-else="">check in</t>
-                    </h5>
+                    </div>
                     <div class="o_hr_kiosk_mode_code mb-2">
                         <div class="row">
                             <div class="col-md-8 offset-md-2 o_hr_attendance_pin_pad">
@@ -24,7 +26,7 @@
                                 </div>
                                 <div class="row g-2">
                                     <div class="col-4" t-foreach="padButtons" t-as="btn" t-key="btn[0]">
-                                        <a href="#" t-on-click="() => this.onClickPadButton(btn[0])" t-attf-class="o_hr_attendance_PINbox_button btn {{btn[1]? btn[1] : 'btn-secondary'}} d-flex align-items-center justify-content-center py-2 py-xl-3 rounded-1">
+                                        <a href="#" t-on-click="() => this.onClickPadButton(btn[0])" t-attf-class="o_hr_attendance_PINbox_button btn {{btn[1]? btn[1] : 'btn-light'}} d-flex align-items-center justify-content-center py-2 py-xl-3 rounded-1">
                                             <t t-esc="btn[0]"/>
                                         </a>
                                     </div>
@@ -33,14 +35,21 @@
                         </div>
                     </div>
                 </div>
+                <div class="position-absolute top-0 start-0">
+                    <button class="btn btn-light rounded-pill" t-on-click="() => this.props.onClickBack()"
+                            style="transform: scale(0.75);">
+                        <i class="oi oi-chevron-left me-2"/>
+                        <span>Go back</span>
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="o_hr_kiosk_mode_bottom my-4 mx-auto">
+        <!-- <div class="o_hr_kiosk_mode_bottom my-4 mx-auto">
             <button class="btn btn-light btn-lg rounded-pill px-5" t-on-click="() => this.props.onClickBack()">
                 <i class="oi oi-chevron-left me-2"/>
                 <span>Go back</span>
             </button>
-        </div>
+        </div> -->
     </t>
     <t t-else="">
         <div class="alert alert-danger mx-3" role="alert">

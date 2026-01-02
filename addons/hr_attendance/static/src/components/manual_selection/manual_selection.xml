@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="hr_attendance.public_kiosk_manual_selection">
-        <div class="position-absolute top-0 start-0 w-100 h-100">
-            <div class="d-flex gap-2 p-2 bg-white" style="top: 0px;">
-                    <button
-                        t-on-click="() => this.props.onClickBack()"
-                        class="o_hr_attendance_back_button btn btn-secondary rounded-pill d-flex flex-row align-items-center"
-                        t-if="this.props.displayBackButton">
-                        <i class="oi oi-chevron-left me-1" role="img" aria-label="Go back" title="Go back"/>
-                        Back
-                    </button>
+        <div class="i_hr_kiosk_manual h-100 mb-3 d-flex flex-column rounded">
+            <div class="d-flex gap-2 p-2" style="top: 0px;background: rgba(255, 255, 255, 0.4);">
+                <!-- <button
+                    t-on-click="() => this.props.onClickBack()"
+                    class="o_hr_attendance_back_button btn btn-secondary rounded-pill d-flex flex-row align-items-center"
+                    t-if="this.props.displayBackButton">
+                    <i class="oi oi-chevron-left me-1" role="img" aria-label="Go back" title="Go back"/>
+                    Back
+                </button> -->
                 <div class="o_control_panel_main d-flex justify-content-between align-items-lg-center flex-grow-1">
                     <div class="o_cp_searchview d-flex input-group h-100">
-                        <div class="d-flex flex-row align-items-center rounded-pill border flex-grow-1">
+                        <div class="d-flex flex-row align-items-center rounded-pill bg-white border-0 flex-grow-1" style="box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.3), inset 0 -2px 3px rgba(0, 0, 0, 0.2);">
                             <i class="o_searchview_icon d-print-none oi oi-search m-2" aria-label="Search..." title="Search..."/>
                             <div class="o_searchview_input_container position-relative w-100">
-                                <input t-on-input="onSearchInput" type="text" class="d-print-none form-control shadow-none border-0" style="width: 95%;" placeholder="Search..."/>
+                                <input t-on-input="onSearchInput" type="text" class="d-print-none rounded-0 form-control p-0 shadow-none border-0" style="width: 95%;" placeholder="Search..."/>
                             </div>
                         </div>
                     </div>
@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex h-100 flex-column flex-md-row bg-300">
+            <div class="i_hr_kiosk_manual_wrapper d-flex flex-column flex-md-row">
                 <t t-if="!env.isSmall">
                     <div class="o_hr_kiosk_sidebar ps-2 py-2 overflow-auto">
                         <div class="list-group">
@@ -72,11 +72,11 @@
                     </Dropdown>
                 </t>
 
-                <div class="o_hr_kiosk_manual_selection w-100 p-2 pt-0 pt-md-2 bg-300 overflow-auto">
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 row-cols-xxl-4 g-2">
+                <div class="o_hr_kiosk_manual_selection w-100 p-2 pt-0 pt-md-2 overflow-auto">
+                    <div class="row row-cols-1 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5 g-2">
                         <t t-foreach="this.state.employeesData.records" t-as="employee" t-key="employee.id">
                             <div t-on-click="() => this.props.onSelectEmployee(employee.id)" class="col">
-                                <div class="card d-flex flex-column align-items-center h-100 p-2 pt-1">
+                                <div class="i_employee_card rounded d-flex flex-column align-items-center h-100 p-2 pt-1">
                                     <div class="small ms-auto">
                                         <t t-if="employee.status == 'checked_in'">
                                             <span class="text-success">
@@ -88,7 +88,15 @@
                                             <span class="text-danger">Absent</span>
                                         </t>
                                     </div>
-                                    <img class="rounded-circle" alt="Employee Avatar" loading="lazy" t-attf-src="{{employee.avatar}}"/>
+                                    <div class="position-relative">
+                                        
+                                        <img class="rounded-circle" alt="Employee Avatar" loading="lazy" t-attf-src="{{employee.avatar}}"/>
+                                        <div t-attf-data-tooltip="absen" class="badge text-bg-success position-absolute rounded-circle border border-2 border-light" style="bottom:2px;right:2px;padding: .35rem;">
+                                            <span class="visually-hidden">
+                                                a
+                                            </span>
+                                        </div>
+                                    </div>
                                     <div class="d-flex flex-column align-items-center mt-2">
                                         <h6 class="mb-0" t-esc="employee.display_name"/>
                                         <p class="small text-muted text-center mb-1" t-if="employee.job_id" t-esc="employee.job_id"/>
@@ -99,6 +107,63 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </t>
+
+    <t t-name="hr_attendance.public_kiosk_small_manual_selection">
+        <div class="position-absolute top-0 start-0" t-if="this.props.displayBackButton">
+            <button
+                t-on-click="() => this.props.onClickBack()"
+                class="o_hr_attendance_back_button btn btn-light rounded-pill d-flex flex-row align-items-center"
+                style="transform: scale(0.75);">
+                <i class="oi oi-chevron-left me-1" role="img" aria-label="Go back" title="Go back"/>
+                Back
+            </button>
+        </div>
+        <h2 class="fw-bolder">Manual Entry</h2>
+        <p class="text-muted small">Search for your name or employee ID</p>
+        <div class="o_control_panel_main d-flex justify-content-between align-items-lg-center flex-grow-1">
+            <div class="o_cp_searchview d-flex input-group h-100">
+                <div class="d-flex flex-row align-items-center rounded-pill bg-white border"
+                     style="box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.3), inset 0 -2px 3px rgba(0, 0, 0, 0.2), 0 8px 20px rgba(0, 0, 0, 0.2);">
+                    <i class="o_searchview_icon d-print-none oi oi-search m-2" aria-label="Start typing..." title="Start typing..."/>
+                    <div class="o_searchview_input_container position-relative w-100">
+                        <input t-on-input="onSearchInput" type="text" class="d-print-none rounded-0 p-0 form-control shadow-none border-0" style="width: 95%;" placeholder="Search..."/>
+                    </div>
+                </div>
+            </div>
+            <div class="ps-2" t-if="state.employeesData.count > state.limit">
+                <Pager
+                    total="state.employeesData.count"
+                    offset="state.offset"
+                    limit="state.limit"
+                    onUpdate.bind="_onPagerChanged"/>
+            </div>
+        </div>
+        <div class="w-100 mt-3 row row-cols-1 g-2 i_employee_result_wrapper">
+            <t t-foreach="this.state.employeesData.records" t-as="employee" t-key="employee.id">
+                <div t-on-click="() => this.props.onSelectEmployee(employee.id)" class="col">
+                    <div class="i_employee_result p-3 rounded d-flex align-items-center gap-3 position-relative">
+                        <img class="rounded-1" alt="Employee Avatar" loading="lazy" t-attf-src="{{employee.avatar}}" width="50"/>
+                        <div class="flex-grow-1 text-start">
+                            <div class="small" t-esc="employee.display_name"/>
+                            <p class="small text-muted text-center mb-0" t-if="employee.job_id" t-esc="employee.job_id"/>
+                        </div>
+                        <i class="fa fa-fw fa-chevron-right"></i>
+                        <div class="position-absolute small me-2 mt-1 top-0 end-0">
+                            <t t-if="employee.status == 'checked_in'">
+                                <span class="text-success">
+                                    <t t-if="employee.mode == 'kiosk'">On site</t>
+                                    <t t-else="">Online</t>
+                                </span>
+                            </t>
+                            <t t-else="">
+                                <span class="text-danger">Absent</span>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </t>
         </div>
     </t>
 </templates>

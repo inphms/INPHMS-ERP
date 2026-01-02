@@ -1,4 +1,4 @@
-import { Component, useState, onWillStart } from "@inphms/owl";
+import { Component, useState, onWillStart, xml } from "@inphms/owl";
 
 import { Domain } from "@web/core/domain";
 import { Dropdown } from "@web/core/dropdown/dropdown";
@@ -9,17 +9,14 @@ import { Pager } from "@web/core/pager/pager";
 import { MEDIAS_BREAKPOINTS, SIZES } from "@web/core/ui/ui_service";
 import { useService } from "@web/core/utils/hooks";
 
-export class KioskManualSelection extends Component {
-    static template = "hr_attendance.public_kiosk_manual_selection";
+class MixinKioskManualSelection extends Component {
+    static template = xml``;
     static components = {
-        Dropdown,
-        DropdownItem,
         Pager,
     };
     static props = {
         displayBackButton: { type: Boolean },
         token: { type: String },
-        departments: { type: Array },
         onSelectEmployee: { type: Function },
         onClickBack: { type: Function },
     };
@@ -36,13 +33,11 @@ export class KioskManualSelection extends Component {
             limit: limit,
             searchInput: "",
             searchDomain: [],
-            departmentDomain: [],
-            activeDepartment: false,
         });
-        this.departmentName = _t("All departments");
+
         onWillStart(async () => {
             await this._fetchEmployeeData();
-        })
+        });
     }
 
     calculateLimit() {
@@ -98,6 +93,40 @@ export class KioskManualSelection extends Component {
         this.state.employeesData.count = results.length;
     }
 
+    async onSearchInput(ev) {
+        const searchInput = ev.target.value;
+        if (searchInput.length){
+            this.state.searchDomain = [['name', 'ilike', searchInput]];
+        }else{
+            this.state.searchDomain = [];
+        }
+        this.state.offset = 0;
+        await this._fetchEmployeeData();
+    }
+}
+
+export class KioskManualSelection extends MixinKioskManualSelection {
+    static template = "hr_attendance.public_kiosk_manual_selection";
+    static components = {
+        ...MixinKioskManualSelection.components,
+        Dropdown,
+        DropdownItem,
+    };
+    static props = {
+        ...MixinKioskManualSelection.props,
+        departments: { type: Array },
+    };
+
+    setup() {
+        super.setup();
+        this.state = useState({
+            ...this.state,
+            departmentDomain: [],
+            activeDepartment: false,
+        });
+        this.departmentName = _t("All departments");
+    }
+
     async onDepartmentClick(departmentId = false){
         if (this.env.isSmall) {
             if (departmentId){
@@ -121,15 +150,14 @@ export class KioskManualSelection extends Component {
     get activeDepartment() {
         return this.state.activeDepartment;
     }
+}
 
-    async onSearchInput(ev) {
-        const searchInput = ev.target.value;
-        if (searchInput.length){
-            this.state.searchDomain = [['name', 'ilike', searchInput]];
-        }else{
-            this.state.searchDomain = [];
-        }
-        this.state.offset = 0;
-        await this._fetchEmployeeData();
+
+export class KioskSmallManualSelection extends MixinKioskManualSelection {
+    static template = "hr_attendance.public_kiosk_small_manual_selection";
+
+    calculateLimit() {
+        const limit = super.calculateLimit();
+        return limit / 2;
     }
 }
