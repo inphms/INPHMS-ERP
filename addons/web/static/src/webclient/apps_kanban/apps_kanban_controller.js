@@ -2,11 +2,14 @@ import { _t } from "@web/core/l10n/translation";
 import { KanbanController } from "@web/views/kanban/kanban_controller";
 import { useService } from "@web/core/utils/hooks";
 
+/**
+ * Simple implementation of, module apps kanban.
+ * showing actionable button inside control panel.
+ */
 export class AppsKanbanController extends KanbanController {
     setup() {
         super.setup();
         this.actionService = useService("action");
-        console.log("AppsKanbanController setup called", this.actionService);
     }
 
     get isVisible() {
@@ -30,13 +33,11 @@ export class AppsKanbanController extends KanbanController {
                 help: _t("Run any pending module upgrades."),
                 btnClass: "btn-secondary",
                 hotkey: "shift+r",
-            }
-        ]
+            },
+        ];
     }
 
     async onAppsActionButtonClick(action) {
-        console.log(this.actionService);
         await this.actionService.doAction(action.actionref);
-        console.log("Apps action button clicked:", action);
     }
 }
