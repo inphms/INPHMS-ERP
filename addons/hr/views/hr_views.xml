@@ -7,6 +7,7 @@
             name="Human Resources"
             groups="group_hr_manager,group_hr_user,base.group_user"
             web_icon="hr,static/description/icon.png"
+            description="Centralize employee information"
             sequence="185">
 
             <menuitem id="menu_hr_overview" name="Overview" sequence="0">

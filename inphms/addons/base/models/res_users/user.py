@@ -393,7 +393,7 @@ class ResUsers(models.Model):
                 # Prevent using reload actions.
                 action = self.env["ir.actions.client"].browse(user.action_id.id)  # magic
                 if action.tag == "reload":
-                    raise ValidationError('The "%s" action cannot be selected as home action.', action.name)
+                    raise ValidationError(_('The "%s" action cannot be selected as home action.', action.name))
 
             elif user.action_id.type == "ir.actions.act_window":
                 # Restrict actions that include 'active_id' in their context.

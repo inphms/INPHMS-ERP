@@ -119,6 +119,10 @@ def setup_logger():
     # ignore warnings
     warnings.filterwarnings("ignore", r'pkg_resources is deprecated as an API.+', category=DeprecationWarning)
 
+    # need to be adapted later but too muchwork for this pr.
+    warnings.filterwarnings('ignore', r'^datetime.datetime.utcnow\(\) is deprecated and scheduled for removal in a future version.*', category=DeprecationWarning)
+
+
     from .tools.translate import resetlocale
     resetlocale()
 

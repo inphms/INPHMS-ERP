@@ -53,6 +53,10 @@ class Server(Command):
         if os.path.isfile(config['config_file']):
             _logger.info(f"Using Config file at {config['config_file']}")
         _logger.info("Addons path: %s", inphms.addons.__path__)
+        if config.get('upgrade_path'):
+            _logger.info('upgrade path: %s', config['upgrade_path'])
+        if config.get('pre_upgrade_scripts'):
+            _logger.info('extra upgrade scripts: %s', config['pre_upgrade_scripts'])
         host = config['db_host'] or os.environ.get('PGHOST', 'default')
         port = config['db_port'] or os.environ.get("PGPORT", "default")
         user = config['db_user'] or os.environ.get('PGUSER', 'default')

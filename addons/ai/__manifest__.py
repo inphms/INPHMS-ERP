@@ -8,7 +8,7 @@ AI-related features are accessible with limited configurability.
     """,
     'version': '1.0',
     'category': 'Hidden/Tools',
-    'auto_install': True,
+    'auto_install': False,
     'depends': ['mail',],
     'data': [
         'data/ir_actions_server_data.xml',
