@@ -1,4 +1,12 @@
-import { Component, useRef, onWillUnmount, useState, useEffect, onWillDestroy, useExternalListener } from "@inphms/owl";
+import {
+    Component,
+    useRef,
+    onWillUnmount,
+    useState,
+    useEffect,
+    onWillDestroy,
+    useExternalListener,
+} from "@inphms/owl";
 import { updateIconSections } from "@web/webclient/navbar/navbar";
 import { useService } from "@web/core/utils/hooks";
 import { debounce } from "@web/core/utils/timing";
@@ -44,7 +52,9 @@ export class WebSidebar extends Component {
         });
 
         useEffect(
-            () => {this.adapt();},
+            () => {
+                this.adapt();
+            },
             () => [adaptCounter]
         );
     }
@@ -67,9 +77,6 @@ export class WebSidebar extends Component {
         this.root.el.style["min-width"] = 0;
     }
 
-    async _onDashboardClick() {
-        await this.menuService.selectMenu(this.currentApp);
-    }
     async _onSectionClick(section) {
         await this.menuService.selectMenu(section);
     }

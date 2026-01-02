@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
 
-    <t t-name="web.Dashboard">
+    <t t-name="web.WebDashboard">
         <div class="container-fluid py-4">
             <div class="dashboard-panel d-flex gap-3 justify-content-between align-items-start">
                 <div>
-                    <t t-slot="panelTitle">
-                        <h1 class="fw-bolder">Dash Overview</h1>
-                        <p class="text-muted mb-0" style="font-size:16px;">Dash desc.</p>
-                    </t>
+                    <t t-slot="panelTitle"/>
                 </div>
                 <div t-if="props.slots and props.slots.panelActions" class="dashboard-panel-actions">
-                    <t t-slot="panelActions">
-                        <button class="btn">Add Person</button>
-                        <button class="btn">Invite User</button>
-                    </t>
+                    <t t-slot="panelActions"/>
                 </div>
             </div>
             <div class="dashboard-kpis pt-4">

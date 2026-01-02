@@ -1,5 +1,4 @@
-import { Component, useState } from "@inphms/owl";
-import { DashboardSidebar } from "./dashboard_sidebar";
+import { Component } from "@inphms/owl";
 // {
 //     id: string
 //     label: string
@@ -8,19 +7,17 @@ import { DashboardSidebar } from "./dashboard_sidebar";
 //     sequence?: number
 //     onClick?: () => void
 // }
-export class Dashboard extends Component {
-    static template = "web.Dashboard"
-    static components = {
-        DashboardSidebar
-    }
+export class WebDashboard extends Component {
+    static template = "web.WebDashboard";
+    static components = {};
     static props = {
         slots: {
             type: Object,
             shape: {
-                default: {type: Object, optional: 1}, // content
-                panelTitle: {type: Object},
-                panelActions: {type: Object, optional: 1}
-            }
+                default: { type: Object, optional: 1 }, // content
+                panelTitle: { type: Object },
+                panelActions: { type: Object, optional: 1 },
+            },
         },
         kpis: {
             type: Array,
@@ -32,16 +29,14 @@ export class Dashboard extends Component {
                     value: [Number, String],
                     help: {
                         type: String,
-                        optional: 1
+                        optional: 1,
                     },
-                }
-            }
+                },
+            },
         },
-    }
+    };
 
     setup() {
-        
         this.kpiInsight = this.props.kpis;
-        console.log(this.kpiInsight)
     }
 }

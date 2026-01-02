@@ -1,10 +1,19 @@
-import {hasTouch, isIosApp, isMacOS} from "@web/core/browser/feature_detection";
-import {useHotkey} from "@web/core/hotkeys/hotkey_hook";
-import {user} from "@web/core/user";
-import {useService} from "@web/core/utils/hooks";
-import {ExpirationPanel} from "@web/webclient/home_menu/expiration_panel";
-import {useSortable} from "@web/core/utils/sortable_owl";
-import {Component, markup, useExternalListener, onMounted, onPatched, onWillUpdateProps, useState, useRef, } from "@inphms/owl";
+import { hasTouch, isIosApp, isMacOS } from "@web/core/browser/feature_detection";
+import { useHotkey } from "@web/core/hotkeys/hotkey_hook";
+import { user } from "@web/core/user";
+import { useService } from "@web/core/utils/hooks";
+import { ExpirationPanel } from "@web/webclient/home_menu/expiration_panel";
+import { useSortable } from "@web/core/utils/sortable_owl";
+import {
+    Component,
+    markup,
+    useExternalListener,
+    onMounted,
+    onPatched,
+    onWillUpdateProps,
+    useState,
+    useRef,
+} from "@inphms/owl";
 
 import { SystemInformation } from "../system_information/system_information";
 
@@ -13,7 +22,7 @@ class FooterComponent extends Component {
     static props = {
         switchNamespace: {
             type: Function,
-            optional: true
+            optional: true,
         },
     };
     setup() {
@@ -40,35 +49,39 @@ export class HomeMenu extends Component {
                     label: String,
                     description: {
                         type: [Boolean, String],
-                        optional: 1
+                        optional: 1,
                     },
                     parents: String,
                     webIcon: {
-                        type: [Boolean, String, {
-                            type: Object,
-                            optional: 1,
-                            shape: {
-                                iconClass: String,
-                                color: String,
-                                backgroundColor: String,
+                        type: [
+                            Boolean,
+                            String,
+                            {
+                                type: Object,
+                                optional: 1,
+                                shape: {
+                                    iconClass: String,
+                                    color: String,
+                                    backgroundColor: String,
+                                },
                             },
-                        }, ],
+                        ],
                         optional: true,
                     },
                     webIconData: {
                         type: String,
-                        optional: 1
+                        optional: 1,
                     },
                     webIconDataWhite: {
                         type: String,
-                        optional: 1
+                        optional: 1,
                     },
                     xmlid: String,
                 },
             },
         },
         reorderApps: {
-            type: Function
+            type: Function,
         },
     };
     setup() {
@@ -97,27 +110,24 @@ export class HomeMenu extends Component {
             onWillStartDrag: (params) => this._sortStart(params),
             onDrop: (params) => this._sortAppDrop(params),
         });
-        onWillUpdateProps( () => {
+        onWillUpdateProps(() => {
             this.state.focusedIndex = null;
-        }
-        );
-        onMounted( () => {
+        });
+        onMounted(() => {
             if (!hasTouch()) {
                 this._focusInput();
             }
-        }
-        );
-        onPatched( () => {
+        });
+        onPatched(() => {
             if (this.state.focusedIndex !== null && !this.env.isSmall) {
                 const selectedItem = document.querySelector(".o_home_menu .o_menuitem.o_focused");
                 if (selectedItem) {
                     selectedItem.scrollIntoView({
-                        block: "center"
+                        block: "center",
                     });
                 }
             }
-        }
-        );
+        });
     }
     get displayedApps() {
         return this.props.apps;
@@ -129,8 +139,7 @@ export class HomeMenu extends Component {
             return false;
         }
         return (
-            app.xmlid === "base.menu_management" ||
-            app.xmlid.startsWith("base.menu_administration")
+            app.xmlid === "base.menu_management" || app.xmlid.startsWith("base.menu_administration")
         );
     }
     get groupedApps() {
@@ -147,12 +156,10 @@ export class HomeMenu extends Component {
             }
         }
 
-        return groups.filter(group => group.apps.length);
-
+        return groups.filter((group) => group.apps.length);
     }
     labelHelpOrDescription(app) {
-        console.log(app, 'app');
-        return app.description ? markup(app.description) : 'No Description';
+        return app.description ? markup(app.description) : "No Description";
     }
     get hasAppCategory() {
         return this.groupedApps.apps.length > 0;
@@ -190,43 +197,45 @@ export class HomeMenu extends Component {
         const currentLine = Math.ceil((focusedIndex + 1) / this.maxIconNumber);
         let newIndex;
         switch (cmd) {
-        case "previousElem":
-            newIndex = focusedIndex - 1;
-            break;
-        case "nextElem":
-            newIndex = focusedIndex + 1;
-            break;
-        case "previousColumn":
-            if (focusedIndex % this.maxIconNumber) {
+            case "previousElem":
                 newIndex = focusedIndex - 1;
-            } else {
-                newIndex = focusedIndex + Math.min(lastIndex - focusedIndex, this.maxIconNumber - 1);
-            }
-            break;
-        case "nextColumn":
-            if (focusedIndex === lastIndex || (focusedIndex + 1) % this.maxIconNumber === 0) {
-                newIndex = (currentLine - 1) * this.maxIconNumber;
-            } else {
+                break;
+            case "nextElem":
                 newIndex = focusedIndex + 1;
-            }
-            break;
-        case "previousLine":
-            if (currentLine === 1) {
-                newIndex = focusedIndex + (lineNumber - 1) * this.maxIconNumber;
-                if (newIndex > lastIndex) {
-                    newIndex = lastIndex;
+                break;
+            case "previousColumn":
+                if (focusedIndex % this.maxIconNumber) {
+                    newIndex = focusedIndex - 1;
+                } else {
+                    newIndex =
+                        focusedIndex + Math.min(lastIndex - focusedIndex, this.maxIconNumber - 1);
                 }
-            } else {
-                newIndex = focusedIndex - this.maxIconNumber;
-            }
-            break;
-        case "nextLine":
-            if (currentLine === lineNumber) {
-                newIndex = focusedIndex % this.maxIconNumber;
-            } else {
-                newIndex = focusedIndex + Math.min(this.maxIconNumber, lastIndex - focusedIndex);
-            }
-            break;
+                break;
+            case "nextColumn":
+                if (focusedIndex === lastIndex || (focusedIndex + 1) % this.maxIconNumber === 0) {
+                    newIndex = (currentLine - 1) * this.maxIconNumber;
+                } else {
+                    newIndex = focusedIndex + 1;
+                }
+                break;
+            case "previousLine":
+                if (currentLine === 1) {
+                    newIndex = focusedIndex + (lineNumber - 1) * this.maxIconNumber;
+                    if (newIndex > lastIndex) {
+                        newIndex = lastIndex;
+                    }
+                } else {
+                    newIndex = focusedIndex - this.maxIconNumber;
+                }
+                break;
+            case "nextLine":
+                if (currentLine === lineNumber) {
+                    newIndex = focusedIndex % this.maxIconNumber;
+                } else {
+                    newIndex =
+                        focusedIndex + Math.min(this.maxIconNumber, lastIndex - focusedIndex);
+                }
+                break;
         }
         if (newIndex < 0) {
             newIndex = lastIndex;
@@ -238,15 +247,15 @@ export class HomeMenu extends Component {
     _focusInput() {
         if (!this.env.isSmall && this.inputRef.el) {
             this.inputRef.el.focus({
-                preventScroll: true
+                preventScroll: true,
             });
         }
     }
     _enableAppsSorting() {
         return true;
     }
-    _sortAppDrop({element, previous}) {
-        const order = this.props.apps.map( (app) => app.xmlid);
+    _sortAppDrop({ element, previous }) {
+        const order = this.props.apps.map((app) => app.xmlid);
         const elementId = element.children[0].dataset.menuXmlid;
         const elementIndex = order.indexOf(elementId);
         order.splice(elementIndex, 1);
@@ -259,30 +268,44 @@ export class HomeMenu extends Component {
         this.props.reorderApps(order);
         user.setUserSettings("homemenu_config", JSON.stringify(order));
     }
-    _sortStart({element, addClass}) {
+    _sortStart({ element, addClass }) {
         addClass(element.children[0], "o_dragged_app");
     }
     _onAppClick(app) {
         this._openMenu(app);
     }
     _registerHotkeys() {
-        const hotkeys = [["ArrowDown", () => this._updateFocusedIndex("nextLine")], ["ArrowRight", () => this._updateFocusedIndex("nextColumn")], ["ArrowUp", () => this._updateFocusedIndex("previousLine")], ["ArrowLeft", () => this._updateFocusedIndex("previousColumn")], ["Tab", () => this._updateFocusedIndex("nextElem")], ["shift+Tab", () => this._updateFocusedIndex("previousElem")], ["Enter", () => {
-            const menu = this.displayedApps[this.state.focusedIndex];
-            if (menu) {
-                this._openMenu(menu);
-            }
-        }
-        , ], ["Escape", () => this.homeMenuService.toggle(false)], ];
-        hotkeys.forEach( (hotkey) => {
+        const hotkeys = [
+            ["ArrowDown", () => this._updateFocusedIndex("nextLine")],
+            ["ArrowRight", () => this._updateFocusedIndex("nextColumn")],
+            ["ArrowUp", () => this._updateFocusedIndex("previousLine")],
+            ["ArrowLeft", () => this._updateFocusedIndex("previousColumn")],
+            ["Tab", () => this._updateFocusedIndex("nextElem")],
+            ["shift+Tab", () => this._updateFocusedIndex("previousElem")],
+            [
+                "Enter",
+                () => {
+                    const menu = this.displayedApps[this.state.focusedIndex];
+                    if (menu) {
+                        this._openMenu(menu);
+                    }
+                },
+            ],
+            ["Escape", () => this.homeMenuService.toggle(false)],
+        ];
+        hotkeys.forEach((hotkey) => {
             useHotkey(...hotkey, {
                 allowRepeat: true,
             });
-        }
-        );
+        });
         useExternalListener(window, "keydown", this._onKeydownFocusInput);
     }
     _onKeydownFocusInput() {
-        if (document.activeElement !== this.inputRef.el && this.ui.activeElement === document && !["TEXTAREA", "INPUT"].includes(document.activeElement.tagName)) {
+        if (
+            document.activeElement !== this.inputRef.el &&
+            this.ui.activeElement === document &&
+            !["TEXTAREA", "INPUT"].includes(document.activeElement.tagName)
+        ) {
             this._focusInput();
         }
     }
@@ -292,25 +315,26 @@ export class HomeMenu extends Component {
             if (this.inputRef.el) {
                 this.inputRef.el.value = "";
             }
-        }
-        ;
+        };
         const searchValue = this.compositionStart ? "/" : `/${this.inputRef.el.value.trim()}`;
         this.compositionStart = false;
-        this.command.openMainPalette({
-            searchValue,
-            FooterComponent
-        }, onClose);
+        this.command.openMainPalette(
+            {
+                searchValue,
+                FooterComponent,
+            },
+            onClose
+        );
     }
     _onInputBlur() {
         if (hasTouch()) {
             return;
         }
-        setTimeout( () => {
+        setTimeout(() => {
             if (document.activeElement === document.body && this.ui.activeElement === document) {
                 this._focusInput();
             }
-        }
-        , 0);
+        }, 0);
     }
     _onCompositionStart() {
         this.compositionStart = true;
