@@ -349,6 +349,49 @@ class configmanager:
                          "'at_install' and 'post_install' correspondingly. Implies --stop-after-init")
         parser.add_option_group(group)
 
+        # SMTP OPTIONS
+        group = optparse.OptionGroup(parser, "SMTP Configuration")
+        group.add_option('--email-from',
+                         dest='email_from',
+                         my_default='',
+                         help='specify the SMTP email address for sending email')
+        group.add_option('--from-filter',
+                         dest='from_filter',
+                         my_default='',
+                         help='specify for which email address the SMTP configuration can be used')
+        group.add_option('--smtp',
+                         dest='smtp_server',
+                         my_default='localhost',
+                         help='specify the SMTP server for sending email')
+        group.add_option('--smtp-port',
+                         dest='smtp_port', my_default=25,
+                         help='specify the SMTP port',
+                         type="int")
+        group.add_option('--smtp-ssl',
+                         dest='smtp_ssl',
+                         action='store_true',
+                         my_default=False,
+                         help='if passed, SMTP connections will be encrypted with SSL (STARTTLS)')
+        group.add_option('--smtp-user',
+                         dest='smtp_user',
+                         my_default='',
+                         help='specify the SMTP username for sending email')
+        group.add_option('--smtp-password',
+                         dest='smtp_password',
+                         my_default='',
+                         help='specify the SMTP password for sending email')
+        group.add_option('--smtp-ssl-certificate-filename',
+                         dest='smtp_ssl_certificate_filename',
+                         type='path',
+                         my_default='',
+                         help='specify the SSL certificate used for authentication')
+        group.add_option('--smtp-ssl-private-key-filename',
+                         dest='smtp_ssl_private_key_filename',
+                         type='path',
+                         my_default='',
+                         help='specify the SSL private key used for authentication')
+        parser.add_option_group(group)
+
         # DATABASE OPTIONS
         group = optparse.OptionGroup(parser, "Database Related Options")
         group.add_option("--db-list",

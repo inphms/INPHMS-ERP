@@ -731,7 +731,7 @@ def generate_tracking_message_id(res_id):
     except NotImplementedError:
         rnd = random.random()
     rndstr = ("%.15f" % rnd)[2:]
-    return "<%s.%.15f-openerp-%s@%s>" % (rndstr, time.time(), res_id, socket.gethostname())
+    return "<%s.%.15f-inphms-%s@%s>" % (rndstr, time.time(), res_id, socket.gethostname())
 
 def email_split_tuples(text):
     """ Return a list of (name, email) address tuples found in ``text`` . Note
