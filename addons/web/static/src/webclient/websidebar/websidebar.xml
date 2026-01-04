@@ -12,7 +12,7 @@
                 <div class="cursor-pointer flex-grow-1 input-group rounded-1 i_sidebar_search_bar"
                      t-att-class="{'justify-content-center': state.isSidebarCompact}"
                      t-on-click.prevent="() => this.searchApp()">
-                    <span class="btn border-0 text-white"
+                    <span class="btn btn-link border-0 text-white"
                           t-att-class="{'pe-0': !state.isSidebarCompact}">
                         <i class="fa fa-fw fa-search"></i>
                     </span>

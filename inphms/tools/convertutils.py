@@ -416,6 +416,7 @@ form: module.record_id""" % (xml_id,)
         values = {
             'parent_id': False,
             'active': nodeattr2bool(rec, 'active', default=True),
+            'web_icon': False, # add here so that the value will reset if not defined
         }
 
         if sequence := rec.get('sequence'):
