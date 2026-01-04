@@ -163,7 +163,7 @@
                     </div>
                     <sidepanel>
                         <group string="Status" class="border rounded mb-4 i__group">
-                            <div class="alert alert-warning" colspan="2">
+                            <div class="alert alert-warning" role="alert" colspan="2">
                                 <strong>Warning! </strong>editing this, may result in unnecessary security and behaviour leaks,
                                 please really make sure you know what you're doing.
                             </div>
