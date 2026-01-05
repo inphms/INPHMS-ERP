@@ -19,12 +19,14 @@ class PatchImportHook:
         
     def find_spec(self, name, path=None, target=None):
         if name not in self.hooks:
-            return None
+            return None # let python use another import hook to import this fullname
         
+        # skip all finders before this one
         idx = sys.meta_path.index(self)
         for finder in sys.meta_path[idx + 1:]:
             spec = finder.find_spec(name, path, target)
             if spec is not None:
+                # we found a spec, change the loader
                 def exec_module(module: ModuleType, exec_module=spec.loader.exec_module) -> None:
                     exec_module(module)
                     patch_module(module.__name__)

@@ -1,0 +1,6 @@
+inphms () stable; urgency=low
+
+  * Initial release.
+  * Added changelog.
+
+ -- Yancovenant <ian@inphms.com>  Mon, 5 Jan 2026 5:32:00 +0700

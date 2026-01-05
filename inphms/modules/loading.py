@@ -17,6 +17,7 @@ from .environments import Environment
 from inphms.databases import column_exists, table_exists, Cursor, sql_counter, db_connect
 from inphms.config import config
 from inphms.tools.convertutils import convert_file, IdRef, ConvertMode as LoadMode
+from inphms.tools import OrderedSet
 
 if t.TYPE_CHECKING:
     from collections.abc import Collection, Iterable
@@ -42,6 +43,7 @@ def load_modules(
     install_modules: Collection[str] = (),
     reinit_modules: Collection[str] = (),
     new_db_demo: bool = False,
+    models_to_check: OrderedSet[str] | None = None,
 ) -> None:
     """ Load the modules for a registry object that has just been created.  This
         function is part of Registry.new() and should not be used anywhere else.
@@ -53,9 +55,10 @@ def load_modules(
         :param reinit_modules: A collection of module names to reinitialize.
         :param new_db_demo: Whether to install demo data for new database. Defaults to ``False``
     """
-    setup_sys_path()
+    if models_to_check is None:
+        models_to_check = OrderedSet()
 
-    models_to_check: set[str] = set()
+    setup_sys_path()
 
     with registry.cursor() as cr:
         # prevent endless wait for locks on schema changes (during online
@@ -243,11 +246,8 @@ def load_modules(
                 cr.commit()
                 _logger.info('Reloading registry once more after uninstalling modules')
                 registry = Registry.new(
-                    cr.dbname, update_module=update_module
+                    cr.dbname, update_module=update_module, models_to_check=models_to_check
                 )
-                cr.reset()
-                registry.check_tables_exist(cr)
-                cr.commit()
                 return
 
         # STEP 5.5: Verify extended fields on every model
@@ -262,7 +262,9 @@ def load_modules(
             cr.execute("""SELECT DISTINCT model FROM ir_model_fields WHERE state = 'manual'""")
             models_to_check.update(model_name for model_name, in cr.fetchall() if model_name in registry)
         if models_to_check:
-            registry.init_models(cr, list(models_to_check), {'models_to_check': True, 'update_custom_fields': True})
+            # Doesn't check models that didn't exist anymore, it might happen during uninstallation
+            models_to_check = [model for model in models_to_check if model in registry]
+            registry.init_models(cr, models_to_check, {'models_to_check': True, 'update_custom_fields': True})
 
         # STEP 6: verify custom views on every model
         if update_module:
@@ -306,7 +308,7 @@ def load_module_graph(
     graph: ModuleGraph,
     update_module: bool = False,
     report: None = None,
-    models_to_check: set[str] | None = None,
+    models_to_check: OrderedSet[str] | None = None,
     install_demo: bool = True,
 ) -> None:
     """ Load, upgrade and install not loaded module nodes in the ``graph`` for ``env.registry``
@@ -319,7 +321,7 @@ def load_module_graph(
        :param install_demo: whether to attempt installing demo data for newly installed modules
     """
     if models_to_check is None:
-        models_to_check = set()
+        models_to_check = OrderedSet()
 
     registry = env.registry
     assert isinstance(env.cr, Cursor), "Need for a real Cursor to load modules"
@@ -377,8 +379,8 @@ def load_module_graph(
 
         if update_operation:
             model_names = registry.descendants(model_names, '_inherit', '_inherits')
-            models_updated |= set(model_names)
-            models_to_check -= set(model_names)
+            models_updated |= model_names
+            models_to_check -= model_names
             registry._setup_models__(env.cr, [])  # incremental setup
             registry.init_models(env.cr, model_names, {'module': package.name}, update_operation == 'install')
         elif update_module and package.state != 'to remove':
@@ -388,7 +390,11 @@ def load_module_graph(
             # e.g. adding required=True to an existing field, but the schema has not been
             # updated by this module because it's not marked as 'to upgrade/to install'.
             model_names = registry.descendants(model_names, '_inherit', '_inherits')
-            models_to_check |= set(model_names) & models_updated
+            models_to_check |= model_names & models_updated
+        elif update_module and package.state == 'to remove':
+            # For all model extented (with _inherit) in the package to uninstall, we need to
+            # update ir.model / ir.model.fields along side not-null SQL constrains.
+            models_to_check |= model_names
 
         if update_operation:
             # Can't put this line out of the loop: ir.module.module will be

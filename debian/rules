@@ -1,0 +1,21 @@
+#!/usr/bin/make -f
+export DB_VERBOSE=1
+export PYBUILD_NAME=inphms-bin
+export PYBUILD_DISABLE=test
+
+%:
+    dh ${@} --with=python3 --buildsystem=pybuild
+
+override_dh_auto_build:
+    cp -r addons/* inphms/addons/
+    dh_auto_build
+
+override_dh_auto_install:
+    dh_auto_install
+    # rm debian/inphms/usr/lib/python3
+    for LINKTARGET in `awk '{ print $2 }' inphms.links`; do rm debian/inphms/${LINKTARGET} ; done
+	find debian/inphms -name LICENSE.txt -exec rm {} \;
+
+override_dh_auto_clean:
+	dh_auto_clean
+	for d in addons/* ; do rm -fr inphms/$$d ; done

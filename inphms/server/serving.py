@@ -32,7 +32,7 @@ def load_base_modules():
                 load_inphms_module(mod)
             except Exception:
                 _logger.exception("Error loading module %s", mod, exc_info=True)
-                raise
+                # raise
 
 
 def start(preload=None, stop=False) -> int:

@@ -65,6 +65,17 @@ _DEFAULT_MANIFEST = {
     'website': '',
 }
 
+# matches field definitions like
+#     partner_id: base.ResPartner = fields.Many2one
+#     partner_id = fields.Many2one[base.ResPartner]
+TYPED_FIELD_DEFINITION_RE = re.compile(r'''
+    \b (?P<field_name>\w+) \s*
+    (:\s*(?P<field_type>[^ ]*))? \s*
+    = \s*
+    fields\.(?P<field_class>Many2one|One2many|Many2many)
+    (\[(?P<type_param>[^\]]+)\])?
+''', re.VERBOSE)
+
 
 def get_module_icon(module: str) -> str:
     from . import Manifest

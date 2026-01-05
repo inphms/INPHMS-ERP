@@ -687,6 +687,10 @@ class configmanager:
 
     def _post_init(self) -> None:
         self._runtime_opts.clear()
+
+        # check mutually dependant options
+        if len(self['db_list']) > 1 and (self['init'] or self['update']):
+            self.parser.error("Cannot use -i/--init or -u/--update with multiple databases in -d/--db-list")
         
         # default server wide modules
         if not self['server_wide_modules']:
